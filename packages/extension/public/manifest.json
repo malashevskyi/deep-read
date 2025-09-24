@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "DeepRead",
+  "version": "0.1.0",
+  "description": "AI-Powered Contextual Language Learning.",
+  "permissions": ["storage", "activeTab"],
+  "action": {
+    "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "vite.svg",
+    "48": "vite.svg",
+    "128": "vite.svg"
+  }
+}
