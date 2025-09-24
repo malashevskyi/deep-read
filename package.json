@@ -1,0 +1,16 @@
+{
+  "name": "deepread",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "docker-compose up --build"
+  },
+  "keywords": [],
+  "author": "Vitalii Malashevskyi",
+  "license": "ISC",
+  "type": "commonjs"
+}
