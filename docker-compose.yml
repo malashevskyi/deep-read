@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: deepread_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: deepread_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ./packages/server
+      dockerfile: Dockerfile
+    container_name: deepread_server
+    depends_on:
+      - db
+    ports:
+      - "3002:3000"
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/deepread_db?schema=public"
+      PORT: 3000
+    volumes:
+      - ./packages/server:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  postgres_data:
