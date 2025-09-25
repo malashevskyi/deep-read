@@ -1,5 +1,5 @@
 {
-  "name": "DeepRead",
+  "name": "deep-read",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -12,5 +12,16 @@
   "keywords": [],
   "author": "Vitalii Malashevskyi",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.36.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.21",
+    "globals": "^16.4.0",
+    "typescript-eslint": "^8.44.1"
+  }
 }
