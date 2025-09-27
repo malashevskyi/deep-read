@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["/src/features/content/index.tsx"]
+      "js": ["src/features/content/index.tsx"]
     }
   ]
 }
