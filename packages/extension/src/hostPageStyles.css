@@ -1,0 +1,18 @@
+body.deepread-sidebar-open {
+  /*
+ * Using !important is necessary here to override host page styles,
+ * which may include high-specificity selectors or inline styles.
+*/
+  box-sizing: border-box !important;
+  padding-right: 350px !important;
+  transition: padding-right 0.3s ease-in-out !important;
+}
+
+body.deepread-sidebar-open > *[style*="position: fixed"] {
+  /*
+ * Using !important is necessary here to override host page styles,
+ * which may include high-specificity selectors or inline styles.
+*/
+  right: 350px !important;
+  transition: right 0.3s ease-in-out !important;
+}
