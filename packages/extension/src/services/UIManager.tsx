@@ -7,6 +7,14 @@ import tailwindStylesUrl from "../index.css?url";
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
 
 export class UIManager {
+  private static instance: UIManager;
+  private constructor() {}
+
+  public static getInstance(): UIManager {
+    if (!UIManager.instance) UIManager.instance = new UIManager();
+    return UIManager.instance;
+  }
+
   private rootElement: HTMLElement | null = null;
   private reactRoot: ReactDOM.Root | null = null;
 

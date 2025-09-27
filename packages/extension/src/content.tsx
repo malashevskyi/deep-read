@@ -6,7 +6,7 @@ console.log("[DeepRead] Content script loaded!");
 
 injectStyles(hostPageStyles, "deepread-host-styles");
 
-const uiManager = new UIManager();
+const uiManager = UIManager.getInstance();
 
 document.addEventListener("mouseup", (event: MouseEvent) => {
   if (event.metaKey || event.altKey) {
