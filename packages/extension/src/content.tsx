@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Sidebar } from "./components/Layout/Sidebar";
-import sidebarCssString from "./components/Layout/Sidebar/index.css?raw";
+import sidebarCssString from "./index.css?inline";
 
 console.log("[DeepRead] Content script loaded!");
 
