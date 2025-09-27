@@ -1,10 +1,10 @@
 import hostPageStyles from "./hostPageStyles.css?inline";
-import { injectStyles } from "./utils/injectStyles";
 import { UIManager } from "./services/UIManager";
+import { injectHostStyles } from "./utils/styles";
 
 console.log("[DeepRead] Content script loaded!");
 
-injectStyles(hostPageStyles, "deepread-host-styles");
+injectHostStyles(hostPageStyles, "deepread-host-styles");
 
 const uiManager = UIManager.getInstance();
 

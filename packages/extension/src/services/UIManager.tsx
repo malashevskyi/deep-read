@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Sidebar } from "../components/Layout/Sidebar";
 
 import tailwindStylesUrl from "../index.css?url";
+import { injectShadowRootLinkedStyles } from "../utils/styles";
 
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
 
@@ -29,10 +30,11 @@ export class UIManager {
 
     const shadowRoot = this.rootElement.attachShadow({ mode: "open" });
 
-    const styleLink = document.createElement("link");
-    styleLink.rel = "stylesheet";
-    styleLink.href = chrome.runtime.getURL(tailwindStylesUrl);
-    shadowRoot.appendChild(styleLink);
+    injectShadowRootLinkedStyles(
+      shadowRoot,
+      chrome.runtime.getURL(tailwindStylesUrl),
+      "tailwind-styles",
+    );
 
     const reactContainer = document.createElement("div");
     shadowRoot.appendChild(reactContainer);
