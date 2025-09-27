@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Sidebar } from "./components/Layout/Sidebar";
 import sidebarCssString from "./index.css?inline";
 import hostPageStyles from "./hostPageStyles.css?inline";
+import { injectStyles } from "./utils/injectStyles";
 
 console.log("[DeepRead] Content script loaded!");
 
@@ -10,17 +11,7 @@ let rootElement: HTMLElement | null = null;
 let reactRoot: ReactDOM.Root | null = null;
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
 
-function injectHostPageStyles() {
-  const styleElementId = "deepread-host-styles";
-  if (document.getElementById(styleElementId)) return;
-
-  const styleElement = document.createElement("style");
-  styleElement.id = styleElementId;
-  styleElement.innerHTML = hostPageStyles;
-  document.head.appendChild(styleElement);
-}
-
-injectHostPageStyles();
+injectStyles(hostPageStyles, "deepread-host-styles");
 
 function mountSidebar(selectedText: string) {
   if (rootElement) unmountSidebar();
