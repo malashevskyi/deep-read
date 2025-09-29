@@ -1,16 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "../../../components/Layout/Sidebar";
+import { useAppStore } from "../../../store";
 
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
 
 const ContentScriptRoot: React.FC = () => {
-  const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [selectedText, setSelectedText] = useState("");
-
-  const handleClose = useCallback(() => {
-    setSidebarVisible(false);
-    setSelectedText("");
-  }, []);
+  const { isSidebarVisible, analyzeText } = useAppStore();
 
   useEffect(() => {
     const handleMouseUp = (event: MouseEvent) => {
@@ -20,7 +16,7 @@ const ContentScriptRoot: React.FC = () => {
         const text = window.getSelection()?.toString().trim();
         if (text) {
           setSelectedText(text);
-          setSidebarVisible(true);
+          analyzeText(text);
         }
       }
     };
@@ -42,7 +38,7 @@ const ContentScriptRoot: React.FC = () => {
 
   if (!isSidebarVisible) return null;
 
-  return <Sidebar selectedText={selectedText} onClose={handleClose} />;
+  return <Sidebar />;
 };
 
 export default ContentScriptRoot;
