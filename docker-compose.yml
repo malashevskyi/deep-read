@@ -16,7 +16,7 @@ services:
 
   server:
     build:
-      context: ./packages/server
+      context: .
       dockerfile: Dockerfile
     container_name: deepread_server
     depends_on:
@@ -25,9 +25,9 @@ services:
       - "3002:3000"
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public"
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     volumes:
-      - ./packages/server:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./packages/server:/app/packages/server
 
 volumes:
   postgres_data:
