@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Sidebar } from "../../../components/Layout/Sidebar";
 import { useAppStore } from "../../../store";
+import { Toaster } from "sonner";
+import { getWordOrPhraseContextForSelection } from "./utils/getWordOrPhraseContextForSelection";
+import { expandSelectionToFullWords } from "./utils/expandSelectionToFullWords";
 
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
 
 const ContentScriptRoot: React.FC = () => {
-  const [selectedText, setSelectedText] = useState("");
   const { isSidebarVisible, analyzeText } = useAppStore();
+  const selectedTextFromStore = useAppStore((state) => state.selectedText);
 
   useEffect(() => {
-    const handleMouseUp = (event: MouseEvent) => {
-      if ((event.target as HTMLElement).closest("#deepread-root")) return;
-
-      if (event.metaKey || event.altKey) {
-        const text = window.getSelection()?.toString().trim();
-        if (text) {
-          setSelectedText(text);
-          analyzeText(text);
-        }
-      }
-    };
-
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
@@ -29,16 +20,39 @@ const ContentScriptRoot: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedText) {
+    if (selectedTextFromStore) {
       document.body.classList.add(SIDEBAR_OPEN_BODY_CLASS);
     } else {
       document.body.classList.remove(SIDEBAR_OPEN_BODY_CLASS);
     }
-  }, [selectedText]);
+  }, [selectedTextFromStore]);
+
+  const handleMouseUp = (event: MouseEvent) => {
+    if (!event.altKey) return;
+    if (event.target instanceof HTMLElement === false) return;
+    if (event.target.closest("#deepread-root")) return;
+
+    let selection = window.getSelection();
+
+    if (!selection) return;
+
+    selection = expandSelectionToFullWords(selection);
+
+    const selectedText = selection.toString().trim();
+
+    const context = getWordOrPhraseContextForSelection(selection!);
+
+    if (context) analyzeText(selectedText, context);
+  };
 
   if (!isSidebarVisible) return null;
 
-  return <Sidebar />;
+  return (
+    <>
+      <Toaster richColors position="bottom-center" />
+      <Sidebar />
+    </>
+  );
 };
 
 export default ContentScriptRoot;

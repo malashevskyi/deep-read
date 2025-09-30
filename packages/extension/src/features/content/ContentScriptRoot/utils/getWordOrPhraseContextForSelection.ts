@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import {
+  ALLOWED_COPY_NODE_TYPES,
   MAX_CONTEXT_LENGTH,
   MIN_CONTEXT_LENGTH,
   PHRASE_OR_WORD_LENGTH_THRESHOLD,
@@ -12,8 +13,6 @@ const handleError = (message: string, selection: Selection): void => {
   toast.error(message);
   selection.removeAllRanges();
 };
-
-const allowedCopyNodeTypes: number[] = [Node.ELEMENT_NODE, Node.TEXT_NODE];
 
 /**
  * Extracts the most relevant and appropriately sized block of text surrounding a user's selection for AI analysis.
@@ -30,7 +29,9 @@ export const getWordOrPhraseContextForSelection = (
 
   const range = selection.getRangeAt(0);
 
-  if (!allowedCopyNodeTypes.includes(range.commonAncestorContainer.nodeType)) {
+  if (
+    !ALLOWED_COPY_NODE_TYPES.includes(range.commonAncestorContainer.nodeType)
+  ) {
     handleError(
       "Selection is too complex. Please select plain text.",
       selection,
