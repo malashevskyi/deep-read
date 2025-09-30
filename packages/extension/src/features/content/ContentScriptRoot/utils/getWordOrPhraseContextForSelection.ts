@@ -13,6 +13,8 @@ const handleError = (message: string, selection: Selection): void => {
   selection.removeAllRanges();
 };
 
+const allowedCopyNodeTypes: number[] = [Node.ELEMENT_NODE, Node.TEXT_NODE];
+
 /**
  * Extracts the most relevant and appropriately sized block of text surrounding a user's selection for AI analysis.
  */
@@ -28,8 +30,7 @@ export const getWordOrPhraseContextForSelection = (
 
   const range = selection.getRangeAt(0);
 
-  // Preventing complex selections (e.g., the whole page or some big elements)
-  if (range.commonAncestorContainer.nodeType !== Node.TEXT_NODE) {
+  if (!allowedCopyNodeTypes.includes(range.commonAncestorContainer.nodeType)) {
     handleError(
       "Selection is too complex. Please select plain text.",
       selection,
