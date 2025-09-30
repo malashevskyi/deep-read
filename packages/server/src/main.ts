@@ -1,12 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, LogLevel, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const logLevels: LogLevel[] =
+    process.env.NODE_ENV === 'production'
+      ? ['error', 'warn']
+      : ['log', 'error', 'warn', 'debug', 'verbose'];
+
+  const app = await NestFactory.create(AppModule, {
+    logger: logLevels,
+  });
 
   if (process.env.SENTRY_DSN) {
     Sentry.init({
