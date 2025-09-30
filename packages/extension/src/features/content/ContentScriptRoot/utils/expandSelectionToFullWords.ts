@@ -33,6 +33,22 @@ export const expandSelectionToFullWords = (selection: Selection): Selection => {
     endOffset++;
   }
 
+  // Trim trailing punctuation and whitespace
+  while (
+    endOffset > startOffset &&
+    /[.,:;!?\s]/.test(textContent[endOffset - 1])
+  ) {
+    endOffset--;
+  }
+
+  // Trim leading punctuation and whitespace
+  while (
+    startOffset < endOffset &&
+    /[.,:;!?\s]/.test(textContent[startOffset])
+  ) {
+    startOffset++;
+  }
+
   const newRange = document.createRange();
   newRange.setStart(textNode, startOffset);
   newRange.setEnd(textNode, endOffset);
