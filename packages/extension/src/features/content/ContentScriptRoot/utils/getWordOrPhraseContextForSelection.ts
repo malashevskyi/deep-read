@@ -1,0 +1,77 @@
+import { toast } from "sonner";
+import {
+  MAX_CONTEXT_LENGTH,
+  MIN_CONTEXT_LENGTH,
+  PHRASE_OR_WORD_LENGTH_THRESHOLD,
+} from "../../../../config/constants";
+import { refineLargeContext } from "./refineLargeContext";
+
+const handleError = (message: string, selection: Selection): void => {
+  // TODO: replace with sentry
+  console.error(message, selection);
+  toast.error(message);
+  selection.removeAllRanges();
+};
+
+/**
+ * Extracts the most relevant and appropriately sized block of text surrounding a user's selection for AI analysis.
+ */
+export const getWordOrPhraseContextForSelection = (
+  selection: Selection,
+): string | void => {
+  if (selection.rangeCount === 0) return "";
+
+  const cleanText = (text: string | null | undefined): string => {
+    if (!text) return "";
+    return text.replace(/\s+/g, " ").trim();
+  };
+
+  const range = selection.getRangeAt(0);
+
+  // Preventing complex selections (e.g., the whole page or some big elements)
+  if (range.commonAncestorContainer.nodeType !== Node.TEXT_NODE) {
+    handleError(
+      "Selection is too complex. Please select plain text.",
+      selection,
+    );
+    return;
+  }
+
+  let startNode = range.startContainer.parentElement;
+
+  if (!startNode) {
+    handleError(
+      "Could not determine the start node of the selection.",
+      selection,
+    );
+    return;
+  }
+
+  const selectedText = cleanText(selection.toString());
+
+  const isPhraseOrWord =
+    selectedText.split(" ").length <= PHRASE_OR_WORD_LENGTH_THRESHOLD;
+  let currentNode = range.commonAncestorContainer;
+  let contextText = cleanText(currentNode.textContent);
+
+  if (!isPhraseOrWord) return contextText;
+
+  let parent = currentNode.parentElement;
+
+  while (parent && contextText.length < MAX_CONTEXT_LENGTH) {
+    const parentText = cleanText(parent.textContent);
+
+    if (parentText.length > MAX_CONTEXT_LENGTH) {
+      if (contextText.length < MIN_CONTEXT_LENGTH) {
+        contextText = refineLargeContext(parentText, contextText);
+      }
+      break;
+    }
+
+    contextText = parentText;
+    currentNode = parent;
+    parent = currentNode.parentElement;
+  }
+
+  return contextText;
+};
