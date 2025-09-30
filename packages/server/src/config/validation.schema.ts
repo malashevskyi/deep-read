@@ -11,6 +11,7 @@ export const validationSchema = z.object({
   POSTGRES_DB: z.string(),
 
   OPENAI_API_KEY: z.string(),
+  OPENAI_PROJECT_ID: z.string().startsWith('proj_'),
   SENTRY_DSN: z.string().optional().default(''),
 
   FIREBASE_SERVICE_ACCOUNT_KEY_JSON: z.string(),

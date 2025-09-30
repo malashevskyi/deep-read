@@ -12,17 +12,14 @@ export class AiService {
   private readonly openai: InstanceType<typeof OpenAI>;
   private readonly logger = new Logger(AiService.name);
 
-  constructor(private readonly configService: ConfigService) {
-    const apiKey = this.configService.get<string>('OPENAI_API_KEY');
-
-    if (!apiKey) {
-      throw new Error('OPENAI_API_KEY is not configured in the environment.');
-    }
+    const apiKey = this.configService.getOrThrow<string>('OPENAI_API_KEY');
+    const projectId =
+      this.configService.getOrThrow<string>('OPENAI_PROJECT_ID');
 
     const options: ClientOptions = {
       apiKey,
       organization: null,
-      project: null,
+      project: projectId,
       webhookSecret: null,
       baseURL: 'https://api.openai.com/v1',
       maxRetries: 3,

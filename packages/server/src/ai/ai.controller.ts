@@ -12,6 +12,9 @@ export class AiController {
   @Post('analyze')
   @AnalyzeTextDocs()
   analyzeText(@Body() analyzeTextDto: AnalyzeTextDto) {
-    return this.aiService.analyzeText(analyzeTextDto.text);
+    return this.aiService.analyzeText(
+      analyzeTextDto.text,
+      analyzeTextDto.context,
+    );
   }
 }
