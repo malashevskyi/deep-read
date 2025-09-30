@@ -4,4 +4,5 @@ export enum AppErrorCode {
   AUDIO_GENERATION_FAILED = 'audio_generation_failed',
   TTS_GENERATION_FAILED = 'tts_generation_failed',
   AUDIO_UPLOAD_FAILED = 'audio_upload_failed',
+  AI_RESPONSE_INVALID = 'ai_response_invalid',
 }

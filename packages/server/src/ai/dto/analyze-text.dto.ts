@@ -9,4 +9,12 @@ export class AnalyzeTextDto {
   @IsString()
   @IsNotEmpty()
   text: string;
+
+  @ApiProperty({
+    example: 'The internet has become ubiquitous in modern society.',
+    description: 'Context or sentence where the word or phrase is used.',
+  })
+  @IsString()
+  @IsNotEmpty()
+  context: string;
 }
