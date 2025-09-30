@@ -8,11 +8,13 @@ import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    tracesSampleRate: 1.0,
-    profilesSampleRate: 1.0,
-  });
+  if (process.env.SENTRY_DSN) {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      tracesSampleRate: 1.0,
+      profilesSampleRate: 1.0,
+    });
+  }
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
