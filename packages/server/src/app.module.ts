@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AiModule } from './ai/ai.module';
 import { ConfigModule } from '@nestjs/config';
+import { TtsModule } from './tts/tts.module';
 import { ErrorsModule } from './errors/errors.module';
 import { validationSchema } from './config/validation.schema';
 
@@ -25,6 +26,7 @@ import { validationSchema } from './config/validation.schema';
     }),
     ErrorsModule,
     AiModule,
+    TtsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

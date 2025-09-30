@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { BadRequestException, LogLevel, ValidationPipe } from '@nestjs/common';
+import { LogLevel, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
