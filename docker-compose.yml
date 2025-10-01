@@ -25,6 +25,7 @@ services:
       - "3002:3000"
     environment:
       NODE_ENV: ${NODE_ENV:-development}
+      OPENAI_MODEL: ${OPENAI_MODEL}
       OPENAI_PROJECT_ID: ${OPENAI_PROJECT_ID}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
