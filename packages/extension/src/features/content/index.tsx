@@ -7,6 +7,7 @@ import {
   injectShadowRootLinkedStyles,
 } from "../../utils/styles";
 import ContentScriptRoot from "./ContentScriptRoot";
+import { ErrorBoundary } from "../../components/system/ErrorBoundary";
 
 console.log("[DeepRead] Content script loaded!");
 
@@ -24,6 +25,8 @@ const reactRoot = ReactDOM.createRoot(shadowRoot);
 
 reactRoot.render(
   <React.StrictMode>
-    <ContentScriptRoot />
+    <ErrorBoundary>
+      <ContentScriptRoot />
+    </ErrorBoundary>
   </React.StrictMode>,
 );
