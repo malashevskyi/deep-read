@@ -1,11 +1,13 @@
 import React from "react";
 import { useAppStore } from "../../../store";
+import { ErrorDisplay } from "../../ui/ErrorDisplay";
 
 interface SidebarProps {}
 
 export const Sidebar: React.FC<SidebarProps> = () => {
-  const { selectedText, explanation, isLoading, error, closeSidebar } =
-    useAppStore();
+  const { isLoading, data, error } = useAppStore((state) => state.analysis);
+  const selectedText = useAppStore((state) => state.sidebar.selectedText);
+  const closeSidebar = useAppStore((state) => state.closeSidebar);
 
   return (
     <div className="fixed top-0 right-0 h-full w-[350px] ...">
@@ -25,8 +27,30 @@ export const Sidebar: React.FC<SidebarProps> = () => {
               <em>Loading explanation...</em>
             </p>
           )}
-          {error && <p className="text-red-500">{error}</p>}
-          {!isLoading && explanation && <p>{explanation}</p>}
+          <ErrorDisplay error={error} />
+          {!isLoading && (
+            <>
+              {data && (
+                <>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-semibold text-lg">
+                      [{data.word.transcription}]
+                    </span>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Example</h4>
+                    <p className="mt-1 text-gray-700">
+                      {data.example.adaptedSentence}
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      <em>{data.example.translation}</em>
+                    </p>
+                  </div>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

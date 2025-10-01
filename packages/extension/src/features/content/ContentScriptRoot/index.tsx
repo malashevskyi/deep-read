@@ -22,8 +22,11 @@ window.addEventListener("unhandledrejection", (event) => {
 });
 
 const ContentScriptRoot: React.FC = () => {
-  const { isSidebarVisible, analyzeText } = useAppStore();
-  const selectedTextFromStore = useAppStore((state) => state.selectedText);
+  const isSidebarVisible = useAppStore((state) => state.sidebar.isVisible);
+  const startAnalysis = useAppStore((state) => state.startAnalysis);
+  const selectedTextFromStore = useAppStore(
+    (state) => state.sidebar.selectedText,
+  );
 
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp);
@@ -56,7 +59,7 @@ const ContentScriptRoot: React.FC = () => {
 
     const context = getWordOrPhraseContextForSelection(selection!);
 
-    if (context) analyzeText(selectedText, context);
+    if (context) startAnalysis(selectedText, context);
   };
 
   if (!isSidebarVisible) return null;
