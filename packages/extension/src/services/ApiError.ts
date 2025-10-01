@@ -1,4 +1,5 @@
 import { AxiosError, isAxiosError } from "axios";
+import { safeGetNumber, safeGetString } from "../types/utils";
 
 export class ApiError extends Error {
   statusCode: number;
@@ -20,14 +21,15 @@ export class ApiError extends Error {
 
   static fromAxiosError(error: AxiosError): ApiError {
     const statusCode = error.response?.status ?? 500;
-    const data = error.response?.data as any;
+    const data = error.response?.data;
 
-    return new ApiError(
-      data?.message ?? error.message,
-      statusCode,
-      data?.errorCode ?? "axios_error",
-      error,
-    );
+    const message =
+      safeGetString(data, "message") ??
+      error.message ??
+      "Something went wrong with the request";
+    const errorCode = safeGetString(data, "errorCode") ?? "axios_error";
+
+    return new ApiError(message, statusCode, errorCode, error);
   }
 
   static fromUnknown(error: unknown): ApiError {
@@ -35,16 +37,8 @@ export class ApiError extends Error {
     if (isAxiosError(error)) {
       return ApiError.fromAxiosError(error);
     }
-    let statusCode = 500;
-    let errorCode = "unknown_error";
-    if (typeof error === "object" && error !== null) {
-      if ("statusCode" in error && typeof error.statusCode === "number") {
-        statusCode = error.statusCode;
-      }
-      if ("errorCode" in error && typeof error.errorCode === "string") {
-        errorCode = error.errorCode;
-      }
-    }
+    let statusCode = safeGetNumber(error, "statusCode") ?? 500;
+    let errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
     return new ApiError(
       error instanceof Error ? error.message : "Unknown error",
       statusCode,
