@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppStore } from "../../../store";
 import { ErrorDisplay } from "../../ui/ErrorDisplay";
+import HighlightText from "../../ui/HighlightText";
 
 interface SidebarProps {}
 
@@ -46,9 +47,11 @@ export const Sidebar: React.FC<SidebarProps> = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-800">Example</h4>
                     <p className="mt-1 text-gray-700">
-                      {data.example.adaptedSentence}
+                      <HighlightText
+                        text={data.example.adaptedSentence}
+                        highlight={data.word.text}
+                      />
                     </p>
                     <p className="mt-1 text-sm text-gray-500">
                       <em>{data.example.translation}</em>
