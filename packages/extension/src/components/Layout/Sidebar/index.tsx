@@ -41,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
                 <>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-lg">
-                      [{data.word.transcription}]
+                      {data.word.transcription}
                     </span>
                   </div>
 
