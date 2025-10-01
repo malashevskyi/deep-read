@@ -1,5 +1,6 @@
 import { AxiosError, isAxiosError } from "axios";
 import { safeGetNumber, safeGetString } from "../types/utils";
+import { captureError } from "../utils/sentry";
 
 export class ApiError extends Error {
   statusCode: number;
@@ -23,6 +24,12 @@ export class ApiError extends Error {
     const statusCode = error.response?.status ?? 500;
     const data = error.response?.data;
 
+    captureError(error, {
+      context: "ApiError.fromAxiosError",
+      statusCode,
+      data,
+    });
+
     const message =
       safeGetString(data, "message") ??
       error.message ??
@@ -39,6 +46,13 @@ export class ApiError extends Error {
     }
     let statusCode = safeGetNumber(error, "statusCode") ?? 500;
     let errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
+
+    captureError(error, {
+      context: "ApiError.fromUnknown",
+      statusCode,
+      errorCode,
+    });
+
     return new ApiError(
       error instanceof Error ? error.message : "Unknown error",
       statusCode,

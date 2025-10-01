@@ -17,5 +17,13 @@
       "matches": ["<all_urls>"],
       "js": ["src/features/content/index.tsx"]
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://*.sentry.io"
+  },
+  "background": {
+    "service_worker": "src/features/background/index.tsx",
+    "type": "module"
+  },
+  "host_permissions": ["https://*.sentry.io/*", "https://*.ingest.sentry.io/*"]
 }
