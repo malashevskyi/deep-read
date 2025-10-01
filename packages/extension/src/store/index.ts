@@ -1,66 +1,82 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { analyzeText } from "../services/api";
-import axios from "axios";
+import { analyzeText as fetchAnalysis } from "../services/api";
+import type { AnalysisResponse } from "../types";
+import type { ApiError } from "../services/ApiError";
+import { produce } from "immer";
+
+export interface SidebarState {
+  isVisible: boolean;
+  selectedText: string;
+}
+
+export interface AnalysisState {
+  isLoading: boolean;
+  data: AnalysisResponse | null;
+  error: ApiError | null;
+}
 
 export interface AppState {
-  isSidebarVisible: boolean;
-  isLoading: boolean;
-  selectedText: string;
-  explanation: string | null;
-  error: string | null;
+  sidebar: SidebarState;
+  analysis: AnalysisState;
 }
 
 export interface AppActions {
-  analyzeText: (text: string) => Promise<void>;
+  startAnalysis: (selectedText: string, context: string) => Promise<void>;
   closeSidebar: () => void;
 }
 
+const initialState: AppState = {
+  sidebar: {
+    isVisible: false,
+    selectedText: "",
+  },
+  analysis: {
+    isLoading: false,
+    data: null,
+    error: null,
+  },
+};
+
 export const useAppStore = create<AppState & AppActions>()(
   immer((set, get) => ({
-    isSidebarVisible: false,
-    isLoading: false,
-    selectedText: "",
-    explanation: null,
-    error: null,
+    ...initialState,
 
     closeSidebar: () =>
-      set({
-        isSidebarVisible: false,
-        isLoading: false,
-        selectedText: "",
-        explanation: null,
-        error: null,
-      }),
+      set(
+        produce((state: AppState) => {
+          state.sidebar = initialState.sidebar;
+          state.analysis = initialState.analysis;
+        }),
+      ),
 
-    analyzeText: async (text: string) => {
-      if (get().isLoading) return;
+    startAnalysis: async (selectedText: string, context: string) => {
+      if (get().analysis.isLoading) return;
+      set(
+        produce((state: AppState) => {
+          state.sidebar.isVisible = true;
+          state.sidebar.selectedText = selectedText;
+          state.analysis.isLoading = true;
+          state.analysis.data = null;
+          state.analysis.error = null;
+        }),
+      );
 
-      set((state) => {
-        state.isSidebarVisible = true;
-        state.isLoading = true;
-        state.selectedText = text;
-        state.explanation = null;
-        state.error = null;
+      const { data, error } = await fetchAnalysis({
+        text: selectedText,
+        context,
       });
 
-      try {
-        const result = await analyzeText(text);
-        set((state) => {
-          state.explanation = result;
-        });
-      } catch (err) {
-        const errorMessage = axios.isAxiosError(err)
-          ? err.response?.data?.message || err.message
-          : "An unknown error occurred.";
-        set((state) => {
-          state.error = errorMessage;
-        });
-      } finally {
-        set((state) => {
-          state.isLoading = false;
-        });
-      }
+      set(
+        produce((state: AppState) => {
+          state.analysis.isLoading = false;
+          if (error) {
+            state.analysis.error = error;
+          } else if (data) {
+            state.analysis.data = data;
+          }
+        }),
+      );
     },
   })),
 );
