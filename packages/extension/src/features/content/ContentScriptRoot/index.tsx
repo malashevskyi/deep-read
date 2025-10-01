@@ -21,12 +21,20 @@ window.addEventListener("unhandledrejection", (event) => {
   });
 });
 
+const highlightApiSupported = CSS.highlights !== undefined;
+
+if (highlightApiSupported) {
+  CSS.highlights.set("deepread-highlight", new Highlight());
+}
+
 const ContentScriptRoot: React.FC = () => {
   const isSidebarVisible = useAppStore((state) => state.sidebar.isVisible);
   const startAnalysis = useAppStore((state) => state.startAnalysis);
+  const analysisData = useAppStore((state) => state.analysis.data);
   const selectedTextFromStore = useAppStore(
     (state) => state.sidebar.selectedText,
   );
+  const [currentRange, setCurrentRange] = React.useState<Range | null>(null);
 
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp);
@@ -55,12 +63,28 @@ const ContentScriptRoot: React.FC = () => {
 
     selection = expandSelectionToFullWords(selection);
 
+    setCurrentRange(selection.getRangeAt(0).cloneRange());
+
     const selectedText = selection.toString().trim();
 
     const context = getWordOrPhraseContextForSelection(selection!);
 
     if (context) startAnalysis(selectedText, context);
   };
+
+  useEffect(() => {
+    if (!highlightApiSupported) return;
+
+    const highlight = CSS.highlights.get("deepread-highlight");
+
+    if (!highlight) return;
+
+    highlight.clear();
+
+    if (isSidebarVisible && analysisData && currentRange) {
+      highlight.add(currentRange);
+    }
+  }, [isSidebarVisible, analysisData, currentRange]);
 
   if (!isSidebarVisible) return null;
 

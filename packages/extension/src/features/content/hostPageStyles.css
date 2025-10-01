@@ -16,3 +16,8 @@ body.deepread-sidebar-open > *[style*="position: fixed"] {
   right: 350px !important;
   transition: right 0.3s ease-in-out !important;
 }
+
+::highlight(deepread-highlight) {
+  background-color: rgba(255, 242, 102, 0.8);
+  color: inherit;
+}
