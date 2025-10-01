@@ -7,6 +7,7 @@ interface SidebarProps {}
 export const Sidebar: React.FC<SidebarProps> = () => {
   const { isLoading, data, error } = useAppStore((state) => state.analysis);
   const selectedText = useAppStore((state) => state.sidebar.selectedText);
+  const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
 
   return (
@@ -18,6 +19,12 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         </button>
       </div>
       <div className="p-4 overflow-y-auto flex-grow">
+        <details className="mb-4 text-xs text-gray-500 cursor-pointer">
+          <summary className="outline-none">Show Context</summary>
+          <p className="mt-2 p-2 bg-gray-50 border rounded-md italic">
+            {selectionContext}
+          </p>
+        </details>
         <p className="mt-0 p-3 italic ...">
           <strong>You selected:</strong> {selectedText}
         </p>

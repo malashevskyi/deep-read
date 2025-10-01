@@ -8,6 +8,7 @@ import { produce } from "immer";
 export interface SidebarState {
   isVisible: boolean;
   selectedText: string;
+  context: string;
 }
 
 export interface AnalysisState {
@@ -30,6 +31,7 @@ const initialState: AppState = {
   sidebar: {
     isVisible: false,
     selectedText: "",
+    context: "",
   },
   analysis: {
     isLoading: false,
@@ -56,6 +58,7 @@ export const useAppStore = create<AppState & AppActions>()(
         produce((state: AppState) => {
           state.sidebar.isVisible = true;
           state.sidebar.selectedText = selectedText;
+          state.sidebar.context = context;
           state.analysis.isLoading = true;
           state.analysis.data = null;
           state.analysis.error = null;
