@@ -1,5 +1,8 @@
 import * as Sentry from "@sentry/react";
-import { MessageType, type ExtensionMessage } from "../../types/messages";
+import {
+  MessageType,
+  type ExtensionMessage,
+} from "../../types/sentry-messages";
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 
