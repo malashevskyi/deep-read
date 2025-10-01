@@ -4,8 +4,22 @@ import { useAppStore } from "../../../store";
 import { Toaster } from "sonner";
 import { getWordOrPhraseContextForSelection } from "./utils/getWordOrPhraseContextForSelection";
 import { expandSelectionToFullWords } from "./utils/expandSelectionToFullWords";
+import { captureError } from "../../../utils/sentry";
 
 const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
+
+window.addEventListener("error", (event) => {
+  captureError(event.error, {
+    type: "window.error",
+    message: event.message,
+  });
+});
+
+window.addEventListener("unhandledrejection", (event) => {
+  captureError(event.reason, {
+    type: "unhandledRejection",
+  });
+});
 
 const ContentScriptRoot: React.FC = () => {
   const { isSidebarVisible, analyzeText } = useAppStore();
