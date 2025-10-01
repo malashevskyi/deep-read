@@ -6,8 +6,9 @@ import HighlightText from "../../ui/HighlightText";
 interface SidebarProps {}
 
 export const Sidebar: React.FC<SidebarProps> = () => {
-  const { isLoading, data, error } = useAppStore((state) => state.analysis);
-  const selectedText = useAppStore((state) => state.sidebar.selectedText);
+  const { isLoadingText, isLoadingAudio, data, error, audioUrl } = useAppStore(
+    (state) => state.analysis,
+  );
   const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
 
@@ -27,35 +28,36 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           </p>
         </details>
         <div className="mt-5">
-          {isLoading && (
+          {isLoadingText && (
             <p>
-              <em>Loading explanation...</em>
+              <em>Loading analysis...</em>
             </p>
           )}
           <ErrorDisplay error={error} />
-          {!isLoading && (
-            <>
-              {data && (
-                <>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-lg">
-                      {data.word.transcription}
-                    </span>
-                  </div>
 
-                  <div>
-                    <p className="mt-1 text-gray-700">
-                      <HighlightText
-                        text={data.example.adaptedSentence}
-                        highlight={data.word.text}
-                      />
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      <em>{data.example.translation}</em>
-                    </p>
-                  </div>
-                </>
-              )}
+          {isLoadingAudio && (
+            <span className="text-xs">generating audio...</span>
+          )}
+          {audioUrl && <button>Play</button>}
+          {data && (
+            <>
+              <div className="flex items-center space-x-2">
+                <span className="font-semibold text-lg">
+                  {data.word.transcription}
+                </span>
+              </div>
+
+              <div>
+                <p className="mt-1 text-gray-700">
+                  <HighlightText
+                    text={data.example.adaptedSentence}
+                    highlight={data.word.text}
+                  />
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  <em>{data.example.translation}</em>
+                </p>
+              </div>
             </>
           )}
         </div>

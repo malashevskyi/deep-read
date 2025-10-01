@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { analyzeText as fetchAnalysis } from "../services/api";
-import type { AnalysisResponse } from "../types";
+import { analyzeText as fetchAnalysis, generateAudio } from "../services/api";
 import type { ApiError } from "../services/ApiError";
 import { produce } from "immer";
+import type { AnalysisResponse } from "../types/schemas";
 
 export interface SidebarState {
   isVisible: boolean;
@@ -12,8 +12,10 @@ export interface SidebarState {
 }
 
 export interface AnalysisState {
-  isLoading: boolean;
+  isLoadingText: boolean;
+  isLoadingAudio: boolean;
   data: AnalysisResponse | null;
+  audioUrl: string | null;
   error: ApiError | null;
 }
 
@@ -34,8 +36,10 @@ const initialState: AppState = {
     context: "",
   },
   analysis: {
-    isLoading: false,
+    isLoadingText: false,
+    isLoadingAudio: false,
     data: null,
+    audioUrl: null,
     error: null,
   },
 };
@@ -53,30 +57,47 @@ export const useAppStore = create<AppState & AppActions>()(
       ),
 
     startAnalysis: async (selectedText: string, context: string) => {
-      if (get().analysis.isLoading) return;
+      if (get().analysis.isLoadingText || get().analysis.isLoadingAudio) return;
+
       set(
         produce((state: AppState) => {
           state.sidebar.isVisible = true;
           state.sidebar.selectedText = selectedText;
           state.sidebar.context = context;
-          state.analysis.isLoading = true;
+          state.analysis.isLoadingText = true;
+          state.analysis.isLoadingAudio = true;
+          state.analysis.audioUrl = null;
           state.analysis.data = null;
           state.analysis.error = null;
         }),
       );
 
-      const { data, error } = await fetchAnalysis({
+      const { data, error: analysisError } = await fetchAnalysis({
         text: selectedText,
         context,
       });
 
       set(
         produce((state: AppState) => {
-          state.analysis.isLoading = false;
-          if (error) {
-            state.analysis.error = error;
+          state.analysis.isLoadingText = false;
+          if (analysisError) {
+            state.analysis.error = analysisError;
           } else if (data) {
             state.analysis.data = data;
+          }
+        }),
+      );
+
+      const { data: audioData, error: audioError } = await generateAudio(
+        selectedText,
+      );
+      set(
+        produce((state: AppState) => {
+          state.analysis.isLoadingAudio = false;
+          if (audioError) {
+            state.analysis.error = audioError;
+          } else if (audioData) {
+            state.analysis.audioUrl = audioData.audioUrl;
           }
         }),
       );

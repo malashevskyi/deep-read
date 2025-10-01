@@ -1,7 +1,11 @@
 import axios from "axios";
-import type { AnalysisResponse } from "../types";
 import { ApiError } from "./ApiError";
-import { AnalysisResponseSchema } from "../types/schemas";
+import {
+  AnalysisResponseSchema,
+  GenerateAudioSchema,
+  type AnalysisResponse,
+  type GenerateAudioResponse,
+} from "../types/schemas";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -38,6 +42,28 @@ export async function analyzeText(
       payload,
     );
     const parsed = AnalysisResponseSchema.parse(response.data);
+
+    return { data: parsed, error: null };
+  } catch (error) {
+    return { data: null, error: ApiError.fromUnknown(error) };
+  }
+}
+
+/**
+ * Calls the DeepRead API to generate audio from the given text.
+ * @param text - The text to generate audio for.
+ * @returns A promise that resolves to an object with data or error.
+ */
+export async function generateAudio(
+  text: string,
+): Promise<DeepReadApiResponse<GenerateAudioResponse>> {
+  try {
+    console.log("🚀 ~ text:", text);
+    const response = await deepReadAPI.post<GenerateAudioResponse>(
+      "/tts/generate-audio",
+      { text },
+    );
+    const parsed = GenerateAudioSchema.parse(response.data);
 
     return { data: parsed, error: null };
   } catch (error) {
