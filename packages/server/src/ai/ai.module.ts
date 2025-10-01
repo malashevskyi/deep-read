@@ -6,7 +6,7 @@ import { AiAnalysisPort } from './ports/ai-analysis.port';
 import { OpenAiAdapter } from './adapters/openai.adapter';
 
 @Module({
-  imports: [TtsModule],
+  imports: [],
   controllers: [AiController],
   providers: [
     AiService,

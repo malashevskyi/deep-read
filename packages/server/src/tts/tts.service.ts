@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TextToSpeechPort } from './ports/tts.port';
 import {
   AudioStoragePort,
-  TextToSpeechResult,
+  GenerateAudioResponse,
 } from './ports/audio-storage.port';
 import { ErrorService } from '@/errors/errors.service';
 import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
@@ -15,7 +15,7 @@ export class TtsService {
     private readonly errorService: ErrorService,
   ) {}
 
-  async generateAndUploadAudio(text: string): Promise<TextToSpeechResult> {
+  async generateAndUploadAudio(text: string): Promise<GenerateAudioResponse> {
     let audioBuffer: Buffer;
 
     try {

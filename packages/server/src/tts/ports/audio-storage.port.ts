@@ -1,13 +1,11 @@
-import { AnalysisResponse } from '@/types';
-
-export type TextToSpeechResult = Pick<
-  AnalysisResponse['word'],
-  'audioUrl' | 'storagePath'
->;
+export interface GenerateAudioResponse {
+  audioUrl: string;
+  storagePath: string;
+}
 
 export abstract class AudioStoragePort {
   abstract uploadAudio(
     buffer: Buffer,
     text: string,
-  ): Promise<TextToSpeechResult>;
+  ): Promise<GenerateAudioResponse>;
 }

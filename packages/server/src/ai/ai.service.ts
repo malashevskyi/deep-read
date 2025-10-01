@@ -1,17 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import OpenAI, { ClientOptions } from 'openai';
 import { AnalysisResponse } from '@/types';
-import { TtsService } from '@/tts/tts.service';
-import { ErrorService } from '@/errors/errors.service';
+import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AiAnalysisPort } from './ports/ai-analysis.port';
 
 @Injectable()
+@UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 export class AiService {
-  constructor(
-    private readonly ttsService: TtsService,
-    private readonly aiAnalysisPort: AiAnalysisPort,
-  ) {}
+  constructor(private readonly aiAnalysisPort: AiAnalysisPort) {}
 
   /**
    * Analyzes selected text in context and returns structured analysis with audio.
@@ -29,17 +23,10 @@ export class AiService {
       context,
     );
 
-    const { audioUrl, storagePath } =
-      await this.ttsService.generateAndUploadAudio(
-        structuredResponse.normalizedText,
-      );
-
     const analysisResult: AnalysisResponse = {
       word: {
         text: structuredResponse.normalizedText,
         transcription: structuredResponse.transcription,
-        audioUrl,
-        storagePath,
       },
       example: {
         id: structuredResponse.adaptedSentence,

@@ -5,6 +5,7 @@ import { TextToSpeechPort } from './ports/tts.port';
 import { AudioStoragePort } from './ports/audio-storage.port';
 import { FirebaseStorageAdapter } from './adapters/firebase-storage.adapter';
 import { ConfigModule } from '@nestjs/config';
+import { TtsController } from './tts.controller';
 
 @Module({
   imports: [forwardRef(() => ConfigModule)],
@@ -22,5 +23,6 @@ import { ConfigModule } from '@nestjs/config';
     },
   ],
   exports: [TtsService],
+  controllers: [TtsController],
 })
 export class TtsModule {}
