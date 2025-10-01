@@ -26,9 +26,6 @@ export const Sidebar: React.FC<SidebarProps> = () => {
             {selectionContext}
           </p>
         </details>
-        <p className="mt-0 p-3 italic ...">
-          <strong>You selected:</strong> {selectedText}
-        </p>
         <div className="mt-5">
           {isLoading && (
             <p>
