@@ -4,6 +4,10 @@ import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import { getStorage, Storage } from 'firebase-admin/storage';
 import { Logger } from '@nestjs/common';
+import {
+  AudioStoragePort,
+  TextToSpeechResult,
+} from '../ports/audio-storage.port';
 
 const BUCKET_DIRECTORY = 'audio';
 
@@ -16,7 +20,7 @@ const getFirebaseCredentials = (serviceAccountString: string) => {
 };
 
 @Injectable()
-export class FirebaseStorageAdapter implements OnModuleInit {
+export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
   private readonly logger = new Logger(FirebaseStorageAdapter.name);
   private bucketName: string;
   private storage: Storage;
@@ -71,10 +75,8 @@ export class FirebaseStorageAdapter implements OnModuleInit {
    * @returns A promise resolving to an object containing the public URL and storage path.
    * @throws {AppError} If the upload or URL generation fails.
    */
-  async uploadAudio(
-    buffer: Buffer,
-    text: string,
-  ): Promise<{ publicUrl: string; storagePath: string }> {
+  // async uploadAudio(buffer: Buffer, text: string): Promise<TextToSpeechResult> {
+  async uploadAudio(buffer: Buffer, text: string): Promise<TextToSpeechResult> {
     const fileName = `${text.replace(/\s/g, '_')}.mp3`;
     const storagePath = `${BUCKET_DIRECTORY}/${fileName}`;
     const file = this.storage.bucket(this.bucketName).file(storagePath);
@@ -90,13 +92,13 @@ export class FirebaseStorageAdapter implements OnModuleInit {
     const farFutureDate = new Date();
     farFutureDate.setFullYear(farFutureDate.getFullYear() + 100);
 
-    const [publicUrl] = await file.getSignedUrl({
+    const [audioUrl] = await file.getSignedUrl({
       action: 'read',
       expires: farFutureDate,
     });
 
     this.logger.log(`Successfully uploaded file: ${storagePath}`);
 
-    return { publicUrl, storagePath };
+    return { audioUrl, storagePath };
   }
 }
