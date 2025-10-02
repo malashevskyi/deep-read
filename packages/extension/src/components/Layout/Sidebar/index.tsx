@@ -2,6 +2,7 @@ import React from "react";
 import { useAppStore } from "../../../store";
 import { ErrorDisplay } from "../../ui/ErrorDisplay";
 import HighlightText from "../../ui/HighlightText";
+import { AudioPlayer } from "../../ui/AudioPlayer";
 
 interface SidebarProps {}
 
@@ -38,7 +39,12 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           {isLoadingAudio && (
             <span className="text-xs">generating audio...</span>
           )}
-          {audioUrl && <button>Play</button>}
+          {audioUrl && (
+            <div className="mb-4">
+              <AudioPlayer url={audioUrl} />
+            </div>
+          )}
+
           {data && (
             <>
               <div className="flex items-center space-x-2">

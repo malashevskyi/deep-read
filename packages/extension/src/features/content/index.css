@@ -68,3 +68,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.rhap_main-controls-button {
+  border: 1px solid #4a5568;
+}
+
+button.rhap_button-clear.rhap_main-controls-button.rhap_play-pause-button:focus,
+button.rhap_button-clear.rhap_main-controls-button.rhap_play-pause-button:focus-visible {
+  outline: none;
+}
