@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { Sidebar } from "../../../components/Layout/Sidebar";
 import { useAppStore } from "../../../store";
 import { Toaster } from "sonner";
@@ -43,6 +43,37 @@ const ContentScriptRoot: React.FC = () => {
       document.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    let mounted = true;
+
+    setTimeout(() => {
+      if (!mounted) return;
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) return;
+
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      console.log("🚀 ~ rect:", rect);
+
+      const isVisibleOnScreen =
+        rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+      if (!isVisibleOnScreen) {
+        requestAnimationFrame(() => {
+          const element = range.startContainer.parentElement;
+          element?.scrollIntoView({
+            behavior: "instant",
+            block: "start",
+          });
+        });
+      }
+    }, 200);
+
+    return () => {
+      mounted = false;
+    };
+  }, [isSidebarVisible]);
 
   useEffect(() => {
     if (selectedTextFromStore) {
