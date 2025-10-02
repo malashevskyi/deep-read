@@ -4,15 +4,14 @@ import {
   AudioStoragePort,
   GenerateAudioResponse,
 } from './ports/audio-storage.port';
-import { ErrorService } from '@/errors/errors.service';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
+import { AudioRecordsService } from '@/audio-records/audio-records.service';
 
 @Injectable()
 export class TtsService {
   constructor(
     private readonly ttsPort: TextToSpeechPort,
     private readonly audioStoragePort: AudioStoragePort,
-    private readonly errorService: ErrorService,
+    private readonly audioRecordsService: AudioRecordsService,
   ) {}
 
   async generateAndUploadAudio(text: string): Promise<GenerateAudioResponse> {
@@ -22,5 +21,13 @@ export class TtsService {
       audioBuffer,
       text,
     );
+
+    await this.audioRecordsService.createAudioRecord({
+      id: text,
+      audioUrl: audioUrl,
+      storagePath: storagePath,
+    });
+
+    return { audioUrl, storagePath };
   }
 }
