@@ -23,6 +23,8 @@ services:
       - db
     ports:
       - "3002:3000"
+    dns:
+      - 8.8.8.8
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       OPENAI_MODEL: ${OPENAI_MODEL}
