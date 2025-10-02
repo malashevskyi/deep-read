@@ -53,6 +53,7 @@ const ContentScriptRoot: React.FC = () => {
   }, [selectedTextFromStore]);
 
   const handleMouseUp = (event: MouseEvent) => {
+    event.preventDefault();
     if (!event.altKey) return;
     if (event.target instanceof HTMLElement === false) return;
     if (event.target.closest("#deepread-root")) return;
