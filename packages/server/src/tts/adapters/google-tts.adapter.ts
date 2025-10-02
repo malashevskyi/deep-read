@@ -1,7 +1,9 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ErrorService } from '@/errors/errors.service';
+import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
 import { TextToSpeechClient } from '@google-cloud/text-to-speech';
-import { TextToSpeechPort } from '../ports/tts.port';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { TextToSpeechPort } from '../ports/tts.port';
 
 const AUDIO_ENCODING = 'MP3' as const;
 
@@ -16,7 +18,10 @@ enum VoiceNameMap {
 export class GoogleTtsAdapter implements OnModuleInit, TextToSpeechPort {
   private ttsClient: TextToSpeechClient;
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly errorService: ErrorService,
+  ) {}
 
   onModuleInit() {
     const credentialsJson = this.configService.get<string>(
@@ -32,17 +37,25 @@ export class GoogleTtsAdapter implements OnModuleInit, TextToSpeechPort {
   }
 
   async generateAudioBuffer(text: string): Promise<Buffer> {
-    const [ttsResponse] = await this.ttsClient.synthesizeSpeech({
-      input: { text },
-      voice: { languageCode: LanguageCodeMap.en, name: VoiceNameMap.en },
-      audioConfig: { audioEncoding: AUDIO_ENCODING },
-    });
+    try {
+      const [ttsResponse] = await this.ttsClient.synthesizeSpeech({
+        input: { text },
+        voice: { languageCode: LanguageCodeMap.en, name: VoiceNameMap.en },
+        audioConfig: { audioEncoding: AUDIO_ENCODING },
+      });
 
-    if (!ttsResponse.audioContent) {
-      throw new Error('Failed to generate audio content from Google TTS.');
+      if (!ttsResponse.audioContent) {
+        throw new Error('Failed to generate audio content from Google TTS.');
+      }
+      const audioBuffer = Buffer.from(ttsResponse.audioContent);
+
+      return audioBuffer;
+    } catch (error) {
+      this.errorService.handle(
+        AppErrorCode.TTS_GENERATION_FAILED,
+        `Failed to generate audio for text: "${text}"`,
+        error,
+      );
     }
-    const audioBuffer = Buffer.from(ttsResponse.audioContent);
-
-    return audioBuffer;
   }
 }

@@ -1,9 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ErrorService } from '@/errors/errors.service';
+import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import { getStorage, Storage } from 'firebase-admin/storage';
-import { Logger } from '@nestjs/common';
 import {
   AudioStoragePort,
   GenerateAudioResponse,
@@ -25,7 +26,10 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
   private bucketName: string;
   private storage: Storage;
 
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly errorService: ErrorService,
+  ) {}
 
   onModuleInit() {
     try {
@@ -79,28 +83,36 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
     buffer: Buffer,
     text: string,
   ): Promise<GenerateAudioResponse> {
-    const fileName = `${text.replace(/\s/g, '_')}.mp3`;
-    const storagePath = `${BUCKET_DIRECTORY}/${fileName}`;
-    const file = this.storage.bucket(this.bucketName).file(storagePath);
+    try {
+      const fileName = `${text.replace(/\s/g, '_')}.mp3`;
+      const storagePath = `${BUCKET_DIRECTORY}/${fileName}`;
+      const file = this.storage.bucket(this.bucketName).file(storagePath);
 
-    const [exists] = await file.exists();
-    if (exists) await file.delete();
+      const [exists] = await file.exists();
+      if (exists) await file.delete();
 
-    await file.save(buffer, {
-      metadata: { contentType: 'audio/mpeg' },
-      resumable: false,
-    });
+      await file.save(buffer, {
+        metadata: { contentType: 'audio/mpeg' },
+        resumable: false,
+      });
 
-    const farFutureDate = new Date();
-    farFutureDate.setFullYear(farFutureDate.getFullYear() + 100);
+      const farFutureDate = new Date();
+      farFutureDate.setFullYear(farFutureDate.getFullYear() + 100);
 
-    const [audioUrl] = await file.getSignedUrl({
-      action: 'read',
-      expires: farFutureDate,
-    });
+      const [audioUrl] = await file.getSignedUrl({
+        action: 'read',
+        expires: farFutureDate,
+      });
 
-    this.logger.log(`Successfully uploaded file: ${storagePath}`);
+      this.logger.log(`Successfully uploaded file: ${storagePath}`);
 
-    return { audioUrl, storagePath };
+      return { audioUrl, storagePath };
+    } catch (error) {
+      this.errorService.handle(
+        AppErrorCode.AUDIO_UPLOAD_FAILED,
+        `Failed to upload audio to storage for text: "${text}"`,
+        error,
+      );
+    }
   }
 }

@@ -16,25 +16,11 @@ export class TtsService {
   ) {}
 
   async generateAndUploadAudio(text: string): Promise<GenerateAudioResponse> {
-    let audioBuffer: Buffer;
+    const audioBuffer = await this.ttsPort.generateAudioBuffer(text);
 
-    try {
-      audioBuffer = await this.ttsPort.generateAudioBuffer(text);
-    } catch (error) {
-      this.errorService.handle(
-        AppErrorCode.TTS_GENERATION_FAILED,
-        `Failed to generate audio for text: "${text}"`,
-        error,
-      );
-    }
-    try {
-      return await this.audioStoragePort.uploadAudio(audioBuffer, text);
-    } catch (error) {
-      this.errorService.handle(
-        AppErrorCode.AUDIO_UPLOAD_FAILED,
-        `Failed to upload audio to storage for text: "${text}"`,
-        error,
-      );
-    }
+    const { audioUrl, storagePath } = await this.audioStoragePort.uploadAudio(
+      audioBuffer,
+      text,
+    );
   }
 }
