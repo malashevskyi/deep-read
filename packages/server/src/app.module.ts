@@ -6,11 +6,15 @@ import { ConfigModule } from '@nestjs/config';
 import { TtsModule } from './tts/tts.module';
 import { ErrorsModule } from './errors/errors.module';
 import { validationSchema } from './config/validation.schema';
+import getTypeOrmConfig from './shared/configs/typeorm.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import ormConfig from './shared/configs/orm.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [ormConfig],
       validate: (config) => {
         const result = validationSchema.safeParse(config);
 
@@ -24,6 +28,7 @@ import { validationSchema } from './config/validation.schema';
         return result.data;
       },
     }),
+    TypeOrmModule.forRootAsync(getTypeOrmConfig()),
     ErrorsModule,
     AiModule,
     TtsModule,
