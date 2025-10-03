@@ -15,7 +15,6 @@ export default defineConfig({
         plugins: ["babel-plugin-react-compiler"],
       },
     }),
-    ,
     crx({ manifest }),
     tailwindcss(),
   ],

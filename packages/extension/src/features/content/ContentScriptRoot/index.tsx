@@ -54,7 +54,6 @@ const ContentScriptRoot: React.FC = () => {
 
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
-      console.log("🚀 ~ rect:", rect);
 
       const isVisibleOnScreen =
         rect.top >= 0 && rect.bottom <= window.innerHeight;
