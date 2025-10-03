@@ -5,7 +5,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default tseslint.config(
@@ -47,13 +49,34 @@ export default tseslint.config(
       sourceType: "module",
       parserOptions: {
         project: ["./packages/server/tsconfig.json"],
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
       },
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-floating-promises": "warn",
       "@typescript-eslint/no-unsafe-argument": "warn",
+    },
+  },
+  {
+    files: ["packages/functions/src/**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: [
+          "./packages/functions/tsconfig.json",
+          "./packages/functions/tsconfig.dev.json",
+        ],
+        tsconfigRootDir: __dirname,
+      },
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      quotes: ["error", "double"],
+      indent: ["error", 2],
+      "import/no-unresolved": "off",
     },
   },
 
