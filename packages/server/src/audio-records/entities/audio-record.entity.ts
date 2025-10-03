@@ -23,6 +23,9 @@ export class AudioRecord {
   @Column({ name: 'dictionary_id', type: 'uuid', nullable: true })
   dictionaryId: string | null;
 
+  @Column({ name: 'audio_url_expires_at', type: 'timestamptz' })
+  audioUrlExpiresAt: Date;
+
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
