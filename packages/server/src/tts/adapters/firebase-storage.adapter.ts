@@ -7,7 +7,7 @@ import { App } from 'firebase-admin/app';
 import { getStorage, Storage } from 'firebase-admin/storage';
 import {
   AudioStoragePort,
-  GenerateAudioResponse,
+  UploadAudioResponse,
 } from '../ports/audio-storage.port';
 
 const BUCKET_DIRECTORY = 'audio';
@@ -82,7 +82,7 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
   async uploadAudio(
     buffer: Buffer,
     text: string,
-  ): Promise<GenerateAudioResponse> {
+  ): Promise<UploadAudioResponse> {
     try {
       const fileName = `${text.replace(/\s/g, '_')}.mp3`;
       const storagePath = `${BUCKET_DIRECTORY}/${fileName}`;
@@ -96,17 +96,17 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
         resumable: false,
       });
 
-      const farFutureDate = new Date();
-      farFutureDate.setFullYear(farFutureDate.getFullYear() + 100);
+      const oneMonthFromNow = new Date();
+      oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
 
       const [audioUrl] = await file.getSignedUrl({
         action: 'read',
-        expires: farFutureDate,
+        expires: oneMonthFromNow,
       });
 
       this.logger.log(`Successfully uploaded file: ${storagePath}`);
 
-      return { audioUrl, storagePath };
+      return { audioUrl, storagePath, expiresAt: oneMonthFromNow };
     } catch (error) {
       this.errorService.handle(
         AppErrorCode.AUDIO_UPLOAD_FAILED,

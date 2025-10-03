@@ -17,17 +17,16 @@ export class TtsService {
   async generateAndUploadAudio(text: string): Promise<GenerateAudioResponse> {
     const audioBuffer = await this.ttsPort.generateAudioBuffer(text);
 
-    const { audioUrl, storagePath } = await this.audioStoragePort.uploadAudio(
-      audioBuffer,
-      text,
-    );
+    const { audioUrl, storagePath, expiresAt } =
+      await this.audioStoragePort.uploadAudio(audioBuffer, text);
 
     await this.audioRecordsService.createAudioRecord({
       id: text,
       audioUrl: audioUrl,
       storagePath: storagePath,
+      audioUrlExpiresAt: expiresAt,
     });
 
-    return { audioUrl, storagePath };
+    return { audioUrl };
   }
 }
