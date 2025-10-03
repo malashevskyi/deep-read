@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const AiStructuredResponseSchema = z.object({
   normalizedText: z.string(),
   transcription: z.string(),
+  wordTranslation: z.string(),
   adaptedSentence: z.string(),
   translation: z.string(),
 });

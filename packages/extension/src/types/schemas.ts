@@ -4,6 +4,7 @@ export const AnalysisResponseSchema = z.object({
   word: z.object({
     text: z.string(),
     transcription: z.string(),
+    translation: z.string(),
   }),
   example: z.object({
     id: z.string(),

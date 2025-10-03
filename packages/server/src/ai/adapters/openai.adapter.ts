@@ -14,6 +14,7 @@ Respond ONLY with a valid JSON object in the following format:
 {
   "normalizedText": "The text in its correct, dictionary form. If the original text is capitalized because it's at the start of a sentence but is not a proper noun or it is just an author style, convert it to lowercase. If it's a proper noun (like a name, brand, or month), keep the capitalization.",
   "transcription": "The phonetic transcription of the normalized text, e.g., [wɜːd].",
+  "wordTranslation": "The direct translation of the 'normalizedText' into Ukrainian.",
   "adaptedSentence": "A clear, simple example sentence in the context I have provided that includes the text/word/phase I have provided. The sentence can be slightly modified to fit the context naturally, but it should not change the meaning of the text/word/phase. Or it can be the same sentence from the context if it grammatically and naturally fits.",
   "translation": "The translation of the adapted sentence into Ukrainian in the provided context."
 }`;

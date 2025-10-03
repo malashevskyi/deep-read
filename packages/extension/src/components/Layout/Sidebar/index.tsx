@@ -47,9 +47,12 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 
           {data && (
             <>
-              <div className="flex items-center space-x-2">
+              <div className="flex flex-col space-y-2">
                 <span className="font-semibold text-lg">
                   {data.word.transcription}
+                </span>
+                <span className="font-semibold text-lg">
+                  {data.word.translation}
                 </span>
               </div>
 

@@ -27,6 +27,7 @@ export class AiService {
       word: {
         text: structuredResponse.normalizedText,
         transcription: structuredResponse.transcription,
+        translation: structuredResponse.wordTranslation,
       },
       example: {
         id: structuredResponse.adaptedSentence,
