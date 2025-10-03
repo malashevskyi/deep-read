@@ -21,8 +21,7 @@
     "typeorm:cli": "npx typeorm-ts-node-commonjs -d src/shared/configs/orm.config",
     "migration:generate": "npm run typeorm:cli migration:generate",
     "migration:run": "npm run build &&  npm run typeorm:cli migration:run",
-    "migration:revert": "npm run typeorm:cli migration:revert",
-    "types:gen": "npx supabase gen types typescript --local > database.types.ts"
+    "migration:revert": "npm run typeorm:cli migration:revert"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.3.0",

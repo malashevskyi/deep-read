@@ -7,7 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "docker-compose up --build"
+    "dev": "docker-compose up --build",
+    "types:gen": "node scripts/generate-types.js"
   },
   "keywords": [],
   "author": "Vitalii Malashevskyi",
@@ -16,12 +17,16 @@
   "dependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.36.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.21",
     "globals": "^16.4.0",
-    "typescript-eslint": "^8.44.1"
+    "typescript-eslint": "^8.44.1",
+    "@babel/parser": "^7.28.4",
+    "@babel/traverse": "^7.28.4",
+    "ts-case-convert": "^2.1.0"
   }
 }
