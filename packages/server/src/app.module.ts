@@ -9,6 +9,7 @@ import { validationSchema } from './config/validation.schema';
 import getTypeOrmConfig from './shared/configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AudioRecordsModule } from './audio-records/audio-records.module';
+import { DictionaryModule } from './dictionary/dictionary.module';
 import ormConfig from './shared/configs/orm.config';
 
 @Module({
@@ -34,6 +35,7 @@ import ormConfig from './shared/configs/orm.config';
     AiModule,
     TtsModule,
     AudioRecordsModule,
+    DictionaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
