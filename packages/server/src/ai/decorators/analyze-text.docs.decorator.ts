@@ -1,8 +1,10 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AnalyzeTextDto } from '../dto/analyze-text.dto';
 
 export const AnalyzeTextDocs = () => {
   return applyDecorators(
+    ApiBody({ type: AnalyzeTextDto }),
     ApiOperation({
       summary: 'Analyzes a piece of text to provide an explanation.',
     }),
