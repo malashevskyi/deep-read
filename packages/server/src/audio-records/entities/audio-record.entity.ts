@@ -1,9 +1,11 @@
+import { DictionaryUnit } from '@/dictionary/entities/dictionary-unit.entity';
 import {
   Entity,
   Column,
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 
 @Entity('audio_records')
@@ -17,11 +19,14 @@ export class AudioRecord {
   @Column({ name: 'storage_path', type: 'varchar' })
   storagePath: string;
 
-  // The field for linking to the dictionary.
-  // We are not creating a real relation yet,
-  // as the Dictionary entity does not exist yet.
-  @Column({ name: 'dictionary_id', type: 'uuid', nullable: true })
-  dictionaryId: string | null;
+  @OneToOne(
+    () => DictionaryUnit,
+    (dictionaryEntry) => dictionaryEntry.audioRecord,
+    {
+      nullable: true,
+    },
+  )
+  dictionaryUnit: DictionaryUnit;
 
   @Column({ name: 'audio_url_expires_at', type: 'timestamptz' })
   audioUrlExpiresAt: Date;
