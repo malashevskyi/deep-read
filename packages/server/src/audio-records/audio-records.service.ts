@@ -24,6 +24,15 @@ export class AudioRecordsService {
     return this.audioRecordRepository.save(newRecord);
   }
 
+  /**
+   * Finds a single audio record by its ID.
+   * @param id - The ID of the audio record to find.
+   * @returns The found audio record entity or null.
+   */
+  async findOneById(id: string): Promise<AudioRecord | null> {
+    return this.audioRecordRepository.findOneBy({ id });
+  }
+
   // TODO: Add a method to update `dictionaryId`
   // TODO: Add a method to remove old records
 }
