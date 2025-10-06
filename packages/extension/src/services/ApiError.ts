@@ -44,8 +44,8 @@ export class ApiError extends Error {
     if (isAxiosError(error)) {
       return ApiError.fromAxiosError(error);
     }
-    let statusCode = safeGetNumber(error, "statusCode") ?? 500;
-    let errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
+    const statusCode = safeGetNumber(error, "statusCode") ?? 500;
+    const errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
 
     captureError(error, {
       context: "ApiError.fromUnknown",
