@@ -1,10 +1,12 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ApiError } from "./ApiError";
 import {
   AnalysisResponseSchema,
   GenerateAudioSchema,
+  SaveToDictionarySchema,
   type AnalysisResponse,
   type GenerateAudioResponse,
+  type SaveToDictionaryResponse,
 } from "../types/schemas";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -15,7 +17,7 @@ const deepReadAPI = axios.create({
 
 deepReadAPI.interceptors.response.use(
   (res) => res,
-  (error) => Promise.reject(ApiError.fromAxiosError(error)),
+  (error: AxiosError) => Promise.reject(ApiError.fromAxiosError(error)),
 );
 
 export interface AnalysisPayload {
@@ -58,7 +60,6 @@ export async function generateAudio(
   text: string,
 ): Promise<DeepReadApiResponse<GenerateAudioResponse>> {
   try {
-    console.log("🚀 ~ text:", text);
     const response = await deepReadAPI.post<GenerateAudioResponse>(
       "/tts/generate-audio",
       { text },
@@ -68,5 +69,30 @@ export async function generateAudio(
     return { data: parsed, error: null };
   } catch (error) {
     return { data: null, error: ApiError.fromUnknown(error) };
+  }
+}
+
+/**
+ * Saves a word/phrase to the user's dictionary.
+ * @param payload - The data for the new dictionary entry.
+ * @returns A promise that resolves to the created dictionary entry (або `void`).
+ */
+export async function saveToDictionary(
+  text: string,
+  transcription: string,
+): Promise<DeepReadApiResponse<SaveToDictionaryResponse>> {
+  try {
+    const response = await deepReadAPI.post("/dictionary", {
+      text,
+      transcription,
+    });
+    const parsed = SaveToDictionarySchema.parse(response.data);
+
+    return { data: parsed, error: null };
+  } catch (error) {
+    return {
+      data: null,
+      error: ApiError.fromUnknown(error) as unknown as ApiError,
+    };
   }
 }

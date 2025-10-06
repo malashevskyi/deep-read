@@ -20,3 +20,15 @@ export const GenerateAudioSchema = z.object({
 });
 
 export type GenerateAudioResponse = z.infer<typeof GenerateAudioSchema>;
+
+export const SaveToDictionarySchema = z.object({
+  id: z.uuid(),
+  text: z.string(),
+  transcription: z.string(),
+  pronounceVideoLinks: z.array(z.string()),
+  audioRecords: z.array(z.string()),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+});
+
+export type SaveToDictionaryResponse = z.infer<typeof SaveToDictionarySchema>;
