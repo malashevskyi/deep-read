@@ -1,11 +1,13 @@
-import { DictionaryUnit } from '@/dictionary/entities/dictionary-unit.entity';
+import { DictionaryEntry } from '@/dictionary-entries/entities/dictionary-entry.entity';
 import {
   Entity,
   Column,
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
+  Index,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('audio_records')
@@ -19,16 +21,17 @@ export class AudioRecord {
   @Column({ name: 'storage_path', type: 'varchar' })
   storagePath: string;
 
-  @OneToOne(
-    () => DictionaryUnit,
-    (dictionaryEntry) => dictionaryEntry.audioRecord,
-    {
-      nullable: true,
-    },
-  )
-  dictionaryUnit: DictionaryUnit;
+  @Index()
+  @Column({ name: 'dictionary_entry_id', type: 'uuid', nullable: true })
+  dictionaryEntryId: string;
 
-  @Column({ name: 'audio_url_expires_at', type: 'timestamptz' })
+  @ManyToOne(() => DictionaryEntry, (entry) => entry.audioRecords, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'dictionary_entry_id' })
+  dictionaryEntry: DictionaryEntry;
+
+  @Column({ name: 'audio_url_expires_at', type: 'timestamptz', nullable: true })
   audioUrlExpiresAt: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
