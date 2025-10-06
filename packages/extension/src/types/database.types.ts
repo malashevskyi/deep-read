@@ -39,26 +39,64 @@ export type Database = {
       audio_records: {
         Row: {
           audio_url: string;
+          audio_url_expires_at: string | null;
           created_at: string;
-          dictionary_id: string | null;
+          dictionary_entry_id: string | null;
           id: string;
           storage_path: string;
           updated_at: string;
         };
         Insert: {
           audio_url: string;
+          audio_url_expires_at?: string | null;
           created_at?: string;
-          dictionary_id?: string | null;
+          dictionary_entry_id?: string | null;
           id: string;
           storage_path: string;
           updated_at?: string;
         };
         Update: {
           audio_url?: string;
+          audio_url_expires_at?: string | null;
           created_at?: string;
-          dictionary_id?: string | null;
+          dictionary_entry_id?: string | null;
           id?: string;
           storage_path?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "FK_04a2d0e65977472fa5856c4d257";
+            columns: ["dictionary_entry_id"];
+            isOneToOne: false;
+            referencedRelation: "dictionary_entries";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      dictionary_entries: {
+        Row: {
+          created_at: string;
+          id: string;
+          pronounce_video_links: string[];
+          text: string;
+          transcription: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          pronounce_video_links?: string[];
+          text: string;
+          transcription: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          pronounce_video_links?: string[];
+          text?: string;
+          transcription?: string;
           updated_at?: string;
         };
         Relationships: [];
@@ -690,6 +728,14 @@ export const Constants = {
 export type AudioRecordsTable = CamelCase<Tables<"audio_records">>;
 export type AudioRecordsTableInsert = CamelCase<TablesInsert<"audio_records">>;
 export type AudioRecordsTableUpdate = CamelCase<TablesUpdate<"audio_records">>;
+
+export type DictionaryEntriesTable = CamelCase<Tables<"dictionary_entries">>;
+export type DictionaryEntriesTableInsert = CamelCase<
+  TablesInsert<"dictionary_entries">
+>;
+export type DictionaryEntriesTableUpdate = CamelCase<
+  TablesUpdate<"dictionary_entries">
+>;
 
 export type MigrationsTable = CamelCase<Tables<"migrations">>;
 export type MigrationsTableInsert = CamelCase<TablesInsert<"migrations">>;
