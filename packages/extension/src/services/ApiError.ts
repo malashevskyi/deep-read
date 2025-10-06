@@ -1,6 +1,7 @@
 import { AxiosError, isAxiosError } from "axios";
 import { safeGetNumber, safeGetString } from "../types/utils";
 import { captureError } from "../utils/sentry";
+import z from "zod";
 
 export class ApiError extends Error {
   statusCode: number;
@@ -39,11 +40,31 @@ export class ApiError extends Error {
     return new ApiError(message, statusCode, errorCode, error);
   }
 
+  static fromZodError(error: z.ZodError): ApiError {
+    const issues: z.core.$ZodIssue[] = error.issues;
+
+    const formatted = issues
+      .map((issue) => `• ${issue.path.join(".") || "(root)"}: ${issue.message}`)
+      .join("\n");
+
+    captureError(error, {
+      context: "ApiError.fromZodError",
+      details: formatted,
+    });
+
+    return new ApiError(
+      "Something went wrong!",
+      500,
+      "invalid_response_schema",
+      error,
+    );
+  }
+
   static fromUnknown(error: unknown): ApiError {
     if (error instanceof ApiError) return error;
-    if (isAxiosError(error)) {
-      return ApiError.fromAxiosError(error);
-    }
+    if (isAxiosError(error)) return ApiError.fromAxiosError(error);
+    if (error instanceof z.ZodError) return ApiError.fromZodError(error);
+
     const statusCode = safeGetNumber(error, "statusCode") ?? 500;
     const errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
 
