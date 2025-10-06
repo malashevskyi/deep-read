@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import { Sidebar } from "../../../components/Layout/Sidebar";
 import { useAppStore } from "../../../store";
-import { Toaster } from "sonner";
 import { getWordOrPhraseContextForSelection } from "./utils/getWordOrPhraseContextForSelection";
 import { expandSelectionToFullWords } from "./utils/expandSelectionToFullWords";
 import { captureError } from "../../../utils/sentry";
@@ -121,7 +120,6 @@ const ContentScriptRoot: React.FC = () => {
 
   return (
     <>
-      <Toaster richColors position="bottom-center" />
       <Sidebar />
     </>
   );

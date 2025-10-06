@@ -4,10 +4,13 @@ import hostPageStyles from "./hostPageStyles.css?inline";
 import tailwindStylesUrl from "./index.css?url";
 import {
   injectHostStyles,
+  injectShadowRootInlineStyles,
   injectShadowRootLinkedStyles,
 } from "../../utils/styles";
 import ContentScriptRoot from "./ContentScriptRoot";
 import { ErrorBoundary } from "../../components/system/ErrorBoundary";
+import sonnerStyles from "sonner/dist/styles.css?inline";
+import { Toaster } from "sonner";
 
 console.log("[DeepRead] Content script loaded!");
 
@@ -19,6 +22,7 @@ document.body.appendChild(rootElement);
 
 const shadowRoot = rootElement.attachShadow({ mode: "open" });
 
+injectShadowRootInlineStyles(shadowRoot, sonnerStyles, "sonner-styles");
 injectShadowRootLinkedStyles(shadowRoot, tailwindStylesUrl, "tailwind-styles");
 
 const reactRoot = ReactDOM.createRoot(shadowRoot);
@@ -26,6 +30,7 @@ const reactRoot = ReactDOM.createRoot(shadowRoot);
 reactRoot.render(
   <React.StrictMode>
     <ErrorBoundary>
+      <Toaster richColors position="bottom-center" />
       <ContentScriptRoot />
     </ErrorBoundary>
   </React.StrictMode>,
