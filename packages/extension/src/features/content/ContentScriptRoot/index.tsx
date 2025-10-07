@@ -35,14 +35,6 @@ const ContentScriptRoot: React.FC = () => {
   );
   const [currentRange, setCurrentRange] = React.useState<Range | null>(null);
 
-  useEffect(() => {
-    document.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
-
   useLayoutEffect(() => {
     let mounted = true;
 
@@ -99,13 +91,20 @@ const ContentScriptRoot: React.FC = () => {
 
     const context = getWordOrPhraseContextForSelection(selection);
 
-    // if (context) await startAnalysis(selectedText, context);
     if (context && selectedText) {
       openSidebar(selectedText, context);
     }
 
     return true;
   };
+
+  useEffect(() => {
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleMouseUp]);
 
   useEffect(() => {
     if (!highlightApiSupported) return;
