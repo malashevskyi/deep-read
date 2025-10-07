@@ -28,8 +28,8 @@ if (highlightApiSupported) {
 
 const ContentScriptRoot: React.FC = () => {
   const isSidebarVisible = useAppStore((state) => state.sidebar.isVisible);
-  const startAnalysis = useAppStore((state) => state.startAnalysis);
-  const analysisData = useAppStore((state) => state.analysis.data);
+  const openSidebar = useAppStore((state) => state.openSidebar);
+
   const selectedTextFromStore = useAppStore(
     (state) => state.sidebar.selectedText,
   );
@@ -97,9 +97,14 @@ const ContentScriptRoot: React.FC = () => {
 
     const selectedText = selection.toString().trim();
 
-    const context = getWordOrPhraseContextForSelection(selection!);
+    const context = getWordOrPhraseContextForSelection(selection);
 
-    if (context) startAnalysis(selectedText, context);
+    // if (context) await startAnalysis(selectedText, context);
+    if (context && selectedText) {
+      openSidebar(selectedText, context);
+    }
+
+    return true;
   };
 
   useEffect(() => {
@@ -111,10 +116,10 @@ const ContentScriptRoot: React.FC = () => {
 
     highlight.clear();
 
-    if (isSidebarVisible && analysisData && currentRange) {
+    if (isSidebarVisible && currentRange) {
       highlight.add(currentRange);
     }
-  }, [isSidebarVisible, analysisData, currentRange]);
+  }, [isSidebarVisible, currentRange]);
 
   if (!isSidebarVisible) return null;
 
