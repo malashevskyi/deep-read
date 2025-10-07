@@ -7,6 +7,7 @@ import {
   injectShadowRootInlineStyles,
   injectShadowRootLinkedStyles,
 } from "../../utils/styles";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ContentScriptRoot from "./ContentScriptRoot";
 import { ErrorBoundary } from "../../components/system/ErrorBoundary";
 import sonnerStyles from "sonner/dist/styles.css?inline";
@@ -25,13 +26,17 @@ const shadowRoot = rootElement.attachShadow({ mode: "open" });
 injectShadowRootInlineStyles(shadowRoot, sonnerStyles, "sonner-styles");
 injectShadowRootLinkedStyles(shadowRoot, tailwindStylesUrl, "tailwind-styles");
 
+const queryClient = new QueryClient();
+
 const reactRoot = ReactDOM.createRoot(shadowRoot);
 
 reactRoot.render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <Toaster richColors position="bottom-center" />
-      <ContentScriptRoot />
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <Toaster richColors position="bottom-center" />
+        <ContentScriptRoot />
+      </ErrorBoundary>
+    </QueryClientProvider>
   </React.StrictMode>,
 );

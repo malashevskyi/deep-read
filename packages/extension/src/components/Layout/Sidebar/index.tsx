@@ -1,25 +1,42 @@
-import React from "react";
 import { useAppStore } from "../../../store";
 import { ErrorDisplay } from "../../ui/ErrorDisplay";
 import HighlightText from "../../ui/HighlightText";
 import { AudioPlayer } from "../../ui/AudioPlayer";
+import { Button } from "../../ui/Button";
+import { useSaveToDictionary } from "../../../hooks/useSaveToDictionary";
+import { useAudioGeneration } from "../../../hooks/useAudioGeneration";
+import { useTextAnalysis } from "../../../hooks/useTextAnalysis";
 
-interface SidebarProps {}
-
-export const Sidebar: React.FC<SidebarProps> = () => {
-  const { isLoadingText, isLoadingAudio, data, error, audioUrl } = useAppStore(
-    (state) => state.analysis,
-  );
+export const Sidebar = () => {
+  const selectedText = useAppStore((state) => state.sidebar.selectedText);
   const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
+
+  const { analysisData, analysisError, isLoadingText } = useTextAnalysis(
+    selectedText,
+    selectionContext,
+  );
+  const { audioUrl, isLoadingAudio, audioError } = useAudioGeneration(
+    analysisData?.word.text,
+  );
+  const { saveWord, isSaving, saveError } = useSaveToDictionary();
+
+  const handleSaveClick = () => {
+    if (analysisData) {
+      saveWord({
+        text: analysisData.word.text,
+        transcription: analysisData.word.transcription,
+      });
+    }
+  };
 
   return (
     <div className="fixed top-0 right-0 h-full w-[350px] ...">
       <div className="flex justify-between items-center p-4 ...">
         <h3 className="m-0 text-base font-semibold">DeepRead AI</h3>
-        <button onClick={closeSidebar} className="...">
+        <Button onClick={closeSidebar} className="...">
           &times;
-        </button>
+        </Button>
       </div>
       <div className="p-4 overflow-y-auto flex-grow">
         <details className="mb-4 text-xs text-gray-500 cursor-pointer">
@@ -34,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
               <em>Loading analysis...</em>
             </p>
           )}
-          <ErrorDisplay error={error} />
+          <ErrorDisplay error={saveError || analysisError || audioError} />
 
           {isLoadingAudio && (
             <span className="text-xs">generating audio...</span>
@@ -45,30 +62,36 @@ export const Sidebar: React.FC<SidebarProps> = () => {
             </div>
           )}
 
-          {data && (
+          {analysisData && (
             <>
               <div className="flex flex-col space-y-2">
                 <span className="font-semibold text-lg">
-                  {data.word.transcription}
+                  {analysisData.word.transcription}
                 </span>
                 <span className="font-semibold text-lg">
-                  {data.word.translation}
+                  {analysisData.word.translation}
                 </span>
               </div>
 
               <div>
                 <p className="mt-1 text-gray-700">
                   <HighlightText
-                    text={data.example.adaptedSentence}
-                    highlight={data.word.text}
+                    text={analysisData.example.adaptedSentence}
+                    highlight={analysisData.word.text}
                   />
                 </p>
                 <p className="mt-1 text-sm text-gray-500">
-                  <em>{data.example.translation}</em>
+                  <em>{analysisData.example.translation}</em>
                 </p>
               </div>
             </>
           )}
+          <div className="mt-6 border-t border-gray-200 pt-4">
+            <Button onClick={handleSaveClick} disabled={isSaving}>
+              {isSaving ? "Saving..." : "Save to Dictionary"}
+            </Button>
+            <ErrorDisplay error={saveError} />
+          </div>
         </div>
       </div>
     </div>
