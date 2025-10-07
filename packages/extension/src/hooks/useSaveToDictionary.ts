@@ -8,6 +8,7 @@ import {
 } from "../types/schemas";
 import type { ZodError } from "zod";
 import type { AxiosError } from "axios";
+import { useEffect } from "react";
 
 export function useSaveToDictionary() {
   const mutation = useMutation<
@@ -35,7 +36,9 @@ export function useSaveToDictionary() {
     ? ApiError.fromUnknown(mutation.error)
     : null;
 
-  if (saveError) toast.error(`Failed to save: ${saveError.message}`);
+  useEffect(() => {
+    if (saveError) toast.error(`Failed to save: ${saveError.message}`);
+  }, [saveError]);
 
   return {
     saveWord: mutation.mutate,
