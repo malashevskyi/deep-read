@@ -38,7 +38,7 @@ services:
       GOOGLE_CREDENTIALS_JSON: ${GOOGLE_CREDENTIALS_JSON}
       FIREBASE_STORAGE_BUCKET: ${FIREBASE_STORAGE_BUCKET}
       PROJECT_NAME: ${PROJECT_NAME}
-      SENTRY_ENV: ${SENTRY_ENV}
+      SENTRY_DSN: ${SENTRY_DSN}
     volumes:
       - ./packages:/app/packages
 
