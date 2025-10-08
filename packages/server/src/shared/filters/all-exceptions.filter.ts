@@ -10,6 +10,7 @@ import { Request, Response } from 'express';
 import * as Sentry from '@sentry/node';
 import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
 import { AppError } from '@/shared/exceptions/AppError';
+import { ZodError } from 'zod';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -36,6 +37,21 @@ export class AllExceptionsFilter implements ExceptionFilter {
       this.logger.warn(
         `Handled known application error: ${errorCode} for path: ${request.url}`,
         exception.message,
+      );
+    } else if (exception instanceof ZodError) {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      errorCode = AppErrorCode.VALIDATION_FAILED;
+
+      const validationErrors = exception.issues.map((err) => ({
+        path: err.path.join('.'),
+        message: err.message,
+      }));
+
+      message = 'Internal data validation failed.';
+
+      this.logger.error(
+        `Caught a ZodError for path: ${request.url}`,
+        JSON.stringify(validationErrors),
       );
     } else if (exception instanceof HttpException) {
       status = exception.getStatus();
