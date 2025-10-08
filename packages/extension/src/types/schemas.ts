@@ -7,7 +7,6 @@ export const AnalysisResponseSchema = z.object({
     translation: z.string(),
   }),
   example: z.object({
-    id: z.string(),
     adaptedSentence: z.string(),
     translation: z.string(),
   }),

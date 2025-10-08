@@ -1,6 +1,6 @@
-import { AnalysisResponse } from '@/types';
 import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AiAnalysisPort } from './ports/ai-analysis.port';
+import { AnalysisResponse } from './schemas/analyze-text.schema';
 
 @Injectable()
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
@@ -30,7 +30,6 @@ export class AiService {
         translation: structuredResponse.wordTranslation,
       },
       example: {
-        id: structuredResponse.adaptedSentence,
         adaptedSentence: structuredResponse.adaptedSentence,
         translation: structuredResponse.translation,
       },
