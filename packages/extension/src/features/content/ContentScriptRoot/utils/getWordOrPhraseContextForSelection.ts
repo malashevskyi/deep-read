@@ -2,10 +2,10 @@ import { toast } from "sonner";
 import {
   ALLOWED_COPY_NODE_TYPES,
   MAX_CONTEXT_LENGTH,
-  MIN_CONTEXT_LENGTH,
   PHRASE_OR_WORD_LENGTH_THRESHOLD,
 } from "../../../../config/constants";
 import { refineLargeContext } from "./refineLargeContext";
+import getSentencesFromText from "./getSentencesFromText";
 
 const handleError = (message: string, selection: Selection): void => {
   // TODO: replace with sentry
@@ -58,21 +58,29 @@ export const getWordOrPhraseContextForSelection = (
 
   if (!isPhraseOrWord) return contextText;
 
-  let parent = currentNode.parentElement;
+  let parent = currentNode.parentElement?.cloneNode(true) as
+    | Element // because we clone an Element
+    | undefined;
 
   while (parent && contextText.length < MAX_CONTEXT_LENGTH) {
     const parentText = cleanText(parent.textContent);
 
-    if (parentText.length > MAX_CONTEXT_LENGTH) {
-      if (contextText.length < MIN_CONTEXT_LENGTH) {
-        contextText = refineLargeContext(parentText, contextText);
-      }
+    parent.querySelectorAll("style, script").forEach((el) => el.remove());
+
+    const currentContextSentenceCount =
+      getSentencesFromText(contextText).length;
+
+    if (
+      parentText.length > MAX_CONTEXT_LENGTH &&
+      currentContextSentenceCount < 3
+    ) {
+      contextText = refineLargeContext(parentText, contextText);
       break;
     }
 
     contextText = parentText;
     currentNode = parent;
-    parent = currentNode.parentElement;
+    parent = currentNode.parentElement?.cloneNode(true) as Element | undefined; // because we clone an Element
   }
 
   return contextText;
