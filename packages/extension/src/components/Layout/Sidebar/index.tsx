@@ -15,13 +15,8 @@ export const Sidebar = () => {
 
   const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
 
-  const { analysisData, analysisError, isLoadingText } = useTextAnalysis(
-    selectedText,
-    selectionContext,
-  );
-  const { audioUrl, isLoadingAudio, audioError } = useAudioGeneration(
-    analysisData?.word.text,
-  );
+  const { analysisData, analysisError, isLoadingText } = useTextAnalysis();
+
   const { saveWord, isSaving, saveError } = useSaveToDictionary();
 
   const handleSaveClick = () => {

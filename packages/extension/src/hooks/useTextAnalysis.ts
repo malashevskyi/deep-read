@@ -7,8 +7,12 @@ import {
 import { ApiError } from "../services/ApiError";
 import type { AxiosError } from "axios";
 import type { ZodError } from "zod";
+import { useAppStore } from "../store";
 
-export function useTextAnalysis(text: string, context: string) {
+export function useTextAnalysis() {
+  const text = useAppStore((state) => state.sidebar.selectedText);
+  const context = useAppStore((state) => state.sidebar.context);
+
   const query = useQuery<AnalysisResponse, AxiosError | ZodError>({
     queryKey: ["analysis", text, context],
     queryFn: async () => {
