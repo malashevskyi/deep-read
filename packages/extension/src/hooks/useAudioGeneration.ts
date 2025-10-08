@@ -7,6 +7,8 @@ import {
 import type { ZodError } from "zod";
 import type { AxiosError } from "axios";
 import { ApiError } from "../services/ApiError";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export function useAudioGeneration(text: string | undefined) {
   const query = useQuery<GenerateAudioResponse, AxiosError | ZodError>({
@@ -25,9 +27,15 @@ export function useAudioGeneration(text: string | undefined) {
     staleTime: Infinity,
   });
 
+  const audioError = query.error ? ApiError.fromUnknown(query.error) : null;
+
+  useEffect(() => {
+    if (audioError)
+      toast.error(`Failed to generate audio: ${audioError.message}`);
+  }, [audioError]);
+
   return {
     audioUrl: query.data?.audioUrl,
-    audioError: query.error ? ApiError.fromUnknown(query.error) : null,
     isLoadingAudio: query.isLoading,
   };
 }

@@ -43,6 +43,5 @@ export function useSaveToDictionary() {
   return {
     saveWord: mutation.mutate,
     isSaving: mutation.isPending,
-    saveError,
   };
 }

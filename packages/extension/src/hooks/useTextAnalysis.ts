@@ -8,6 +8,8 @@ import { ApiError } from "../services/ApiError";
 import type { AxiosError } from "axios";
 import type { ZodError } from "zod";
 import { useAppStore } from "../store";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function useTextAnalysis() {
   const text = useAppStore((state) => state.sidebar.selectedText);
@@ -24,9 +26,15 @@ export function useTextAnalysis() {
     staleTime: Infinity,
   });
 
+  const analysisError = query.error ? ApiError.fromUnknown(query.error) : null;
+
+  useEffect(() => {
+    if (analysisError)
+      toast.error(`Failed to analyze text: ${analysisError.message}`);
+  }, [analysisError]);
+
   return {
     analysisData: query.data ?? null,
-    analysisError: query.error ? ApiError.fromUnknown(query.error) : null,
     isLoadingText: query.isLoading,
   };
 }

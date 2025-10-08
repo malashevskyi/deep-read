@@ -1,5 +1,4 @@
 import { useAppStore } from "../../../store";
-import { ErrorDisplay } from "../../ui/ErrorDisplay";
 import HighlightText from "../../ui/HighlightText";
 import { AudioPlayer } from "../../ui/AudioPlayer";
 import { Button } from "../../ui/Button";
@@ -15,9 +14,9 @@ export const Sidebar = () => {
 
   const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
 
-  const { analysisData, analysisError, isLoadingText } = useTextAnalysis();
+  const { analysisData, isLoadingText } = useTextAnalysis();
 
-  const { saveWord, isSaving, saveError } = useSaveToDictionary();
+  const { saveWord, isSaving } = useSaveToDictionary();
 
   const handleSaveClick = () => {
     if (analysisData) {
@@ -54,16 +53,6 @@ export const Sidebar = () => {
             <p>
               <em>Loading analysis...</em>
             </p>
-          )}
-          <ErrorDisplay error={saveError || analysisError || audioError} />
-
-          {isLoadingAudio && (
-            <span className="text-xs">generating audio...</span>
-          )}
-          {audioUrl && (
-            <div className="mb-4">
-              <AudioPlayer url={audioUrl} />
-            </div>
           )}
 
           {analysisData && (
