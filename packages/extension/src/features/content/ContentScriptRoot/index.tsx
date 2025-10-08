@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { Sidebar } from "../../../components/Layout/Sidebar";
 import { useAppStore } from "../../../store";
 import { getWordOrPhraseContextForSelection } from "./utils/getWordOrPhraseContextForSelection";
@@ -34,36 +34,6 @@ const ContentScriptRoot: React.FC = () => {
     (state) => state.sidebar.selectedText,
   );
   const [currentRange, setCurrentRange] = React.useState<Range | null>(null);
-
-  useLayoutEffect(() => {
-    let mounted = true;
-
-    setTimeout(() => {
-      if (!mounted) return;
-      const selection = window.getSelection();
-      if (!selection || selection.rangeCount === 0) return;
-
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-
-      const isVisibleOnScreen =
-        rect.top >= 0 && rect.bottom <= window.innerHeight;
-
-      if (!isVisibleOnScreen) {
-        requestAnimationFrame(() => {
-          const element = range.startContainer.parentElement;
-          element?.scrollIntoView({
-            behavior: "instant",
-            block: "start",
-          });
-        });
-      }
-    }, 200);
-
-    return () => {
-      mounted = false;
-    };
-  }, [isSidebarVisible]);
 
   useEffect(() => {
     if (selectedTextFromStore) {

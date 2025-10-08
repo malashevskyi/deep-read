@@ -6,12 +6,6 @@
 export const PHRASE_OR_WORD_LENGTH_THRESHOLD = 5;
 
 /**
- * The MINIMUM number of characters required for a context to be considered sufficient
- * for AI analysis. Approximately the length of one decent sentence.
- */
-export const MIN_CONTEXT_LENGTH = 80;
-
-/**
  * The MAXIMUM number of characters for a context. This prevents sending overly large
  * and expensive payloads to the API. Approximately 3-4 sentences.
  */

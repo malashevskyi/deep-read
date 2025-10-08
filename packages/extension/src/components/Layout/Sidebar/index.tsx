@@ -6,11 +6,14 @@ import { Button } from "../../ui/Button";
 import { useSaveToDictionary } from "../../../hooks/useSaveToDictionary";
 import { useAudioGeneration } from "../../../hooks/useAudioGeneration";
 import { useTextAnalysis } from "../../../hooks/useTextAnalysis";
+import { useHoverScrollLock } from "../../../hooks/useHoverScrollLock";
 
 export const Sidebar = () => {
   const selectedText = useAppStore((state) => state.sidebar.selectedText);
   const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
+
+  const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
 
   const { analysisData, analysisError, isLoadingText } = useTextAnalysis(
     selectedText,
@@ -31,7 +34,13 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="fixed top-0 right-0 h-full w-[350px] ...">
+    <div
+      className="fixed bottom-0 left-0 right-0 w-full bg-white border-t-3 border-solid border-gray-400 shadow-[-2px_0_8px_rgba(0,0,0,0.1)] z-[2147483647] flex flex-col font-sans text-gray-800"
+      style={{
+        height: "clamp(400px, 33vh, 100vh)",
+      }}
+      ref={scrollLockRef}
+    >
       <div className="flex justify-between items-center p-4 ...">
         <h3 className="m-0 text-base font-semibold">DeepRead AI</h3>
         <Button onClick={closeSidebar} className="...">
@@ -90,7 +99,6 @@ export const Sidebar = () => {
             <Button onClick={handleSaveClick} disabled={isSaving}>
               {isSaving ? "Saving..." : "Save to Dictionary"}
             </Button>
-            <ErrorDisplay error={saveError} />
           </div>
         </div>
       </div>
