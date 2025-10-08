@@ -10,6 +10,7 @@ import getTypeOrmConfig from './shared/configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AudioRecordsModule } from './audio-records/audio-records.module';
 import { DictionaryEntriesModule } from './dictionary-entries/dictionary-entries.module';
+import { DictionaryExamplesModule } from './dictionary-examples/dictionary-examples.module';
 import ormConfig from './shared/configs/orm.config';
 
 @Module({
@@ -36,6 +37,7 @@ import ormConfig from './shared/configs/orm.config';
     TtsModule,
     AudioRecordsModule,
     DictionaryEntriesModule,
+    DictionaryExamplesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
