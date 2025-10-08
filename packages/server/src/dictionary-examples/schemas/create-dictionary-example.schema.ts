@@ -10,7 +10,3 @@ export const CreateDictionaryExampleSchema = z.object({
     .min(1, 'Accent transcription cannot be empty.'),
   dictionaryEntryId: z.uuid('Must be a valid UUID.'),
 });
-
-export type CreateDictionaryExampleDto = z.infer<
-  typeof CreateDictionaryExampleSchema
->;

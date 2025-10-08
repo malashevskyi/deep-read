@@ -1,19 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UsePipes } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { AudioRecordsService } from '../audio-records/audio-records.service';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
-import {
-  FindOrCreateDictionaryEntryResponseDto,
-  FindOrCreateDictionaryEntryResponseSchema,
-} from './dto/create-dictionary-entry.response.dto';
+import { FindOrCreateDictionaryEntryResponseDto } from './dto/create-dictionary-entry.response.dto';
+import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
+import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
+import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
+import FindOrCreateDictionaryEntryResponseSchema from './schemas/find-or-create-dictionary-entry.response.schema';
+import { CreateEntryWithExampleResponseDto } from './dto/create-entry-with-example.response.dto';
+import { ErrorService } from '@/errors/errors.service';
+import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
+import CreateDictionaryEntryWithExampleResponseSchema from './schemas/create-dictionary-entry-with-example.response.schema';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Injectable()
+@UsePipes(ZodValidationPipe)
 export class DictionaryEntriesService {
   constructor(
     @InjectRepository(DictionaryEntry)
     private readonly dictionaryEntriesRepository: Repository<DictionaryEntry>,
     private readonly audioRecordsService: AudioRecordsService,
+    private readonly dataSource: DataSource,
+    private readonly errorService: ErrorService,
   ) {}
 
   /**
@@ -48,6 +57,93 @@ export class DictionaryEntriesService {
     return FindOrCreateDictionaryEntryResponseSchema.parse({
       ...existingEntry,
       audioRecords: [audioRecord.audioUrl],
+    });
+  }
+
+  /**
+   * Orchestrates the creation of a dictionary entry with its first example
+   * and links it to an existing audio record within a single transaction.
+   * @param dto {@link CreateEntryWithExampleDto}
+   * @returns The newly created entry with its relations.
+   */
+  async createWithExample(
+    dto: CreateEntryWithExampleDto,
+  ): Promise<CreateEntryWithExampleResponseDto> {
+    const entryWithRelations = await this.dataSource.transaction(
+      async (manager) => {
+        const { text, transcription, example } = dto;
+
+        const audioRecord =
+          await this.audioRecordsService.findOneByIdOrThrow(text);
+
+        let entry = await manager.findOne(DictionaryEntry, { where: { text } });
+        if (!entry) {
+          const newEntry = manager.create(DictionaryEntry, {
+            text,
+            transcription,
+          });
+          entry = await manager.save(newEntry);
+        }
+
+        await manager.update(
+          AudioRecord,
+          { id: audioRecord.id },
+          { dictionaryEntryId: entry.id },
+        );
+
+        let exampleEntity = await manager.findOne(DictionaryExample, {
+          where: {
+            example: example.example,
+            accent: example.accent,
+          },
+        });
+
+        if (!exampleEntity) {
+          const newExample = manager.create(DictionaryExample, {
+            ...example,
+            dictionaryEntryId: entry.id,
+          });
+          exampleEntity = await manager.save(newExample);
+        }
+
+        return manager.findOne(DictionaryEntry, {
+          where: { id: entry.id },
+          relations: {
+            audioRecords: true,
+            examples: true,
+          },
+          order: {
+            examples: {
+              createdAt: 'DESC',
+            },
+          },
+        });
+      },
+    );
+
+    if (!entryWithRelations) {
+      this.errorService.handle(
+        AppErrorCode.UNKNOWN_ERROR,
+        'Failed to retrieve entry after transaction.',
+        null,
+      );
+    }
+
+    const translations = new Set(
+      entryWithRelations.examples.map((ex) => ex.accentTranslation),
+    );
+    const aggregatedTranslation = Array.from(translations).join(', ');
+
+    return CreateDictionaryEntryWithExampleResponseSchema.parse({
+      id: entryWithRelations.id,
+      text: entryWithRelations.text,
+      transcription: entryWithRelations.transcription,
+      pronounceVideoLinks: entryWithRelations.pronounceVideoLinks,
+      createdAt: entryWithRelations.createdAt,
+      updatedAt: entryWithRelations.updatedAt,
+      audioRecords: entryWithRelations.audioRecords.map((ar) => ar.audioUrl),
+      examples: entryWithRelations.examples,
+      translation: aggregatedTranslation,
     });
   }
 }

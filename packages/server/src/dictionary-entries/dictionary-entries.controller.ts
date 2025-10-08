@@ -4,6 +4,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateDictionaryEntryDto } from './dto/create-dictionary-entry.dto';
 import { CreateDictionaryEntryDocs } from './decorators/create-dictionary-entry.docs.decorator';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { CreateWithExampleDocs } from './decorators/create-with-example.docs.decorator';
+import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
 
 @ApiTags('Dictionary')
 @Controller('dictionary')
@@ -20,5 +22,11 @@ export class DictionaryEntriesController {
       createDto.text,
       createDto.transcription,
     );
+  }
+
+  @Post('/with-example')
+  @CreateWithExampleDocs()
+  async createWithFirstExample(@Body() createDto: CreateEntryWithExampleDto) {
+    return this.dictionaryEntriesService.createWithExample(createDto);
   }
 }
