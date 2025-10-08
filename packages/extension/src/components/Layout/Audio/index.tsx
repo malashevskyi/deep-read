@@ -11,11 +11,7 @@ const Audio: React.FC<AudioProps> = ({ analysisData }) => {
     analysisData?.word.text,
   );
 
-  return (
-    <div className="mb-4">
-      <AudioPlayer url={audioUrl} isLoading={isLoadingAudio} />
-    </div>
-  );
+  return <AudioPlayer url={audioUrl} isLoading={isLoadingAudio} />;
 };
 
 export default Audio;

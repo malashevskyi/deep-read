@@ -24,7 +24,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   }, []);
 
   return (
-    <div className="relative w-8 h-8 flex items-center justify-center">
+    <div className="relative w-[44px] h-[44px] flex items-center justify-center">
       {isLoading && (
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
           <div className="w-[44px] h-[44px] border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
