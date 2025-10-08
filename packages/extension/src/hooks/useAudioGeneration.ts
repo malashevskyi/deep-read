@@ -10,7 +10,10 @@ import { ApiError } from "../services/ApiError";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
-export function useAudioGeneration(text: string | undefined) {
+export function useAudioGeneration(text: string | undefined): {
+  audioUrl: string | undefined;
+  isLoadingAudio: boolean;
+} {
   const query = useQuery<GenerateAudioResponse, AxiosError | ZodError>({
     queryKey: ["audio", text],
     queryFn: async () => {

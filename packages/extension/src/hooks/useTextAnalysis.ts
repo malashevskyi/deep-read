@@ -11,7 +11,10 @@ import { useAppStore } from "../store";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-export function useTextAnalysis() {
+export function useTextAnalysis(): {
+  analysisData: AnalysisResponse | null;
+  isLoadingText: boolean;
+} {
   const text = useAppStore((state) => state.sidebar.selectedText);
   const context = useAppStore((state) => state.sidebar.context);
 

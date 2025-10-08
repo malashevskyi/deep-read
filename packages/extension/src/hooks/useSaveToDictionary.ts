@@ -10,7 +10,10 @@ import type { ZodError } from "zod";
 import type { AxiosError } from "axios";
 import { useEffect } from "react";
 
-export function useSaveToDictionary() {
+export function useSaveToDictionary(): {
+  saveWord: (args: { text: string; transcription: string }) => void;
+  isSaving: boolean;
+} {
   const mutation = useMutation<
     SaveToDictionaryResponse,
     AxiosError | ZodError,
