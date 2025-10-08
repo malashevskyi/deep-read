@@ -15,9 +15,7 @@ export class DictionaryEntriesController {
 
   @Post()
   @CreateDictionaryEntryDocs()
-  async createOrGetDictionaryEntry(
-    @Body() createDto: CreateDictionaryEntryDto,
-  ) {
+  async createDictionaryEntry(@Body() createDto: CreateDictionaryEntryDto) {
     return this.dictionaryEntriesService.findOrCreate(
       createDto.text,
       createDto.transcription,
