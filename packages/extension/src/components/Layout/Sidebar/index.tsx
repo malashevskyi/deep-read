@@ -1,10 +1,6 @@
-import { useAppStore } from "../../../store";
-import HighlightText from "../../ui/HighlightText";
-import { Button } from "../../ui/Button";
-import { useSaveToDictionary } from "../../../hooks/useSaveToDictionary";
-import { useTextAnalysis } from "../../../hooks/useTextAnalysis";
 import { useHoverScrollLock } from "../../../hooks/useHoverScrollLock";
-import Audio from "../Audio";
+import { useAppStore } from "../../../store";
+import Analysis from "../Analysis";
 
 export const Sidebar = () => {
   const selectionContext = useAppStore((state) => state.sidebar.context);
@@ -12,33 +8,21 @@ export const Sidebar = () => {
 
   const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
 
-  const { analysisData, isLoadingText } = useTextAnalysis();
-
-  const { saveWord, isSaving } = useSaveToDictionary();
-
-  const handleSaveClick = () => {
-    if (analysisData) {
-      saveWord({
-        text: analysisData.word.text,
-        transcription: analysisData.word.transcription,
-      });
-    }
-  };
-
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 w-full bg-white border-t-3 border-solid border-gray-400 shadow-[-2px_0_8px_rgba(0,0,0,0.1)] z-[2147483647] flex flex-col font-sans text-gray-800"
+      className="fixed bottom-0 left-0 right-0 w-full bg-white border-t-3 border-solid border-gray-400 shadow-[-2px_0_8px_rgba(0,0,0,0.1)] z-[99999999] flex flex-col font-sans text-gray-800"
       style={{
         height: "clamp(400px, 33vh, 100vh)",
       }}
       ref={scrollLockRef}
     >
-      <div className="flex justify-between items-center p-4 ...">
-        <h3 className="m-0 text-base font-semibold">DeepRead AI</h3>
-        <Button onClick={closeSidebar} className="...">
-          &times;
-        </Button>
-      </div>
+      <button
+        onClick={closeSidebar}
+        className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+        aria-label="Close"
+      >
+        &times;
+      </button>
       <div className="p-4 overflow-y-auto flex-grow">
         <details className="mb-4 text-xs text-gray-500 cursor-pointer">
           <summary className="outline-none">Show Context</summary>
@@ -47,42 +31,7 @@ export const Sidebar = () => {
           </p>
         </details>
         <div className="mt-5">
-          <Audio analysisData={analysisData} />
-          {isLoadingText && (
-            <p>
-              <em>Loading analysis...</em>
-            </p>
-          )}
-
-          {analysisData && (
-            <>
-              <div className="flex flex-col space-y-2">
-                <span className="font-semibold text-lg">
-                  {analysisData.word.transcription}
-                </span>
-                <span className="font-semibold text-lg">
-                  {analysisData.word.translation}
-                </span>
-              </div>
-
-              <div>
-                <p className="mt-1 text-gray-700">
-                  <HighlightText
-                    text={analysisData.example.adaptedSentence}
-                    highlight={analysisData.word.text}
-                  />
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  <em>{analysisData.example.translation}</em>
-                </p>
-              </div>
-            </>
-          )}
-          <div className="mt-6 border-t border-gray-200 pt-4">
-            <Button onClick={handleSaveClick} disabled={isSaving}>
-              {isSaving ? "Saving..." : "Save to Dictionary"}
-            </Button>
-          </div>
+          <Analysis />
         </div>
       </div>
     </div>
