@@ -1,14 +1,12 @@
 import { useAppStore } from "../../../store";
 import HighlightText from "../../ui/HighlightText";
-import { AudioPlayer } from "../../ui/AudioPlayer";
 import { Button } from "../../ui/Button";
 import { useSaveToDictionary } from "../../../hooks/useSaveToDictionary";
-import { useAudioGeneration } from "../../../hooks/useAudioGeneration";
 import { useTextAnalysis } from "../../../hooks/useTextAnalysis";
 import { useHoverScrollLock } from "../../../hooks/useHoverScrollLock";
+import Audio from "../Audio";
 
 export const Sidebar = () => {
-  const selectedText = useAppStore((state) => state.sidebar.selectedText);
   const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
 
@@ -49,6 +47,7 @@ export const Sidebar = () => {
           </p>
         </details>
         <div className="mt-5">
+          <Audio analysisData={analysisData} />
           {isLoadingText && (
             <p>
               <em>Loading analysis...</em>

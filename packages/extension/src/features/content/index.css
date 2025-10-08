@@ -7,11 +7,16 @@ button {
   background-color: #f9f9f9;
   border-radius: 50%;
   padding: 12px;
+  transition: opacity 0.2s;
 }
 
 button.rhap_button-clear.rhap_main-controls-button.rhap_play-pause-button:focus,
 button.rhap_button-clear.rhap_main-controls-button.rhap_play-pause-button:focus-visible {
   outline: none;
+}
+
+.rhap_container.opacity-50 .rhap_main-controls-button {
+  cursor: not-allowed;
 }
 
 @import "tailwindcss";

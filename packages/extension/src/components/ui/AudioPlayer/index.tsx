@@ -5,12 +5,14 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import "react-h5-audio-player/lib/styles.css";
 
 interface AudioPlayerProps {
-  url: string;
+  url?: string;
+  isLoading: boolean;
   autoPlay?: boolean;
 }
 
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({
-  url,
+  url = "",
+  isLoading,
   autoPlay = false,
 }) => {
   const playerRef = useRef<ReactH5AudioPlayer>(null);
@@ -22,7 +24,12 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   }, []);
 
   return (
-    <div className="w-8 h-8">
+    <div className="relative w-8 h-8 flex items-center justify-center">
+      {isLoading && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
+          <div className="w-[44px] h-[44px] border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+      )}
       <ReactH5AudioPlayer
         ref={playerRef}
         src={url}
@@ -36,7 +43,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
           play: <FaPlay />,
           pause: <FaPause />,
         }}
-        className="bg-transparent shadow-none border-gray-600"
+        className={`bg-transparent shadow-none border-gray-600 ${
+          !url ? "opacity-50 pointer-events-none" : ""
+        }`}
         layout="stacked-reverse"
       />
     </div>
