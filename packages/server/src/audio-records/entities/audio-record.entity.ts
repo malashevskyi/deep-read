@@ -15,6 +15,7 @@ export class AudioRecord {
   @PrimaryColumn('text')
   id: string;
 
+  @Index({ unique: true })
   @Column({ name: 'audio_url', type: 'varchar' })
   audioUrl: string;
 
