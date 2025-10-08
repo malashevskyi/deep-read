@@ -2,26 +2,35 @@ import { AxiosError, isAxiosError } from "axios";
 import { safeGetNumber, safeGetString } from "../types/utils";
 import { captureError } from "../utils/sentry";
 import z from "zod";
+import { toast } from "sonner";
 
 export class ApiError extends Error {
   statusCode: number;
   errorCode: string;
   originalError: unknown;
+  clientMessage?: string;
 
   private constructor(
     message: string,
     statusCode: number,
     errorCode: string,
     originalError?: unknown,
+    clientMessage?: string,
   ) {
     super(message);
     this.name = "ApiError";
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.originalError = originalError;
+    this.clientMessage = clientMessage;
   }
 
-  static fromAxiosError(error: AxiosError): ApiError {
+  notify() {
+    toast.error(this.clientMessage ?? this.message);
+    return this;
+  }
+
+  static fromAxiosError(error: AxiosError, clientMessage?: string): ApiError {
     const statusCode = error.response?.status ?? 500;
     const data = error.response?.data;
 
@@ -37,10 +46,10 @@ export class ApiError extends Error {
       "Something went wrong with the request";
     const errorCode = safeGetString(data, "errorCode") ?? "axios_error";
 
-    return new ApiError(message, statusCode, errorCode, error);
+    return new ApiError(message, statusCode, errorCode, error, clientMessage);
   }
 
-  static fromZodError(error: z.ZodError): ApiError {
+  static fromZodError(error: z.ZodError, clientMessage?: string): ApiError {
     const issues: z.core.$ZodIssue[] = error.issues;
 
     const formatted = issues
@@ -52,18 +61,23 @@ export class ApiError extends Error {
       details: formatted,
     });
 
+    const defaultMessage = "Something went wrong!";
+
     return new ApiError(
-      "Something went wrong!",
+      defaultMessage,
       500,
       "invalid_response_schema",
       error,
+      clientMessage ?? defaultMessage,
     );
   }
 
-  static fromUnknown(error: unknown): ApiError {
+  static fromUnknown(error: unknown, clientMessage?: string): ApiError {
     if (error instanceof ApiError) return error;
-    if (isAxiosError(error)) return ApiError.fromAxiosError(error);
-    if (error instanceof z.ZodError) return ApiError.fromZodError(error);
+    if (isAxiosError(error))
+      return ApiError.fromAxiosError(error, clientMessage);
+    if (error instanceof z.ZodError)
+      return ApiError.fromZodError(error, clientMessage);
 
     const statusCode = safeGetNumber(error, "statusCode") ?? 500;
     const errorCode = safeGetString(error, "errorCode") ?? "unknown_error";
@@ -79,6 +93,7 @@ export class ApiError extends Error {
       statusCode,
       errorCode,
       error,
+      clientMessage,
     );
   }
 }
