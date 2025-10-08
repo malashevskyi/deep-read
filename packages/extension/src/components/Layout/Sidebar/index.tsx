@@ -1,11 +1,10 @@
 import { useHoverScrollLock } from "../../../hooks/useHoverScrollLock";
 import { useAppStore } from "../../../store";
+import ContextDetails from "../../ui/ContextDetails";
 import Analysis from "../Analysis";
 
 export const Sidebar = () => {
-  const selectionContext = useAppStore((state) => state.sidebar.context);
   const closeSidebar = useAppStore((state) => state.closeSidebar);
-
   const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
 
   return (
@@ -24,12 +23,7 @@ export const Sidebar = () => {
         &times;
       </button>
       <div className="p-4 overflow-y-auto flex-grow">
-        <details className="mb-4 text-xs text-gray-500 cursor-pointer">
-          <summary className="outline-none">Show Context</summary>
-          <p className="mt-2 p-2 bg-gray-50 border rounded-md italic">
-            {selectionContext}
-          </p>
-        </details>
+        <ContextDetails />
         <div className="mt-5">
           <Analysis />
         </div>
