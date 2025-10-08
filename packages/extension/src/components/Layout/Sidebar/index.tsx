@@ -5,7 +5,7 @@ import Analysis from "../Analysis";
 
 export const Sidebar = () => {
   const closeSidebar = useAppStore((state) => state.closeSidebar);
-  const scrollLockRef = useHoverScrollLock<HTMLDivElement>();
+  const { scrollLockRef, pageXOffset } = useHoverScrollLock<HTMLDivElement>();
 
   return (
     <div
@@ -17,12 +17,13 @@ export const Sidebar = () => {
     >
       <button
         onClick={closeSidebar}
-        className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+        style={{ right: `${30 - pageXOffset}px` }}
+        className="absolute top-4 z-10 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
         aria-label="Close"
       >
         &times;
       </button>
-      <div className="p-4 overflow-y-auto flex-grow">
+      <div className="p-4 px-20 overflow-y-auto flex-grow">
         <ContextDetails />
         <div className="mt-5">
           <Analysis />

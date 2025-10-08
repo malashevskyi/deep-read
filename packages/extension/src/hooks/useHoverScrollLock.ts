@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 /**
  * A custom hook that locks the body scroll when the mouse hovers over the element
@@ -7,7 +7,10 @@ import { useRef, useEffect } from "react";
  *
  * @returns A ref object to be attached to the target DOM element.
  */
-export function useHoverScrollLock<T extends HTMLElement>() {
+export function useHoverScrollLock<T extends HTMLElement>(): {
+  scrollLockRef: React.RefObject<T | null>;
+  pageXOffset: number;
+} {
   const ref = useRef<T | null>(null);
   const originalBodyStyles = useRef({
     overflow: "",
@@ -17,6 +20,8 @@ export function useHoverScrollLock<T extends HTMLElement>() {
   const getScrollbarWidth = () => {
     return window.innerWidth - document.documentElement.clientWidth;
   };
+
+  const [pageXOffset, setPageXOffset] = useState(0);
 
   const saveBodyStyles = () => {
     const bodyStyle = window.document.body.style;
@@ -30,20 +35,29 @@ export function useHoverScrollLock<T extends HTMLElement>() {
 
   const handleMouseEnter = () => {
     const bodyStyle = window.document.body.style;
+    const scrollbarWidth = getScrollbarWidth();
     saveBodyStyles();
 
-    bodyStyle.paddingRight = `${getScrollbarWidth()}px`;
+    if (ref.current) {
+      ref.current.style.width = `calc(100vw - ${scrollbarWidth}px)`;
+    }
+    bodyStyle.paddingRight = `${scrollbarWidth}px`;
     bodyStyle.overflow = "hidden";
+    setPageXOffset(scrollbarWidth);
   };
 
   const handleMouseLeave = () => resetBodyStyles();
 
   const resetBodyStyles = () => {
     const bodyStyle = window.document.body.style;
+    if (ref.current) {
+      ref.current.style.width = "100vw";
+    }
     if (originalBodyStyles.current.overflow !== undefined) {
       bodyStyle.overflow = originalBodyStyles.current.overflow;
       bodyStyle.paddingRight = originalBodyStyles.current.paddingRight;
     }
+    setPageXOffset(0);
   };
 
   useEffect(() => {
@@ -60,5 +74,5 @@ export function useHoverScrollLock<T extends HTMLElement>() {
     };
   }, [ref, handleMouseEnter, handleMouseLeave, resetBodyStyles]);
 
-  return ref;
+  return { scrollLockRef: ref, pageXOffset };
 }
