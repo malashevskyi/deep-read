@@ -1,4 +1,5 @@
 import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
+import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -28,6 +29,9 @@ export class DictionaryEntry {
     default: '{}',
   })
   pronounceVideoLinks: string[];
+
+  @OneToMany(() => DictionaryExample, (example) => example.dictionaryEntry)
+  examples: DictionaryExample[];
 
   @OneToMany(() => AudioRecord, (audio) => audio.dictionaryEntry)
   audioRecords: AudioRecord[];
