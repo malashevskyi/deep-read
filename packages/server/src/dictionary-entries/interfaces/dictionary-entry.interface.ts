@@ -2,6 +2,9 @@ import { AudioRecordType } from '@/audio-records/interfaces/audio-record.interfa
 import { DictionaryExampleType } from '@/dictionary-examples/interfaces/dictionary-example.interface';
 
 export interface DictionaryEntryType {
+  /**
+   * @format 'uuid'
+   */
   id: string;
   text: string;
   transcription: string;

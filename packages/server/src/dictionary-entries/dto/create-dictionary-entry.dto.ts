@@ -1,26 +1,16 @@
 import { createZodDto } from 'nestjs-zod';
-import { z } from 'zod';
-import { ApiProperty } from '@nestjs/swagger';
-
-export const CreateDictionaryEntrySchema = z
-  .object({
-    text: z.string().min(1, 'Text cannot be empty.'),
-    transcription: z.string(),
-  })
-  .strict();
+import {
+  TextProperty,
+  TranscriptionProperty,
+} from '../decorators/dictionary-entry-fields.decorators';
+import { createDictionaryEntrySchema } from '../schemas/create-dictionary-entry.schema';
 
 export class CreateDictionaryEntryDto extends createZodDto(
-  CreateDictionaryEntrySchema,
+  createDictionaryEntrySchema,
 ) {
-  @ApiProperty({
-    example: 'ubiquitous',
-    description: 'The word or phrase to save to the dictionary.',
-  })
+  @TextProperty()
   text: string;
 
-  @ApiProperty({
-    example: '[juːˈbɪkwɪtəs]',
-    description: 'Phonetic transcription of the word.',
-  })
+  @TranscriptionProperty()
   transcription: string;
 }

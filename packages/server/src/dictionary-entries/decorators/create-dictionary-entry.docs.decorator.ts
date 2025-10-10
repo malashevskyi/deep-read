@@ -1,6 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateDictionaryEntryDto } from '../dto/create-dictionary-entry.dto';
+import { FindOrCreateDictionaryEntryResponseDto } from '../dto/create-dictionary-entry.response.dto';
 
 export const CreateDictionaryEntryDocs = () => {
   return applyDecorators(
@@ -13,6 +14,7 @@ export const CreateDictionaryEntryDocs = () => {
     ApiResponse({
       status: HttpStatus.OK,
       description: 'The dictionary entry was successfully found.',
+      type: FindOrCreateDictionaryEntryResponseDto,
     }),
     ApiResponse({
       status: HttpStatus.CREATED,

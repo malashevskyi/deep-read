@@ -1,11 +1,13 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateEntryWithExampleDto } from '../dto/create-entry-with-example.dto';
+import { CreateEntryWithExampleResponseDto } from '../dto/create-entry-with-example.response.dto';
 
 export const CreateWithExampleDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Creates a dictionary entry with its first example.',
+      summary:
+        'Creates a dictionary entry (if not exist) with its first example or add a new example.',
       description:
         'Atomically finds/creates a dictionary entry, creates an example for it, and links it to an audio record.',
     }),
@@ -13,6 +15,7 @@ export const CreateWithExampleDocs = () => {
     ApiResponse({
       status: HttpStatus.CREATED,
       description: 'The entry and example were successfully created.',
+      type: CreateEntryWithExampleResponseDto,
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,

@@ -1,18 +1,19 @@
+import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
+import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
+import { GetDictionaryExampleResponseType } from '@/dictionary-examples/schemas/get-dictionary-example.response.schema';
+import { ErrorService } from '@/errors/errors.service';
+import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
 import { Injectable, UsePipes } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { DataSource, Repository } from 'typeorm';
 import { AudioRecordsService } from '../audio-records/audio-records.service';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
 import { FindOrCreateDictionaryEntryResponseDto } from './dto/create-dictionary-entry.response.dto';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
-import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
-import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
+import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
 import FindOrCreateDictionaryEntryResponseSchema from './schemas/find-or-create-dictionary-entry.response.schema';
-import { CreateEntryWithExampleResponseDto } from './dto/create-entry-with-example.response.dto';
-import { ErrorService } from '@/errors/errors.service';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
-import CreateDictionaryEntryWithExampleResponseSchema from './schemas/create-dictionary-entry-with-example.response.schema';
-import { ZodValidationPipe } from 'nestjs-zod';
+import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 
 @Injectable()
 @UsePipes(ZodValidationPipe)
@@ -34,7 +35,7 @@ export class DictionaryEntriesService {
   async findOrCreate(
     text: string,
     transcription: string,
-  ): Promise<FindOrCreateDictionaryEntryResponseDto> {
+  ): Promise<FindOrCreateDictionaryEntryResponseType> {
     let existingEntry = await this.dictionaryEntriesRepository.findOne({
       where: { text },
     });
@@ -68,8 +69,8 @@ export class DictionaryEntriesService {
    */
   async createWithExample(
     dto: CreateEntryWithExampleDto,
-  ): Promise<CreateEntryWithExampleResponseDto> {
-    const entryWithRelations = await this.dataSource.transaction(
+  ): Promise<CreateEntryWithExampleResponseType> {
+    const createdOrUpdateEntry = await this.dataSource.transaction(
       async (manager) => {
         const { text, transcription, example } = dto;
 
