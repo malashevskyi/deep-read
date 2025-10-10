@@ -13,7 +13,7 @@ import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-exam
 import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
 import { createDictionaryEntryWithExampleResponseSchema } from './schemas/create-dictionary-entry-with-example.response.schema';
-import FindOrCreateDictionaryEntryResponseSchema from './schemas/find-or-create-dictionary-entry.response.schema';
+import { findOrCreateDictionaryEntryResponseSchema } from './schemas/find-or-create-dictionary-entry.response.schema';
 import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from './schemas/get-dictionary-entry-with-examples-by-text.response.schema';
 import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 
@@ -57,7 +57,7 @@ export class DictionaryEntriesService {
       dictionaryEntryId: existingEntry.id,
     });
 
-    return FindOrCreateDictionaryEntryResponseSchema.parse({
+    return findOrCreateDictionaryEntryResponseSchema.parse({
       ...existingEntry,
       audioRecords: [audioRecord.audioUrl],
     });

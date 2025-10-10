@@ -5,11 +5,11 @@ import {
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import FindOrCreateDictionaryEntryResponseSchema from '../schemas/find-or-create-dictionary-entry.response.schema';
+import { findOrCreateDictionaryEntryResponseSchema } from '../schemas/find-or-create-dictionary-entry.response.schema';
 import z from 'zod';
 
 export class FindOrCreateDictionaryEntryResponseDto extends createZodDto(
-  FindOrCreateDictionaryEntryResponseSchema,
+  findOrCreateDictionaryEntryResponseSchema,
 ) {
   @TextProperty()
   text;
@@ -25,5 +25,5 @@ export class FindOrCreateDictionaryEntryResponseDto extends createZodDto(
 }
 
 export type FindOrCreateDictionaryEntryResponseType = z.infer<
-  typeof FindOrCreateDictionaryEntryResponseSchema
+  typeof findOrCreateDictionaryEntryResponseSchema
 >;

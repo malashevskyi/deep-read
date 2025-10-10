@@ -1,7 +1,7 @@
 import z from 'zod';
 import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
 
-export const FindOrCreateDictionaryEntryResponseSchema =
+export const findOrCreateDictionaryEntryResponseSchema =
   dictionaryEntryTypeSchema
     .pick({
       id: true,
@@ -14,5 +14,3 @@ export const FindOrCreateDictionaryEntryResponseSchema =
     .extend({
       audioRecords: z.array(z.url()),
     });
-
-export default FindOrCreateDictionaryEntryResponseSchema;
