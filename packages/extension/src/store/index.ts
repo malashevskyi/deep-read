@@ -13,6 +13,7 @@ export interface AppState {
 export interface AppActions {
   openSidebar: (selectedText: string, context: string) => void;
   closeSidebar: () => void;
+  setNormalizedText: (text: string) => void;
 }
 
 const initialState: AppState = {
@@ -20,6 +21,8 @@ const initialState: AppState = {
     isVisible: false,
     selectedText: "",
     context: "",
+  analysis: {
+    normalizedText: "",
   },
 };
 
@@ -36,4 +39,9 @@ export const useAppStore = create<AppState & AppActions>((set) => ({
     }),
 
   closeSidebar: () => set(initialState),
+  setNormalizedText: (text) => {
+    set((state) => ({
+      analysis: { ...state.analysis, normalizedText: text },
+    }));
+  },
 }));

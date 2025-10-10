@@ -8,8 +8,6 @@ import { ApiError } from "../services/ApiError";
 import type { AxiosError } from "axios";
 import type { ZodError } from "zod";
 import { useAppStore } from "../store";
-import { useEffect } from "react";
-import { toast } from "sonner";
 
 export function useTextAnalysis(): {
   analysisData: AnalysisResponse | null;
@@ -17,11 +15,14 @@ export function useTextAnalysis(): {
 } {
   const text = useAppStore((state) => state.sidebar.selectedText);
   const context = useAppStore((state) => state.sidebar.context);
+  const setNormalizedText = useAppStore((state) => state.setNormalizedText);
 
   const query = useQuery<AnalysisResponse, AxiosError | ZodError>({
     queryKey: ["analysis", text, context],
     queryFn: async () => {
+      setNormalizedText("");
       const res = await deepReadAPI.post("/ai/analyze", { text, context });
+      setNormalizedText(res.data.word.text);
       return AnalysisResponseSchema.parse(res.data);
     },
     enabled: !!text && !!context,
