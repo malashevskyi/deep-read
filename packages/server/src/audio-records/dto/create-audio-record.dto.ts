@@ -34,4 +34,4 @@ export class CreateAudioRecordDto extends createZodDto(
   storagePath: string;
 }
 
-export type CreateAudioRecord = z.infer<typeof CreateAudioRecordSchema>;
+export type CreateAudioRecordType = z.infer<typeof CreateAudioRecordSchema>;

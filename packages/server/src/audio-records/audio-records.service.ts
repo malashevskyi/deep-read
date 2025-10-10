@@ -5,10 +5,10 @@ import { AudioRecord } from './entities/audio-record.entity';
 import { CreateAudioRecordDto } from './dto/create-audio-record.dto';
 import { ErrorService } from '@/errors/errors.service';
 import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
-import { CreateAudioRecordSchema } from './schemas/create-audio-record.schema';
+import { createAudioRecordSchema } from './schemas/create-audio-record.schema';
 import {
-  UpdateAudioRecordDto,
-  UpdateAudioRecordSchema,
+  UpdateAudioRecordType,
+  updateAudioRecordSchema,
 } from './schemas/update-audio-record.schema';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class AudioRecordsService {
   /**
    * Creates a new audio record.
    * Throws a ConflictException if a record with the same ID already exists.
-   * @param recordData - The data for the new audio record.
+   * @param recordData {@link CreateAudioRecordDto} - The data for the new audio record.
    * @returns The newly created audio record entity.
    */
   async createAudioRecord(
@@ -41,7 +41,7 @@ export class AudioRecordsService {
   async updateAudioRecordDictionary({
     id,
     dictionaryEntryId,
-  }: UpdateAudioRecordDto): Promise<AudioRecord> {
+  }: UpdateAudioRecordType): Promise<AudioRecord> {
     const existingRecord = await this.audioRecordRepository.findOne({
       where: { id },
     });
@@ -68,17 +68,17 @@ export class AudioRecordsService {
    * @returns The created or updated audio record entity.
    */
   async createOrUpdateAudioRecord(
-    dto: CreateAudioRecordDto | UpdateAudioRecordDto,
+    dto: CreateAudioRecordDto | UpdateAudioRecordType,
   ): Promise<AudioRecord> {
     const existingRecord = await this.findOneById(dto.id);
 
     if (existingRecord) {
       return this.updateAudioRecordDictionary(
-        UpdateAudioRecordSchema.parse(dto),
+        updateAudioRecordSchema.parse(dto),
       );
     }
 
-    return this.createAudioRecord(CreateAudioRecordSchema.parse(dto));
+    return this.createAudioRecord(createAudioRecordSchema.parse(dto));
   }
 
   /**
@@ -109,7 +109,4 @@ export class AudioRecordsService {
 
     return record;
   }
-
-  // TODO: Add a method to update `dictionaryId`
-  // TODO: Add a method to remove old records
 }

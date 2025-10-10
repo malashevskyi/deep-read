@@ -2,10 +2,10 @@
 import { z } from 'zod';
 
 export const audioRecordTypeSchema = z.object({
-  id: z.string(),
-  audioUrl: z.string(),
-  storagePath: z.string(),
-  dictionaryEntryId: z.string().nullable(),
+  id: z.uuid(),
+  audioUrl: z.url().min(1, 'Audio URL cannot be empty'),
+  storagePath: z.string().min(1, 'Storage path cannot be empty'),
+  dictionaryEntryId: z.uuid().nullable(),
   audioUrlExpiresAt: z.iso.datetime().nullable(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
