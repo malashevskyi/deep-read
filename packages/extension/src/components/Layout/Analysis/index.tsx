@@ -10,13 +10,20 @@ interface AnalysisProps {}
 const Analysis: React.FC<AnalysisProps> = () => {
   const { analysisData, isLoadingText } = useTextAnalysis();
 
-  const { saveWord, isSaving } = useSaveToDictionary();
+  const { saveWordWithExample, isSaving } = useSaveToDictionary();
 
   const handleSaveClick = () => {
     if (analysisData) {
-      saveWord({
+      saveWordWithExample({
         text: analysisData.word.text,
         transcription: analysisData.word.transcription,
+        example: {
+          example: analysisData.example.adaptedSentence,
+          translation: analysisData.example.translation,
+          accent: analysisData.word.text,
+          accentTranslation: analysisData.word.translation,
+          accentTranscription: analysisData.word.transcription,
+        },
       });
     }
   };
