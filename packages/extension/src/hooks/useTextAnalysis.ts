@@ -29,12 +29,12 @@ export function useTextAnalysis(): {
     staleTime: Infinity,
   });
 
-  const analysisError = query.error ? ApiError.fromUnknown(query.error) : null;
-
-  useEffect(() => {
-    if (analysisError)
-      toast.error(`Failed to analyze text: ${analysisError.message}`);
-  }, [analysisError]);
+  if (query.error) {
+    ApiError.fromUnknown(
+      query.error,
+      "Failed to analyze the selected text.",
+    ).notify();
+  }
 
   return {
     analysisData: query.data ?? null,
