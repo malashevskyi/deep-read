@@ -1,9 +1,4 @@
-export interface UploadAudioResponse {
-  audioUrl: string;
-  storagePath: string;
-  expiresAt: string;
-}
-export type GenerateAudioResponse = Pick<UploadAudioResponse, 'audioUrl'>;
+import { UploadAudioResponse } from '../schemas/upload-audio.response.schema';
 
 export abstract class AudioStoragePort {
   abstract uploadAudio(

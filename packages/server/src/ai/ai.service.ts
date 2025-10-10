@@ -1,6 +1,6 @@
 import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AiAnalysisPort } from './ports/ai-analysis.port';
-import { AnalysisResponse } from './schemas/analyze-text.schema';
+import { AnalysisResponse } from './schemas/analyze-text.response.schema';
 
 @Injectable()
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { TextToSpeechPort } from './ports/tts.port';
-import {
-  AudioStoragePort,
-  GenerateAudioResponse,
-} from './ports/audio-storage.port';
+import { AudioStoragePort } from './ports/audio-storage.port';
 import { AudioRecordsService } from '@/audio-records/audio-records.service';
+import {
+  GenerateAudioResponse,
+  generateAudioResponseSchema,
+} from './schemas/generate-audio.response.schema';
 
 @Injectable()
 export class TtsService {
@@ -27,6 +28,6 @@ export class TtsService {
       audioUrlExpiresAt: expiresAt,
     });
 
-    return { audioUrl };
+    return generateAudioResponseSchema.parse({ audioUrl });
   }
 }

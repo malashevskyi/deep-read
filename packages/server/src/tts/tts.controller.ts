@@ -2,7 +2,7 @@ import { Controller, Post, Body, UsePipes } from '@nestjs/common';
 import { TtsService } from './tts.service';
 import { GenerateAudioDto } from './dto/generate-audio.dto';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { GenerateAudioResponse } from './ports/audio-storage.port';
+import { GenerateAudioResponse } from './schemas/generate-audio.response.schema';
 
 @Controller('tts')
 export class TtsController {

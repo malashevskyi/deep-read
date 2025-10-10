@@ -5,14 +5,12 @@ import { ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import { getStorage, Storage } from 'firebase-admin/storage';
-import {
-  AudioStoragePort,
-  UploadAudioResponse,
-} from '../ports/audio-storage.port';
+import { AudioStoragePort } from '../ports/audio-storage.port';
 import {
   GoogleCredentials,
   googleServiceAccountSchema,
 } from '../schemas/google-credentials.schema';
+import { UploadAudioResponse } from '../schemas/upload-audio.response.schema';
 
 const BUCKET_DIRECTORY = 'audio';
 

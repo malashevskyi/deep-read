@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const AnalysisResponseSchema = z.object({
+export const analysisResponseSchema = z.object({
   word: z.object({
     text: z.string(),
     transcription: z.string(),
@@ -12,4 +12,4 @@ export const AnalysisResponseSchema = z.object({
   }),
 });
 
-export type AnalysisResponse = z.infer<typeof AnalysisResponseSchema>;
+export type AnalysisResponse = z.infer<typeof analysisResponseSchema>;
