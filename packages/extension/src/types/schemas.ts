@@ -65,8 +65,14 @@ export type CreateDictionaryEntryWithExample = z.infer<
   typeof CreateDictionaryEntryWithExampleSchema
 >;
 
-export const WordHistorySchema = SaveToDictionaryResponseSchema.extend({
+export const WordHistorySchema = SaveToDictionarySchema.pick({
+  id: true,
+  text: true,
+  transcription: true,
+  pronounceVideoLinks: true,
+}).extend({
   translation: z.string(),
+  audioRecords: z.array(z.string()),
   examples: z.array(
     z.object({
       example: z.string(),
@@ -74,7 +80,6 @@ export const WordHistorySchema = SaveToDictionaryResponseSchema.extend({
       accent: z.string(),
       accentTranslation: z.string(),
       accentTranscription: z.string(),
-      dictionaryEntryId: z.string().uuid(),
     }),
   ),
 });

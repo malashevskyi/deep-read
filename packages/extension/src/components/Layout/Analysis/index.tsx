@@ -29,26 +29,20 @@ const Analysis: React.FC<AnalysisProps> = () => {
   };
 
   return (
-    <div>
-      <div className="flex items-center space-x-5">
-        <Audio analysisData={analysisData} />
-        {analysisData && (
-          <span className="font-semibold text-lg">
-            {analysisData.word.transcription}
-          </span>
-        )}
-      </div>
-
+    <>
       {isLoadingText && (
         <p className="my-4">
           <em>Loading analysis...</em>
         </p>
       )}
 
-      {analysisData && (
-        <div className="my-6 border-t border-gray-200 pt-4">
-          <div className="flex gap-4">
-            <div className="flex-shrink-0">
+      <div className="my-4">
+        <div className="flex gap-4">
+          <div className="flex-shrink-0 flex-col">
+            <div className="mb-3">
+              <Audio analysisData={analysisData} />
+            </div>
+            {analysisData && (
               <button
                 onClick={handleSaveClick}
                 disabled={isSaving}
@@ -56,17 +50,21 @@ const Analysis: React.FC<AnalysisProps> = () => {
                 title={isSaving ? "Saving..." : "Save to Dictionary"}
               >
                 {isSaving ? (
-                  <AiOutlineLoading3Quarters className="w-5 h-5 animate-spin" />
+                  <AiOutlineLoading3Quarters className="w-4 h-4 animate-spin" />
                 ) : (
-                  <FaRegBookmark className="w-5 h-5" />
+                  <FaRegBookmark className="w-4 h-4" />
                 )}
               </button>
-            </div>
-
+            )}
+          </div>
+          {analysisData && (
             <div className="flex-1 space-y-4">
               <div className="flex flex-col space-y-2">
                 <span className="font-semibold text-lg">
                   {analysisData.word.translation}
+                </span>
+                <span className="font-semibold text-lg">
+                  {analysisData.word.transcription}
                 </span>
               </div>
 
@@ -82,10 +80,10 @@ const Analysis: React.FC<AnalysisProps> = () => {
                 </p>
               </div>
             </div>
-          </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -2,16 +2,20 @@ import { useHoverScrollLock } from "../../../hooks/useHoverScrollLock";
 import { useAppStore } from "../../../store";
 import ContextDetails from "../../ui/ContextDetails";
 import Analysis from "../Analysis";
+import History from "../../ui/History";
 
 export const Sidebar = () => {
   const closeSidebar = useAppStore((state) => state.closeSidebar);
   const { scrollLockRef, pageXOffset } = useHoverScrollLock<HTMLDivElement>();
+  const viewMode = useAppStore((state) => state.sidebar.viewMode);
+
+  const isNewMode = viewMode === "new";
 
   return (
     <div
       className="fixed bottom-0 left-0 right-0 w-full bg-white border-t-3 border-solid border-gray-400 shadow-[-2px_0_8px_rgba(0,0,0,0.1)] z-[99999999] flex flex-col font-sans text-gray-800"
       style={{
-        height: "clamp(400px, 33vh, 100vh)",
+        height: "clamp(300px, 25vh, 100vh)",
       }}
       ref={scrollLockRef}
     >
@@ -23,11 +27,18 @@ export const Sidebar = () => {
       >
         &times;
       </button>
+
       <div className="p-4 px-20 overflow-y-auto flex-grow">
-        <ContextDetails />
-        <div className="mt-5">
-          <Analysis />
-        </div>
+        {isNewMode && (
+          <>
+            <ContextDetails />
+            <div className="mt-5">
+              <Analysis />
+            </div>
+            <hr />
+          </>
+        )}
+        <History />
       </div>
     </div>
   );
