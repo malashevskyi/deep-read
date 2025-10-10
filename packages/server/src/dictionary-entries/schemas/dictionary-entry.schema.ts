@@ -5,9 +5,9 @@ import { audioRecordTypeSchema } from './../../audio-records/schemas/audio-recor
 import { dictionaryExampleTypeSchema } from './../../dictionary-examples/schemas/dictionary-example.schema';
 
 export const dictionaryEntryTypeSchema = z.object({
-  id: z.string(),
-  text: z.string(),
-  transcription: z.string(),
+  id: z.uuid(),
+  text: z.string().min(1, 'Text is required'),
+  transcription: z.string().min(1, 'Transcription is required'),
   pronounceVideoLinks: z.array(z.string()),
   examples: z.array(dictionaryExampleTypeSchema),
   audioRecords: z.array(audioRecordTypeSchema),

@@ -6,7 +6,15 @@ export interface DictionaryEntryType {
    * @format 'uuid'
    */
   id: string;
+  /**
+   * @format 'string'
+   * @minLength 1 Text is required
+   */
   text: string;
+  /**
+   * @format 'ipa'
+   * @minLength 1 "Transcription is required"
+   */
   transcription: string;
   pronounceVideoLinks: string[];
   examples: DictionaryExampleType[];
