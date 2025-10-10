@@ -9,9 +9,10 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { AudioRecordType } from '../interfaces/audio-record.interface';
 
 @Entity('audio_records')
-export class AudioRecord {
+export class AudioRecord implements AudioRecordType {
   @PrimaryColumn('text')
   id: string;
 

@@ -9,9 +9,10 @@ import {
   Index,
   OneToMany,
 } from 'typeorm';
+import { DictionaryEntryType } from '../interfaces/dictionary-entry.interface';
 
 @Entity('dictionary_entries')
-export class DictionaryEntry {
+export class DictionaryEntry implements DictionaryEntryType {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

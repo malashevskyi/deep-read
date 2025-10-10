@@ -9,10 +9,11 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
+import { DictionaryExampleType } from '../interfaces/dictionary-example.interface';
 
 @Entity('dictionary_examples')
 @Index(['example', 'accent'], { unique: true })
-export class DictionaryExample {
+export class DictionaryExample implements DictionaryExampleType {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
