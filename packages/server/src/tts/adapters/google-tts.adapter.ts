@@ -4,6 +4,7 @@ import { TextToSpeechClient } from '@google-cloud/text-to-speech';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TextToSpeechPort } from '../ports/tts.port';
+import { googleServiceAccountSchema } from '../schemas/google-credentials.schema';
 
 const AUDIO_ENCODING = 'MP3' as const;
 
@@ -31,7 +32,9 @@ export class GoogleTtsAdapter implements OnModuleInit, TextToSpeechPort {
     if (!credentialsJson) {
       throw new Error('GOOGLE_CREDENTIALS_JSON is not configured.');
     }
-    const credentials = JSON.parse(credentialsJson);
+    const credentials = googleServiceAccountSchema.parse(
+      JSON.parse(credentialsJson),
+    );
 
     this.ttsClient = new TextToSpeechClient({ credentials });
   }

@@ -9,13 +9,19 @@ import {
   AudioStoragePort,
   UploadAudioResponse,
 } from '../ports/audio-storage.port';
+import {
+  GoogleCredentials,
+  googleServiceAccountSchema,
+} from '../schemas/google-credentials.schema';
 
 const BUCKET_DIRECTORY = 'audio';
 
-const getFirebaseCredentials = (serviceAccountString: string) => {
+const getFirebaseCredentials = (
+  serviceAccountString: string,
+): GoogleCredentials => {
   try {
-    return JSON.parse(serviceAccountString);
-  } catch (error) {
+    return googleServiceAccountSchema.parse(JSON.parse(serviceAccountString));
+  } catch {
     throw new Error('Invalid FIREBASE_SERVICE_ACCOUNT_KEY_JSON format.');
   }
 };
@@ -41,8 +47,7 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
       );
       const projectName = this.configService.getOrThrow<string>('PROJECT_NAME');
 
-      let credentials: admin.ServiceAccount =
-        getFirebaseCredentials(serviceAccountJson);
+      const credentials = getFirebaseCredentials(serviceAccountJson);
 
       this.bucketName = bucketName;
 
@@ -56,7 +61,13 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
       } else {
         app = admin.initializeApp(
           {
-            credential: admin.credential.cert(credentials),
+            credential: admin.credential.cert(
+              /**
+               * The admin.credential.cert() expects the strict 'admin.ServiceAccount' type.
+               * However, the actual data we have is the raw Google Service Account JSON object
+               */
+              credentials as unknown as admin.ServiceAccount,
+            ),
             storageBucket: this.bucketName,
           },
           projectName,
@@ -106,7 +117,11 @@ export class FirebaseStorageAdapter implements OnModuleInit, AudioStoragePort {
 
       this.logger.log(`Successfully uploaded file: ${storagePath}`);
 
-      return { audioUrl, storagePath, expiresAt: oneMonthFromNow };
+      return {
+        audioUrl,
+        storagePath,
+        expiresAt: oneMonthFromNow.toISOString(),
+      };
     } catch (error) {
       this.errorService.handle(
         AppErrorCode.AUDIO_UPLOAD_FAILED,
