@@ -8,13 +8,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { DataSource, Repository } from 'typeorm';
 import { AudioRecordsService } from '../audio-records/audio-records.service';
-import { DictionaryEntry } from './entities/dictionary-entry.entity';
-import { FindOrCreateDictionaryEntryResponseDto } from './dto/create-dictionary-entry.response.dto';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
 import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
+import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
 import { createDictionaryEntryWithExampleResponseSchema } from './schemas/create-dictionary-entry-with-example.response.schema';
 import FindOrCreateDictionaryEntryResponseSchema from './schemas/find-or-create-dictionary-entry.response.schema';
+import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from './schemas/get-dictionary-entry-with-examples-by-text.response.schema';
 import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 
 @Injectable()
@@ -125,6 +125,73 @@ export class DictionaryEntriesService {
       text: createdOrUpdateEntry.text,
     });
   }
+
+  /**
+   * Finds a single dictionary entry by its text and formats it for the client.
+   * @param text - The text of the word or phrase to find.
+   * @returns {@link GetEntryWithExamplesByTextResponseType} The formatted dictionary entry with all relations.
+   */
+  async getEntryWithExamplesByText(
+    text: string,
+  ): Promise<GetEntryWithExamplesByTextResponseType | null> {
+    const entry = await this.dictionaryEntriesRepository.findOne({
+      where: { text },
+      relations: {
+        examples: true,
+        audioRecords: true,
+      },
+      order: {
+        examples: {
+          createdAt: 'DESC',
+        },
+      },
+      select: {
+        id: true,
+        text: true,
+        transcription: true,
+        pronounceVideoLinks: true,
+        examples: {
+          id: true,
+          example: true,
+          translation: true,
+          accent: true,
+          accentTranslation: true,
+          accentTranscription: true,
+          createdAt: true, // needed for sorting
+        },
+        audioRecords: {
+          audioUrl: true,
+        },
+      },
+    });
+
+    if (!entry) return null;
+
+    const exampleTranslations = new Set(
+      entry.examples.map((ex) => ex.accentTranslation),
+    );
+    const translation = Array.from(exampleTranslations).join(', ');
+
+    const examples: GetDictionaryExampleResponseType[] = entry.examples.map(
+      (ex) => ({
+        example: ex.example,
+        translation: ex.translation,
+        accent: ex.accent,
+        accentTranslation: ex.accentTranslation,
+        accentTranscription: ex.accentTranscription,
+      }),
+    );
+
+    const audioRecords: string[] = entry.audioRecords.map((ar) => ar.audioUrl);
+
+    return getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse({
+      id: entry.id,
+      text: entry.text,
+      transcription: entry.transcription,
+      pronounceVideoLinks: entry.pronounceVideoLinks,
+      audioRecords,
+      examples,
+      translation,
     });
   }
 }

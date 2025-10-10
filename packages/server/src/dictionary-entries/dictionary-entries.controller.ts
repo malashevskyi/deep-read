@@ -8,6 +8,8 @@ import { CreateDictionaryEntryDto } from './dto/create-dictionary-entry.dto';
 import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
 import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
+import { GetDictionaryEntryDocs } from './decorators/get-dictionary-entry.docs.decorator';
+import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
 
 @ApiTags('Dictionary')
 @Controller('dictionary')
@@ -34,5 +36,13 @@ export class DictionaryEntriesController {
     @Body() createDto: CreateEntryWithExampleDto,
   ): Promise<CreateEntryWithExampleResponseType> {
     return this.dictionaryEntriesService.createWithExample(createDto);
+  }
+
+  @Get(':text')
+  @GetDictionaryEntryDocs()
+  async getEntryWithExamples(
+    @Param('text') text: string,
+  ): Promise<GetEntryWithExamplesByTextResponseType | null> {
+    return this.dictionaryEntriesService.getEntryWithExamplesByText(text);
   }
 }
