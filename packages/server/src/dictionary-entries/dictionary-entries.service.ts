@@ -12,6 +12,8 @@ import { DictionaryEntry } from './entities/dictionary-entry.entity';
 import { FindOrCreateDictionaryEntryResponseDto } from './dto/create-dictionary-entry.response.dto';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
 import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
+import { DictionaryEntry } from './entities/dictionary-entry.entity';
+import { createDictionaryEntryWithExampleResponseSchema } from './schemas/create-dictionary-entry-with-example.response.schema';
 import FindOrCreateDictionaryEntryResponseSchema from './schemas/find-or-create-dictionary-entry.response.schema';
 import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 
@@ -107,22 +109,11 @@ export class DictionaryEntriesService {
           exampleEntity = await manager.save(newExample);
         }
 
-        return manager.findOne(DictionaryEntry, {
-          where: { id: entry.id },
-          relations: {
-            audioRecords: true,
-            examples: true,
-          },
-          order: {
-            examples: {
-              createdAt: 'DESC',
-            },
-          },
-        });
+        return entry;
       },
     );
 
-    if (!entryWithRelations) {
+    if (!createdOrUpdateEntry) {
       this.errorService.handle(
         AppErrorCode.UNKNOWN_ERROR,
         'Failed to retrieve entry after transaction.',
@@ -130,21 +121,10 @@ export class DictionaryEntriesService {
       );
     }
 
-    const translations = new Set(
-      entryWithRelations.examples.map((ex) => ex.accentTranslation),
-    );
-    const aggregatedTranslation = Array.from(translations).join(', ');
-
-    return CreateDictionaryEntryWithExampleResponseSchema.parse({
-      id: entryWithRelations.id,
-      text: entryWithRelations.text,
-      transcription: entryWithRelations.transcription,
-      pronounceVideoLinks: entryWithRelations.pronounceVideoLinks,
-      createdAt: entryWithRelations.createdAt,
-      updatedAt: entryWithRelations.updatedAt,
-      audioRecords: entryWithRelations.audioRecords.map((ar) => ar.audioUrl),
-      examples: entryWithRelations.examples,
-      translation: aggregatedTranslation,
+    return createDictionaryEntryWithExampleResponseSchema.parse({
+      text: createdOrUpdateEntry.text,
+    });
+  }
     });
   }
 }
