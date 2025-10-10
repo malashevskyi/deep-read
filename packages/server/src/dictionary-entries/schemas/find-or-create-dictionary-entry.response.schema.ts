@@ -6,8 +6,8 @@ export const FindOrCreateDictionaryEntryResponseSchema = z.object({
   transcription: z.string(),
   audioRecords: z.array(z.string().url()),
   pronounceVideoLinks: z.array(z.string()),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.iso.date(),
+  updatedAt: z.iso.date(),
 });
 
 export default FindOrCreateDictionaryEntryResponseSchema;

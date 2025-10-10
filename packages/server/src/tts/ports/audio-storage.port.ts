@@ -1,7 +1,7 @@
 export interface UploadAudioResponse {
   audioUrl: string;
   storagePath: string;
-  expiresAt: Date;
+  expiresAt: string;
 }
 export type GenerateAudioResponse = Pick<UploadAudioResponse, 'audioUrl'>;
 

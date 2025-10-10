@@ -33,11 +33,11 @@ export class AudioRecord {
   dictionaryEntry: DictionaryEntry;
 
   @Column({ name: 'audio_url_expires_at', type: 'timestamptz', nullable: true })
-  audioUrlExpiresAt: Date;
+  audioUrlExpiresAt: string | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt: Date;
+  createdAt: string;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt: Date;
+  updatedAt: string;
 }

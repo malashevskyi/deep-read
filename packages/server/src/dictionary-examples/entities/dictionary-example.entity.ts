@@ -42,8 +42,8 @@ export class DictionaryExample {
   dictionaryEntry: DictionaryEntry;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
-  createdAt: Date;
+  createdAt: string;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
-  updatedAt: Date;
+  updatedAt: string;
 }
