@@ -13,7 +13,16 @@ const OpenAIPrompt = `You are an advanced language analysis tool. Your task is t
 Respond ONLY with a valid JSON object in the following format:
 {
   "normalizedText": "string",
-        // The text in its correct, dictionary form. If the original text is capitalized because it's at the start of a sentence but is not a proper noun or it is just an author style, convert it to lowercase. If it's a proper noun (like a name, brand, or month), keep the capitalization.
+        //  "The text in its correct, base dictionary form. Your primary goal is to provide the dictionary lookup form of the word.
+RULE 1: Default to lowercase. For regular words that are capitalized only because they start a sentence or for stylistic reasons, you MUST convert them to lowercase.
+RULE 2: Preserve capitalization ONLY if it is semantically critical. This applies to: a) Universally recognized proper nouns that are ALWAYS capitalized (e.g., 'January', 'Google', 'London'). b) Words where capitalization changes the meaning (e.g., 'May' the month vs. 'may' the verb). Use the provided context to determine if the capitalization is critical.
+EXAMPLES of correct behavior:
+Input: 'Police' (at start of sentence) -> Output: 'police'
+Input: 'Republic' (in 'Republic of Moldova') -> Output: 'republic'
+Input: 'Republic of Moldova' -> Output: 'Republic of Moldova'
+Input: 'May' (in 'May I help you?') -> Output: 'may'
+Input: 'May' (in 'the month of May') -> Output: 'May'
+Input: 'GOOGLE' (stylistic) -> Output: 'Google'",
         // Never change the tense of the word!
   "transcription": "string",
         // The phonetic transcription of the normalized text, e.g., |səˈvɪr| |skwiːld| |dɪˈlaɪt| |dʌɡ| |ˈdiːpər| |ˈstɑːmpt| |ˈdʒəʊltɪd| |kənˈfjuːzd| |ˈskwɜːrəl| - these are correct patterns, the transcription must starts with | sign and must ends with | signs. Not \\ sign!!! Not / sign!!!.
