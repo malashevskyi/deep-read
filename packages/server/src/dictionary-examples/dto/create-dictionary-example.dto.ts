@@ -1,44 +1,32 @@
 import { createZodDto } from 'nestjs-zod';
-import { ApiProperty } from '@nestjs/swagger';
-import { CreateDictionaryExampleSchema } from '../schemas/create-dictionary-example.schema';
+import { createDictionaryExampleSchema } from '../schemas/create-dictionary-example.schema';
+import {
+  AccentProperty,
+  AccentTranscriptionProperty,
+  AccentTranslationProperty,
+  DictionaryEntryIdProperty,
+  ExampleProperty,
+  TranslationProperty,
+} from '../decorators/dictionary-example-fields.decorators';
 
 export class CreateDictionaryExampleDto extends createZodDto(
-  CreateDictionaryExampleSchema,
+  createDictionaryExampleSchema,
 ) {
-  @ApiProperty({
-    example: 'The internet has become ubiquitous in modern life.',
-    description: 'The full example sentence in English.',
-  })
+  @ExampleProperty()
   example: string;
 
-  @ApiProperty({
-    example: 'Інтернет став повсюдним у сучасному житті.',
-    description: 'The Ukrainian translation of the example sentence.',
-  })
+  @TranslationProperty()
   translation: string;
 
-  @ApiProperty({
-    example: 'ubiquitous',
-    description: 'The specific word/phrase that is being exemplified.',
-  })
+  @AccentProperty()
   accent: string;
 
-  @ApiProperty({
-    example: 'повсюдний',
-    description: 'The Ukrainian translation of the accent.',
-  })
+  @AccentTranslationProperty()
   accentTranslation: string;
 
-  @ApiProperty({
-    example: '[juːˈbɪkwɪtəs]',
-    description: 'Phonetic transcription of the accent.',
-  })
+  @AccentTranscriptionProperty()
   accentTranscription: string;
 
-  @ApiProperty({
-    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    description:
-      'The ID of the dictionary entry to which this example belongs.',
-  })
+  @DictionaryEntryIdProperty()
   dictionaryEntryId: string;
 }

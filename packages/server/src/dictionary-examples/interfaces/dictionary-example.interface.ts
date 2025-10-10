@@ -1,4 +1,7 @@
 export interface DictionaryExampleType {
+  /**
+   * @format 'uuid'
+   */
   id: string;
   example: string;
   translation: string;

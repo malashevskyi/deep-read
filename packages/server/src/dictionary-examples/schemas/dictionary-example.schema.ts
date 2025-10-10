@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 export const dictionaryExampleTypeSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   example: z.string(),
   translation: z.string(),
   accent: z.string(),

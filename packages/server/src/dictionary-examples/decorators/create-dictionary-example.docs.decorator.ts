@@ -1,6 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateDictionaryExampleDto } from '../dto/create-dictionary-example.dto';
+import { DictionaryExample } from '../entities/dictionary-example.entity';
 
 export const CreateDictionaryExampleDocs = () => {
   return applyDecorators(
@@ -13,6 +14,7 @@ export const CreateDictionaryExampleDocs = () => {
     ApiResponse({
       status: HttpStatus.CREATED,
       description: 'The example was successfully created.',
+      type: DictionaryExample,
     }),
     ApiResponse({
       status: HttpStatus.CONFLICT,
