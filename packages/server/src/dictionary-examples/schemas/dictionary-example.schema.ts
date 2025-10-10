@@ -3,12 +3,12 @@ import { z } from 'zod';
 
 export const dictionaryExampleTypeSchema = z.object({
   id: z.uuid(),
-  example: z.string(),
-  translation: z.string(),
-  accent: z.string(),
-  accentTranslation: z.string(),
-  accentTranscription: z.string(),
-  dictionaryEntryId: z.string(),
+  example: z.string().min(1, 'Example is required'),
+  translation: z.string().min(1, 'Translation is required'),
+  accent: z.string().min(1, 'Accent is required'),
+  accentTranslation: z.string().min(1, 'Accent translation is required'),
+  accentTranscription: z.string().min(1, 'Accent transcription is required'),
+  dictionaryEntryId: z.uuid(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
 });

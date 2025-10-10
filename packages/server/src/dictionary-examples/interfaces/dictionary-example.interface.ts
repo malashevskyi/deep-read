@@ -3,11 +3,34 @@ export interface DictionaryExampleType {
    * @format 'uuid'
    */
   id: string;
+  /**
+   * @format 'string'
+   * @minLength 1 "Example is required"
+   */
   example: string;
+  /**
+   * @format 'string'
+   * @minLength 1 "Translation is required"
+   */
   translation: string;
+  /**
+   * @format 'string'
+   * @minLength 1 "Accent is required"
+   */
   accent: string;
+  /**
+   * @format 'string'
+   * @minLength 1 "Accent translation is required"
+   */
   accentTranslation: string;
+  /**
+   * @format 'string'
+   * @minLength 1 "Accent transcription is required"
+   */
   accentTranscription: string;
+  /**
+   * @format 'uuid'
+   */
   dictionaryEntryId: string;
   /**
    * We omit typing the ManyToOne/ForeignKey relationship here (like 'dictionaryEntry')
