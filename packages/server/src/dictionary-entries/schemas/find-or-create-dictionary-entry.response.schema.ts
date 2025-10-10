@@ -1,13 +1,18 @@
 import z from 'zod';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
 
-export const FindOrCreateDictionaryEntryResponseSchema = z.object({
-  id: z.string().uuid(),
-  text: z.string(),
-  transcription: z.string(),
-  audioRecords: z.array(z.string().url()),
-  pronounceVideoLinks: z.array(z.string()),
-  createdAt: z.iso.date(),
-  updatedAt: z.iso.date(),
-});
+export const FindOrCreateDictionaryEntryResponseSchema =
+  dictionaryEntryTypeSchema
+    .pick({
+      id: true,
+      text: true,
+      transcription: true,
+      pronounceVideoLinks: true,
+      createdAt: true,
+      updatedAt: true,
+    })
+    .extend({
+      audioRecords: z.array(z.url()),
+    });
 
 export default FindOrCreateDictionaryEntryResponseSchema;

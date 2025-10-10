@@ -1,10 +1,6 @@
-import z from 'zod';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
 
-export const CreateDictionaryEntrySchema = z
-  .object({
-    text: z.string().min(1, 'Text cannot be empty.'),
-    transcription: z.string(),
-  })
-  .strict();
-
-export default CreateDictionaryEntrySchema;
+export const createDictionaryEntrySchema = dictionaryEntryTypeSchema.pick({
+  text: true,
+  transcription: true,
+});

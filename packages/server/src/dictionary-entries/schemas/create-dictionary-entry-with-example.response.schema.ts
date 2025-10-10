@@ -1,11 +1,4 @@
-import z from 'zod';
-import { FindOrCreateDictionaryEntryResponseSchema } from './find-or-create-dictionary-entry.response.schema';
-import { CreateDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
 
-const CreateDictionaryEntryWithExampleResponseSchema =
-  FindOrCreateDictionaryEntryResponseSchema.extend({
-    translation: z.string(),
-    examples: z.array(CreateDictionaryExampleSchema),
-  });
-
-export default CreateDictionaryEntryWithExampleResponseSchema;
+export const createDictionaryEntryWithExampleResponseSchema =
+  dictionaryEntryTypeSchema.pick({ text: true });

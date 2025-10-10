@@ -1,9 +1,9 @@
-import { CreateDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
-import { CreateDictionaryEntrySchema } from '../dto/create-dictionary-entry.dto';
+import { createDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
+import { createDictionaryEntrySchema } from './create-dictionary-entry.schema';
 
 const CreateDictionaryEntryWithExampleSchema =
-  CreateDictionaryEntrySchema.extend({
-    example: CreateDictionaryExampleSchema.omit({ dictionaryEntryId: true }),
+  createDictionaryEntrySchema.extend({
+    example: createDictionaryExampleSchema.omit({ dictionaryEntryId: true }),
   });
 
 export default CreateDictionaryEntryWithExampleSchema;
