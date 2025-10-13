@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { deepReadAPI } from "../services/api";
-import {
-  AnalysisResponseSchema,
-  type AnalysisResponse,
-} from "../types/schemas";
 import { ApiError } from "../services/ApiError";
 import type { AxiosError } from "axios";
 import type { ZodError } from "zod";
 import { useAppStore } from "../store";
+import {
+  analysisResponseSchema,
+  type AnalysisResponse,
+} from "../schemas/analyze-text.response.schema";
 
 export function useTextAnalysis(): {
   analysisData: AnalysisResponse | null;
@@ -23,7 +23,7 @@ export function useTextAnalysis(): {
       setNormalizedText("");
       const res = await deepReadAPI.post("/ai/analyze", { text, context });
       setNormalizedText(res.data.word.text);
-      return AnalysisResponseSchema.parse(res.data);
+      return analysisResponseSchema.parse(res.data);
     },
     enabled: !!text && !!context,
     retry: false,

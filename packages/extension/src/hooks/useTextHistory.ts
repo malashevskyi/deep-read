@@ -1,25 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 import { deepReadAPI } from "../services/api";
-import { WordHistorySchema, type WordHistoryResponse } from "../types/schemas";
 import { ApiError } from "../services/ApiError";
 import type { AxiosError } from "axios";
 import type { ZodError } from "zod";
 import { useAppStore } from "../store";
 import { useEffect } from "react";
+import {
+  getDictionaryEntryWithExamplesByTextResponseTypeSchema,
+  type GetDictionaryEntryWithExamplesByTextResponseType,
+} from "../schemas/get-dictionary-entry-with-examples-by-text.response.schema";
 
 export function useWordHistory(): {
-  historyData: WordHistoryResponse | null;
+  historyData: GetDictionaryEntryWithExamplesByTextResponseType | null;
   isLoadingHistory: boolean;
 } {
   const viewMode = useAppStore((state) => state.sidebar.viewMode);
   const normalizedText = useAppStore((state) => state.analysis.normalizedText);
 
-  const query = useQuery<WordHistoryResponse | null, AxiosError | ZodError>({
+  const query = useQuery<
+    GetDictionaryEntryWithExamplesByTextResponseType | null,
+    AxiosError | ZodError
+  >({
     queryKey: ["wordHistory", normalizedText, viewMode],
     queryFn: async () => {
       const res = await deepReadAPI.get(`/dictionary/${normalizedText}`);
       if (res.data) {
-        return WordHistorySchema.parse(res.data);
+        return getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse(
+          res.data,
+        );
       }
       return null;
     },

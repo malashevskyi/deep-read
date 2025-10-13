@@ -1,21 +1,14 @@
-import { createDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
+import { CreateDictionaryExample } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
 import { createZodDto } from 'nestjs-zod';
-import z from 'zod';
 import {
   ExampleProperty,
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { createDictionaryEntrySchema } from '../schemas/create-dictionary-entry.schema';
-
-const exampleSchema = createDictionaryExampleSchema.omit({
-  dictionaryEntryId: true,
-});
+import { createDictionaryEntryWithExampleBodySchema } from '../schemas/create-dictionary-entry-with-example.body.schema';
 
 export class CreateEntryWithExampleDto extends createZodDto(
-  createDictionaryEntrySchema.extend({
-    example: exampleSchema,
-  }),
+  createDictionaryEntryWithExampleBodySchema,
 ) {
   @TextProperty()
   text: string;
@@ -24,5 +17,5 @@ export class CreateEntryWithExampleDto extends createZodDto(
   transcription: string;
 
   @ExampleProperty()
-  example: z.infer<typeof exampleSchema>;
+  example: Omit<CreateDictionaryExample, 'dictionaryEntryId'>;
 }

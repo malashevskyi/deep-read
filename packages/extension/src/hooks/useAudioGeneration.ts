@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { deepReadAPI } from "../services/api";
-import {
-  GenerateAudioSchema,
-  type GenerateAudioResponse,
-} from "../types/schemas";
 import type { ZodError } from "zod";
 import type { AxiosError } from "axios";
 import { ApiError } from "../services/ApiError";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import {
+  generateAudioResponseSchema,
+  type GenerateAudioResponse,
+} from "../schemas/generate-audio.response.schema";
 
 export function useAudioGeneration(text: string | undefined): {
   audioUrl: string | undefined;
@@ -23,7 +23,7 @@ export function useAudioGeneration(text: string | undefined): {
           text,
         },
       );
-      return GenerateAudioSchema.parse(res.data);
+      return generateAudioResponseSchema.parse(res.data);
     },
     enabled: !!text,
     retry: 1,

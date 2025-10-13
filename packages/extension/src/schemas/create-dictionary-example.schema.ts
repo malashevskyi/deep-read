@@ -1,3 +1,4 @@
+// This file was copied by the sync-schemas-with-extension.js script. Do not modify it manually!
 import z from 'zod';
 import { dictionaryExampleTypeSchema } from './dictionary-example.schema';
 
