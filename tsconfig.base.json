@@ -16,6 +16,13 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["deep-read"]
+    "customConditions": ["deep-read"],
+    "baseUrl": ".",
+    "types": [],
+    "paths": {
+      "@deep-read/types": ["./types/src/index.ts"],
+      "@deep-read/types/*": ["./types/src/*"]
+    },
+    "typeRoots": ["types", "node_modules/@types"]
   }
 }
