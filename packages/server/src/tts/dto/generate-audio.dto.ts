@@ -9,5 +9,5 @@ export class GenerateAudioDto extends createZodDto(GenerateAudioSchema) {
     example: 'ubiquitous',
     description: 'The text to synthesize audio for.',
   })
-  text: string;
+  override text: string;
 }

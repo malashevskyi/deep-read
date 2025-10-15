@@ -17,21 +17,21 @@ export class CreateAudioRecordDto extends createZodDto(
     description:
       'The unique identifier for the audio record, typically the selected text.',
   })
-  id: string;
+  override id: string;
 
   @ApiProperty({
     example:
       'https://storage.googleapis.com/bucket-name/audio/computer_science.mp3',
     description: 'The public URL to the generated audio file.',
   })
-  audioUrl: string;
+  override audioUrl: string;
 
   @ApiProperty({
     example: 'audio/computer_science.mp3',
     description:
       'The path to the audio file in the storage bucket, used for deletion.',
   })
-  storagePath: string;
+  override storagePath: string;
 }
 
 export type CreateAudioRecordType = z.infer<typeof CreateAudioRecordSchema>;

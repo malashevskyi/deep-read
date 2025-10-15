@@ -5,23 +5,23 @@ import {
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { findOrCreateDictionaryEntryResponseSchema } from '../schemas/find-or-create-dictionary-entry.response.schema';
 import z from 'zod';
+import { findOrCreateDictionaryEntryResponseSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export class FindOrCreateDictionaryEntryResponseDto extends createZodDto(
   findOrCreateDictionaryEntryResponseSchema,
 ) {
   @TextProperty()
-  text;
+  override text: string;
 
   @TranscriptionProperty()
-  transcription;
+  override transcription: string;
 
   @AudioRecordsProperty()
-  audioRecords: string[];
+  override audioRecords: string[];
 
   @PronounceVideoLinksProperty()
-  pronounceVideoLinks: string[];
+  override pronounceVideoLinks: string[];
 }
 
 export type FindOrCreateDictionaryEntryResponseType = z.infer<

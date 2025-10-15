@@ -1,4 +1,3 @@
-import { createDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
 import { createZodDto } from 'nestjs-zod';
 import z from 'zod';
 import {
@@ -9,28 +8,29 @@ import {
   TranscriptionProperty,
   TranslationProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from '../schemas/get-dictionary-entry-with-examples-by-text.response.schema';
+import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { createDictionaryExampleSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 export class GetEntryWithExamplesByTextResponseDto extends createZodDto(
   getDictionaryEntryWithExamplesByTextResponseTypeSchema,
 ) {
   @TextProperty()
-  text: string;
+  override text: string;
 
   @TranscriptionProperty()
-  transcription: string;
+  override transcription: string;
 
   @PronounceVideoLinksProperty()
-  pronounceVideoLinks: string[];
+  override pronounceVideoLinks: string[];
 
   @ExamplesProperty()
-  examples: z.infer<typeof createDictionaryExampleSchema>[];
+  override examples: z.infer<typeof createDictionaryExampleSchema>[];
 
   @TranslationProperty()
-  translation: string;
+  override translation: string;
 
   @AudioRecordsProperty()
-  audioRecords: string[];
+  override audioRecords: string[];
 }
 
 export type GetEntryWithExamplesByTextResponseType = z.infer<

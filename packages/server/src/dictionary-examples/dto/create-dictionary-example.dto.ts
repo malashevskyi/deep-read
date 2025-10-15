@@ -13,20 +13,20 @@ export class CreateDictionaryExampleDto extends createZodDto(
   createDictionaryExampleSchema,
 ) {
   @ExampleProperty()
-  example: string;
+  override example: string;
 
   @TranslationProperty()
-  translation: string;
+  override translation: string;
 
   @AccentProperty()
-  accent: string;
+  override accent: string;
 
   @AccentTranslationProperty()
-  accentTranslation: string;
+  override accentTranslation: string;
 
   @AccentTranscriptionProperty()
-  accentTranscription: string;
+  override accentTranscription: string;
 
   @DictionaryEntryIdProperty()
-  dictionaryEntryId: string;
+  override dictionaryEntryId: string;
 }

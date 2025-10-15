@@ -1,21 +1,21 @@
-import { CreateDictionaryExample } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
 import { createZodDto } from 'nestjs-zod';
 import {
   ExampleProperty,
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { createDictionaryEntryWithExampleBodySchema } from '../schemas/create-dictionary-entry-with-example.body.schema';
+import { createDictionaryEntryWithExampleBodySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import type { CreateDictionaryExample } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 export class CreateEntryWithExampleDto extends createZodDto(
   createDictionaryEntryWithExampleBodySchema,
 ) {
   @TextProperty()
-  text: string;
+  override text: string;
 
   @TranscriptionProperty()
-  transcription: string;
+  override transcription: string;
 
   @ExampleProperty()
-  example: Omit<CreateDictionaryExample, 'dictionaryEntryId'>;
+  override example: Omit<CreateDictionaryExample, 'dictionaryEntryId'>;
 }

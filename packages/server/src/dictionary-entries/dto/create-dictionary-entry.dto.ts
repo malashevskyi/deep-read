@@ -3,14 +3,14 @@ import {
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { createDictionaryEntrySchema } from '../schemas/create-dictionary-entry.schema';
+import { createDictionaryEntrySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export class CreateDictionaryEntryDto extends createZodDto(
   createDictionaryEntrySchema,
 ) {
   @TextProperty()
-  text: string;
+  override text: string;
 
   @TranscriptionProperty()
-  transcription: string;
+  override transcription: string;
 }
