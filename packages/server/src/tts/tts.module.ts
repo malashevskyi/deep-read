@@ -6,8 +6,8 @@ import { AudioStoragePort } from './ports/audio-storage.port';
 import { FirebaseStorageAdapter } from './adapters/firebase-storage.adapter';
 import { ConfigModule } from '@nestjs/config';
 import { TtsController } from './tts.controller';
-import { AudioRecordsModule } from '@/audio-records/audio-records.module';
-import { ErrorsModule } from '@/errors/errors.module';
+import { AudioRecordsModule } from '../audio-records/audio-records.module';
+import { ErrorsModule } from '../errors/errors.module';
 
 @Module({
   imports: [forwardRef(() => ConfigModule), AudioRecordsModule, ErrorsModule],

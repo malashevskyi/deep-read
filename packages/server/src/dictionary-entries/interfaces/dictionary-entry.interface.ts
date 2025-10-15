@@ -1,5 +1,5 @@
-import { AudioRecordType } from '@/audio-records/interfaces/audio-record.interface';
-import { DictionaryExampleType } from '@/dictionary-examples/interfaces/dictionary-example.interface';
+import type { AudioRecordType } from '@deep-read/types/lib/deep-read/audio-records';
+import type { DictionaryExampleType } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 export interface DictionaryEntryType {
   /**

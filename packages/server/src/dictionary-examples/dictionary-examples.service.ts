@@ -1,15 +1,13 @@
-import { Injectable, Logger, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DictionaryExample } from './entities/dictionary-example.entity';
 import { CreateDictionaryExampleDto } from './dto/create-dictionary-example.dto';
-import { ErrorService } from '@/errors/errors.service';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
+import { ErrorService } from '../errors/errors.service';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
 
 @Injectable()
 export class DictionaryExamplesService {
-  private readonly logger = new Logger(DictionaryExamplesService.name);
-
   constructor(
     @InjectRepository(DictionaryExample)
     private readonly exampleRepository: Repository<DictionaryExample>,

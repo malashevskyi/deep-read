@@ -1,4 +1,3 @@
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
@@ -7,7 +6,8 @@ import {
   AiStructuredResponse,
   AiStructuredResponseSchema,
 } from '../ports/ai-analysis.port';
-import { ErrorService } from '@/errors/errors.service';
+import { ErrorService } from '../../errors/errors.service';
+import { AppErrorCode } from '../../shared/exceptions/AppErrorCode';
 
 const OpenAIPrompt = `You are an advanced language analysis tool. Your task is to analyze a selected text/word/phrase within a given context.
 Respond ONLY with a valid JSON object in the following format:

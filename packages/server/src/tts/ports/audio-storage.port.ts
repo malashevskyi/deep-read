@@ -1,4 +1,4 @@
-import { UploadAudioResponse } from '../schemas/upload-audio.response.schema';
+import type { UploadAudioResponse } from '@deep-read/types/lib/deep-read/tts';
 
 export abstract class AudioStoragePort {
   abstract uploadAudio(

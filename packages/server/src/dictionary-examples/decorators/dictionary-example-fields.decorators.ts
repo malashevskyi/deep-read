@@ -1,6 +1,6 @@
-import { DictionaryEntry } from '@/dictionary-entries/entities/dictionary-entry.entity';
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity';
 
 export function IdProperty() {
   return applyDecorators(

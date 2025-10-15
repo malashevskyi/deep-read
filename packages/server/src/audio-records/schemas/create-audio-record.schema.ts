@@ -1,5 +1,5 @@
+import { audioRecordTypeSchema } from '@deep-read/types/lib/deep-read/audio-records';
 import z from 'zod';
-import { audioRecordTypeSchema } from './audio-record.schema';
 
 export const createAudioRecordSchema = audioRecordTypeSchema
   .pick({

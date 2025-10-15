@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as Sentry from '@sentry/node';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
-import { AppError } from '@/shared/exceptions/AppError';
 import { ZodError } from 'zod';
+import { AppErrorCode } from '../exceptions/AppErrorCode';
+import { AppError } from '../exceptions/AppError';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

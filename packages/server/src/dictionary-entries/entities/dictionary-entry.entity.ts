@@ -1,5 +1,4 @@
-import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
-import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
+import type { DictionaryEntryType } from '@deep-read/types/lib/deep-read/dictionary-entries';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,7 +8,8 @@ import {
   Index,
   OneToMany,
 } from 'typeorm';
-import { DictionaryEntryType } from '../interfaces/dictionary-entry.interface';
+import { DictionaryExample } from '../../dictionary-examples/entities/dictionary-example.entity';
+import { AudioRecord } from '../../audio-records/entities/audio-record.entity';
 
 @Entity('dictionary_entries')
 export class DictionaryEntry implements DictionaryEntryType {

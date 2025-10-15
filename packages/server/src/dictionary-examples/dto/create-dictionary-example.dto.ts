@@ -1,5 +1,4 @@
 import { createZodDto } from 'nestjs-zod';
-import { createDictionaryExampleSchema } from '../schemas/create-dictionary-example.schema';
 import {
   AccentProperty,
   AccentTranscriptionProperty,
@@ -8,6 +7,7 @@ import {
   ExampleProperty,
   TranslationProperty,
 } from '../decorators/dictionary-example-fields.decorators';
+import { createDictionaryExampleSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 export class CreateDictionaryExampleDto extends createZodDto(
   createDictionaryExampleSchema,

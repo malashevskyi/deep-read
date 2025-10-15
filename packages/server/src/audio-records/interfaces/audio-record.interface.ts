@@ -23,7 +23,7 @@ export interface AudioRecordType {
    * This practice is applied to all ManyToOne/OneToOne relations.
    * Only OneToMany collections are typed for relationship completion.
    */
-  // import { DictionaryEntryType } from '@/dictionary-entries/interfaces/dictionary-entry.interface';
+  // import { DictionaryEntryType } from '...';
   // dictionaryEntry: DictionaryEntryType | null;
   /**
    * @format 'date-time'

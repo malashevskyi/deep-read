@@ -1,5 +1,5 @@
+import { dictionaryExampleTypeSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 import z from 'zod';
-import { dictionaryExampleTypeSchema } from './dictionary-example.schema';
 
 export const createDictionaryExampleSchema = dictionaryExampleTypeSchema.pick({
   example: true,

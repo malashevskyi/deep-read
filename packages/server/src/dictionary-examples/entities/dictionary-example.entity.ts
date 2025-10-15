@@ -1,4 +1,3 @@
-import { DictionaryEntry } from '@/dictionary-entries/entities/dictionary-entry.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,7 +8,7 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
-import { DictionaryExampleType } from '../interfaces/dictionary-example.interface';
+
 import {
   AccentProperty,
   AccentTranscriptionProperty,
@@ -22,6 +21,8 @@ import {
   TranslationProperty,
   UpdatedAtProperty,
 } from '../decorators/dictionary-example-fields.decorators';
+import type { DictionaryExampleType } from '@deep-read/types/lib/deep-read/dictionary-examples';
+import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity';
 
 @Entity('dictionary_examples')
 @Index(['example', 'accent'], { unique: true })

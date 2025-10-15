@@ -1,8 +1,3 @@
-import { AudioRecord } from '@/audio-records/entities/audio-record.entity';
-import { DictionaryExample } from '@/dictionary-examples/entities/dictionary-example.entity';
-import { GetDictionaryExampleResponseType } from '@/dictionary-examples/schemas/get-dictionary-example.response.schema';
-import { ErrorService } from '@/errors/errors.service';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
 import { Injectable, UsePipes } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ZodValidationPipe } from 'nestjs-zod';
@@ -12,10 +7,17 @@ import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
 import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
 import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
-import { createDictionaryEntryWithExampleResponseSchema } from './schemas/create-dictionary-entry-with-example.response.schema';
-import { findOrCreateDictionaryEntryResponseSchema } from './schemas/find-or-create-dictionary-entry.response.schema';
-import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from './schemas/get-dictionary-entry-with-examples-by-text.response.schema';
 import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
+import {
+  createDictionaryEntryWithExampleResponseSchema,
+  findOrCreateDictionaryEntryResponseSchema,
+  getDictionaryEntryWithExamplesByTextResponseTypeSchema,
+} from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { ErrorService } from '../errors/errors.service';
+import { AudioRecord } from '../audio-records/entities/audio-record.entity';
+import { DictionaryExample } from '../dictionary-examples/entities/dictionary-example.entity';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
+import { GetDictionaryExampleResponseType } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 @Injectable()
 @UsePipes(ZodValidationPipe)

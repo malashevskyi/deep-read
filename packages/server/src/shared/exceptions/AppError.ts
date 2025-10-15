@@ -8,7 +8,7 @@ import { AppErrorCode } from './AppErrorCode';
 export class AppError extends Error {
   public readonly statusCode: number;
   public readonly errorCode: AppErrorCode;
-  public readonly message: string;
+  public override readonly message: string;
   public readonly error: unknown;
 
   /**

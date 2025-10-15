@@ -3,13 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AudioRecord } from './entities/audio-record.entity';
 import { CreateAudioRecordDto } from './dto/create-audio-record.dto';
-import { ErrorService } from '@/errors/errors.service';
-import { AppErrorCode } from '@/shared/exceptions/AppErrorCode';
-import { createAudioRecordSchema } from './schemas/create-audio-record.schema';
+
+import { ErrorService } from '../errors/errors.service';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
 import {
-  UpdateAudioRecordType,
+  createAudioRecordSchema,
   updateAudioRecordSchema,
-} from './schemas/update-audio-record.schema';
+} from '@deep-read/types/lib/deep-read/audio-records';
+import type { UpdateAudioRecordType } from '@deep-read/types/lib/deep-read/audio-records';
 
 @Injectable()
 export class AudioRecordsService {
@@ -38,6 +39,7 @@ export class AudioRecordsService {
    * @param dictionaryEntryId - The new dictionary entry ID to associate.
    * @returns The updated audio record entity.
    */
+
   async updateAudioRecordDictionary({
     id,
     dictionaryEntryId,

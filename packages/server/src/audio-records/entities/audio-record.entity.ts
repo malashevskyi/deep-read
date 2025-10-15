@@ -1,4 +1,4 @@
-import { DictionaryEntry } from '@/dictionary-entries/entities/dictionary-entry.entity';
+import type { AudioRecordType } from '@deep-read/types/lib/deep-read/audio-records';
 import {
   Entity,
   Column,
@@ -9,7 +9,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { AudioRecordType } from '../interfaces/audio-record.interface';
+import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity';
 
 @Entity('audio_records')
 export class AudioRecord implements AudioRecordType {

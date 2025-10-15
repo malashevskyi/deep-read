@@ -1,5 +1,5 @@
-import { createDictionaryExampleSchema } from '@/dictionary-examples/schemas/create-dictionary-example.schema';
-import { createDictionaryEntrySchema } from './create-dictionary-entry.schema';
+import { createDictionaryEntrySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { createDictionaryExampleSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 const exampleSchema = createDictionaryExampleSchema.pick({
   example: true,

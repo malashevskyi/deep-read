@@ -1,6 +1,6 @@
+import { dictionaryEntryTypeSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { getDictionaryExampleResponseTypeSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 import z from 'zod';
-import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
-import { getDictionaryExampleResponseTypeSchema } from '@/dictionary-examples/schemas/get-dictionary-example.response.schema';
 
 export const getDictionaryEntryWithExamplesByTextResponseTypeSchema =
   dictionaryEntryTypeSchema
