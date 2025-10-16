@@ -1,13 +1,12 @@
 {
   "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
+  "exclude": ["node_modules", "dist"],
   "references": [
     {
-      "path": "./types"
+      "path": "./packages/server"
     },
     {
-      "path": "./packages/server"
+      "path": "./types"
     }
   ]
 }

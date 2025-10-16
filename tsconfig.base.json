@@ -20,8 +20,8 @@
     "baseUrl": ".",
     "types": [],
     "paths": {
-      "@deep-read/types": ["./types/src/index.ts"],
-      "@deep-read/types/*": ["./types/src/*"]
+      "@deep-read/types": ["./types/dist/src/index.d.ts"],
+      "@deep-read/types/*": ["./types/dist/src/*"]
     },
     "typeRoots": ["types", "node_modules/@types"]
   }
