@@ -25,7 +25,7 @@ export class AudioRecord implements AudioRecordType {
 
   @Index()
   @Column({ name: 'dictionary_entry_id', type: 'uuid', nullable: true })
-  dictionaryEntryId: string;
+  dictionaryEntryId: string | null;
 
   @ManyToOne(() => DictionaryEntry, (entry) => entry.audioRecords, {
     onDelete: 'CASCADE',

@@ -24,6 +24,8 @@ export class TtsService {
       audioUrl: audioUrl,
       storagePath: storagePath,
       audioUrlExpiresAt: expiresAt,
+      // No associated dictionary entry at creation
+      dictionaryEntryId: null,
     });
 
     return generateAudioResponseSchema.parse({ audioUrl });
