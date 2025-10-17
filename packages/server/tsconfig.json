@@ -1,13 +1,26 @@
 {
   "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "resolvePackageJsonExports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "noImplicitOverride": true,
+    "strict": true,
+    "incremental": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
   "references": [
     {
       "path": "../../types"
-    },
-    {
-      "path": "./tsconfig.app.json"
     }
-  ],
-  "include": ["src/**/*", "src/types"],
-  "exclude": ["node_modules", "dist"]
+  ]
 }
