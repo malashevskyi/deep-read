@@ -22,9 +22,6 @@ export default tseslint.config(
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
-    plugins: {
-      'react-hooks': reactHooks,
-    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: { ...globals.browser },
@@ -59,6 +56,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
+      '@typescript-eslint/no-unsafe-call': 'off',
       'prettier/prettier': 'off',
     },
   },
