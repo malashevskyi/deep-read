@@ -14,3 +14,7 @@ export const findOrCreateDictionaryEntryResponseSchema =
     .extend({
       audioRecords: z.array(z.url()),
     });
+
+export type FindOrCreateDictionaryEntryResponseType = z.infer<
+  typeof findOrCreateDictionaryEntryResponseSchema
+>;

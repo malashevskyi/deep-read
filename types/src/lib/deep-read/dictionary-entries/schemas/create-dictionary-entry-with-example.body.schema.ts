@@ -1,7 +1,7 @@
 import { createDictionaryExampleSchema } from '../../dictionary-examples/index.js';
 import { createDictionaryEntrySchema } from './index.js';
 
-const exampleSchema = createDictionaryExampleSchema.pick({
+export const exampleSchema = createDictionaryExampleSchema.pick({
   example: true,
   translation: true,
   accent: true,

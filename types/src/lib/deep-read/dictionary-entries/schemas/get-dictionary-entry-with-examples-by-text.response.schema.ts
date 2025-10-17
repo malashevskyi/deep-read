@@ -16,3 +16,7 @@ export const getDictionaryEntryWithExamplesByTextResponseTypeSchema =
       examples: z.array(getDictionaryExampleResponseTypeSchema),
     })
     .strict();
+
+export type GetEntryWithExamplesByTextResponseType = z.infer<
+  typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema
+>;
