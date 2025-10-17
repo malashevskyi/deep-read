@@ -2,9 +2,40 @@
   "name": "@deep-read/types",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
-  "module": "./dist/index.js",
-  "main": "./dist/src/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./lib/deep-read/tts": {
+      "require": "./dist/lib/deep-read/tts/index.js",
+      "import": "./dist/lib/deep-read/tts/index.js",
+      "types": "./dist/lib/deep-read/tts/index.d.ts"
+    },
+    "./lib/deep-read/dictionary-examples": {
+      "require": "./dist/lib/deep-read/dictionary-examples/index.js",
+      "import": "./dist/lib/deep-read/dictionary-examples/index.js",
+      "types": "./dist/lib/deep-read/dictionary-examples/index.d.ts"
+    },
+    "./lib/deep-read/dictionary-entries": {
+      "require": "./dist/lib/deep-read/dictionary-entries/index.js",
+      "import": "./dist/lib/deep-read/dictionary-entries/index.js",
+      "types": "./dist/lib/deep-read/dictionary-entries/index.d.ts"
+    },
+    "./lib/deep-read/ai": {
+      "require": "./dist/lib/deep-read/ai/index.js",
+      "import": "./dist/lib/deep-read/ai/index.js",
+      "types": "./dist/lib/deep-read/ai/index.d.ts"
+    },
+    "./lib/deep-read/audio-records": {
+      "require": "./dist/lib/deep-read/audio-records/index.js",
+      "import": "./dist/lib/deep-read/audio-records/index.js",
+      "types": "./dist/lib/deep-read/audio-records/index.d.ts"
+    }
+  },
   "dependencies": {
     "zod": "^4.1.11"
   }
