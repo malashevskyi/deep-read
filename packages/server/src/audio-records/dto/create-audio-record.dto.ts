@@ -1,16 +1,9 @@
+import { createAudioRecordSchema } from '@deep-read/types/lib/deep-read/audio-records';
 import { ApiProperty } from '@nestjs/swagger';
 import { createZodDto } from 'nestjs-zod';
-import { z } from 'zod';
-
-export const CreateAudioRecordSchema = z.object({
-  id: z.string().min(1, 'ID cannot be empty.'),
-  audioUrl: z.string().url('audioUrl must be a valid URL.'),
-  storagePath: z.string().min(1, 'storagePath cannot be empty.'),
-  audioUrlExpiresAt: z.iso.date(),
-});
 
 export class CreateAudioRecordDto extends createZodDto(
-  CreateAudioRecordSchema,
+  createAudioRecordSchema,
 ) {
   @ApiProperty({
     example: 'Computer Science',
@@ -33,5 +26,3 @@ export class CreateAudioRecordDto extends createZodDto(
   })
   override storagePath: string;
 }
-
-export type CreateAudioRecordType = z.infer<typeof CreateAudioRecordSchema>;

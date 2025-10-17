@@ -69,7 +69,7 @@ export class OpenAiAdapter implements AiAnalysisPort {
         response_format: { type: 'json_object' },
       });
 
-      const responseContent = completion.choices[0].message.content;
+      const responseContent = completion.choices[0]?.message.content;
       if (!responseContent) {
         throw new Error('OpenAI returned an empty response content.');
       }

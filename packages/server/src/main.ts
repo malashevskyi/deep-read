@@ -7,7 +7,7 @@ import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter';
 
 async function bootstrap() {
   const logLevels: LogLevel[] =
-    process.env.NODE_ENV === 'production'
+    process.env['NODE_ENV'] === 'production'
       ? ['error', 'warn']
       : ['log', 'error', 'warn', 'debug', 'verbose'];
 
@@ -15,9 +15,9 @@ async function bootstrap() {
     logger: logLevels,
   });
 
-  if (process.env.SENTRY_DSN) {
+  if (process.env['SENTRY_DSN']) {
     Sentry.init({
-      dsn: process.env.SENTRY_DSN,
+      dsn: process.env['SENTRY_DSN'],
       tracesSampleRate: 1.0,
       profilesSampleRate: 1.0,
     });
@@ -36,6 +36,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env['PORT'] ?? 3000);
 }
 bootstrap();

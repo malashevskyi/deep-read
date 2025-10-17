@@ -5,17 +5,23 @@ import {
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
 import { createDictionaryEntryWithExampleBodySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
-import type { CreateDictionaryExample } from '@deep-read/types/lib/deep-read/dictionary-examples';
+import z from 'zod';
 
 export class CreateEntryWithExampleDto extends createZodDto(
   createDictionaryEntryWithExampleBodySchema,
 ) {
   @TextProperty()
-  override text: string;
+  override text: z.infer<
+    typeof createDictionaryEntryWithExampleBodySchema.shape.text
+  >;
 
   @TranscriptionProperty()
-  override transcription: string;
+  override transcription: z.infer<
+    typeof createDictionaryEntryWithExampleBodySchema.shape.transcription
+  >;
 
   @ExampleProperty()
-  override example: Omit<CreateDictionaryExample, 'dictionaryEntryId'>;
+  override example: z.infer<
+    typeof createDictionaryEntryWithExampleBodySchema.shape.example
+  >;
 }

@@ -8,25 +8,34 @@ import {
   TranslationProperty,
 } from '../decorators/dictionary-example-fields.decorators';
 import { createDictionaryExampleSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
+import z from 'zod';
 
 export class CreateDictionaryExampleDto extends createZodDto(
   createDictionaryExampleSchema,
 ) {
   @ExampleProperty()
-  override example: string;
+  override example: z.infer<typeof createDictionaryExampleSchema.shape.example>;
 
   @TranslationProperty()
-  override translation: string;
+  override translation: z.infer<
+    typeof createDictionaryExampleSchema.shape.translation
+  >;
 
   @AccentProperty()
-  override accent: string;
+  override accent: z.infer<typeof createDictionaryExampleSchema.shape.accent>;
 
   @AccentTranslationProperty()
-  override accentTranslation: string;
+  override accentTranslation: z.infer<
+    typeof createDictionaryExampleSchema.shape.accentTranslation
+  >;
 
   @AccentTranscriptionProperty()
-  override accentTranscription: string;
+  override accentTranscription: z.infer<
+    typeof createDictionaryExampleSchema.shape.accentTranscription
+  >;
 
   @DictionaryEntryIdProperty()
-  override dictionaryEntryId: string;
+  override dictionaryEntryId: z.infer<
+    typeof createDictionaryExampleSchema.shape.dictionaryEntryId
+  >;
 }

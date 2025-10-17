@@ -7,9 +7,7 @@ export class CreateEntryWithExampleResponseDto extends createZodDto(
   createDictionaryEntryWithExampleResponseSchema,
 ) {
   @TextProperty()
-  override text: string;
+  override text: z.infer<
+    typeof createDictionaryEntryWithExampleResponseSchema.shape.text
+  >;
 }
-
-export type CreateEntryWithExampleResponseType = z.infer<
-  typeof createDictionaryEntryWithExampleResponseSchema
->;

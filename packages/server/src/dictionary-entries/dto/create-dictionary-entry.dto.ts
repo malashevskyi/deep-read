@@ -1,3 +1,4 @@
+import z from 'zod';
 import { createZodDto } from 'nestjs-zod';
 import {
   TextProperty,
@@ -9,8 +10,10 @@ export class CreateDictionaryEntryDto extends createZodDto(
   createDictionaryEntrySchema,
 ) {
   @TextProperty()
-  override text: string;
+  override text: z.infer<typeof createDictionaryEntrySchema.shape.text>;
 
   @TranscriptionProperty()
-  override transcription: string;
+  override transcription: z.infer<
+    typeof createDictionaryEntrySchema.shape.transcription
+  >;
 }

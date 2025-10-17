@@ -12,18 +12,22 @@ export class FindOrCreateDictionaryEntryResponseDto extends createZodDto(
   findOrCreateDictionaryEntryResponseSchema,
 ) {
   @TextProperty()
-  override text: string;
+  override text: z.infer<
+    typeof findOrCreateDictionaryEntryResponseSchema.shape.text
+  >;
 
   @TranscriptionProperty()
-  override transcription: string;
+  override transcription: z.infer<
+    typeof findOrCreateDictionaryEntryResponseSchema.shape.transcription
+  >;
 
   @AudioRecordsProperty()
-  override audioRecords: string[];
+  override audioRecords: z.infer<
+    typeof findOrCreateDictionaryEntryResponseSchema.shape.audioRecords
+  >;
 
   @PronounceVideoLinksProperty()
-  override pronounceVideoLinks: string[];
+  override pronounceVideoLinks: z.infer<
+    typeof findOrCreateDictionaryEntryResponseSchema.shape.pronounceVideoLinks
+  >;
 }
-
-export type FindOrCreateDictionaryEntryResponseType = z.infer<
-  typeof findOrCreateDictionaryEntryResponseSchema
->;

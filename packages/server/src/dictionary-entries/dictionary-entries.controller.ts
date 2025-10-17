@@ -5,11 +5,13 @@ import { CreateDictionaryEntryDocs } from './decorators/create-dictionary-entry.
 import { CreateWithExampleDocs } from './decorators/create-with-example.docs.decorator';
 import { DictionaryEntriesService } from './dictionary-entries.service';
 import { CreateDictionaryEntryDto } from './dto/create-dictionary-entry.dto';
-import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
-import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
 import { GetDictionaryEntryDocs } from './decorators/get-dictionary-entry.docs.decorator';
-import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
+import {
+  CreateEntryWithExampleResponseType,
+  FindOrCreateDictionaryEntryResponseType,
+  GetEntryWithExamplesByTextResponseType,
+} from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 @ApiTags('Dictionary')
 @Controller('dictionary')
@@ -42,6 +44,7 @@ export class DictionaryEntriesController {
   @GetDictionaryEntryDocs()
   async getEntryWithExamples(
     @Param('text') text: string,
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   ): Promise<GetEntryWithExamplesByTextResponseType | null> {
     return this.dictionaryEntriesService.getEntryWithExamplesByText(text);
   }

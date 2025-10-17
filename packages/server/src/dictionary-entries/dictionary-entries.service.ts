@@ -4,14 +4,14 @@ import { ZodValidationPipe } from 'nestjs-zod';
 import { DataSource, Repository } from 'typeorm';
 import { AudioRecordsService } from '../audio-records/audio-records.service';
 import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
-import { CreateEntryWithExampleResponseType } from './dto/create-entry-with-example.response.dto';
-import { GetEntryWithExamplesByTextResponseType } from './dto/get-entry-with-examples-by-text.response.dto';
 import { DictionaryEntry } from './entities/dictionary-entry.entity';
-import { FindOrCreateDictionaryEntryResponseType } from './dto/create-dictionary-entry.response.dto';
 import {
   createDictionaryEntryWithExampleResponseSchema,
+  type CreateEntryWithExampleResponseType,
   findOrCreateDictionaryEntryResponseSchema,
+  type FindOrCreateDictionaryEntryResponseType,
   getDictionaryEntryWithExamplesByTextResponseTypeSchema,
+  type GetEntryWithExamplesByTextResponseType,
 } from '@deep-read/types/lib/deep-read/dictionary-entries';
 import { ErrorService } from '../errors/errors.service';
 import { AudioRecord } from '../audio-records/entities/audio-record.entity';
@@ -133,8 +133,10 @@ export class DictionaryEntriesService {
    * @param text - The text of the word or phrase to find.
    * @returns {@link GetEntryWithExamplesByTextResponseType} The formatted dictionary entry with all relations.
    */
+
   async getEntryWithExamplesByText(
     text: string,
+    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   ): Promise<GetEntryWithExamplesByTextResponseType | null> {
     const entry = await this.dictionaryEntriesRepository.findOne({
       where: { text },
@@ -186,14 +188,17 @@ export class DictionaryEntriesService {
 
     const audioRecords: string[] = entry.audioRecords.map((ar) => ar.audioUrl);
 
-    return getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse({
-      id: entry.id,
-      text: entry.text,
-      transcription: entry.transcription,
-      pronounceVideoLinks: entry.pronounceVideoLinks,
-      audioRecords,
-      examples,
-      translation,
-    });
+    const result: GetEntryWithExamplesByTextResponseType =
+      getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse({
+        id: entry.id,
+        text: entry.text,
+        transcription: entry.transcription,
+        pronounceVideoLinks: entry.pronounceVideoLinks,
+        audioRecords,
+        examples,
+        translation,
+      });
+
+    return result;
   }
 }
