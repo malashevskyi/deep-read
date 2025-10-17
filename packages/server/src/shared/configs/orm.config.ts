@@ -4,11 +4,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const config: DataSourceOptions = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url: process.env['DATABASE_URL'],
   entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../../database/migrations/*{.ts,.js}'],
   ssl:
-    process.env.NODE_ENV === 'production'
+    process.env['NODE_ENV'] === 'production'
       ? { rejectUnauthorized: false }
       : false,
   synchronize: false,
