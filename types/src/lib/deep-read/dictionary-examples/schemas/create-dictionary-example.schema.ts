@@ -1,5 +1,5 @@
 import z from 'zod';
-import { dictionaryExampleTypeSchema } from './index.js';
+import { dictionaryExampleTypeSchema } from './dictionary-example.schema';
 
 export const createDictionaryExampleSchema = dictionaryExampleTypeSchema.pick({
   example: true,

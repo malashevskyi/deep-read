@@ -1,4 +1,4 @@
-import { dictionaryEntryTypeSchema } from './index.js';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema.js';
 
 export const createDictionaryEntrySchema = dictionaryEntryTypeSchema.pick({
   text: true,
