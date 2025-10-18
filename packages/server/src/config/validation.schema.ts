@@ -6,9 +6,9 @@ export const validationSchema = z.object({
     .default('development'),
   PORT: z.coerce.number().default(3000),
 
-  POSTGRES_USER: z.string(),
-  POSTGRES_PASSWORD: z.string(),
-  POSTGRES_DB: z.string(),
+  // POSTGRES_USER: z.string(),
+  // POSTGRES_PASSWORD: z.string(),
+  // POSTGRES_DB: z.string(),
 
   OPENAI_API_KEY: z.string(),
   OPENAI_PROJECT_ID: z.string().startsWith('proj_'),
