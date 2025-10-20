@@ -41,22 +41,38 @@ export default tseslint.config(
       eslintPluginPrettierRecommended,
     ],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: {
         ...globals.node,
         ...globals.jest,
       },
       sourceType: 'module',
       parserOptions: {
-        project: ['./packages/server/tsconfig.app.json'],
+        project: [
+          './packages/server/tsconfig.app.json',
+          './types/tsconfig.json',
+          './types/tsconfig.lib.json',
+        ],
         tsconfigRootDir: __dirname,
       },
     },
     rules: {
+      // Allows using `any` type without errors
       '@typescript-eslint/no-explicit-any': 'off',
+
+      // Warns about Promises without await/catch (possible unhandled errors)
       '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
+
+      // External API data is untyped
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
+
+      // ESLint parser bug: monorepo types detected as `any`
+      '@typescript-eslint/no-redundant-type-constituents': 'off',
+
+      // Prettier runs separately
       'prettier/prettier': 'off',
     },
   },
