@@ -1,3 +1,4 @@
+import z from 'zod';
 import { createDictionaryExampleSchema } from '../../dictionary-examples/index.js';
 import { createDictionaryEntrySchema } from './create-dictionary-entry.schema.js';
 
@@ -13,3 +14,7 @@ export const createDictionaryEntryWithExampleBodySchema =
   createDictionaryEntrySchema.extend({
     example: exampleSchema,
   });
+
+export type CreateDictionaryEntryWithExampleBodyType = z.infer<
+  typeof createDictionaryEntryWithExampleBodySchema
+>;
