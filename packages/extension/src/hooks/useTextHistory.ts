@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { deepReadAPI } from "../services/api";
-import { ApiError } from "../services/ApiError";
-import type { AxiosError } from "axios";
-import type { ZodError } from "zod";
-import { useAppStore } from "../store";
-import { useEffect } from "react";
+import { useQuery } from '@tanstack/react-query';
+import { deepReadAPI } from '../services/api';
+import { ApiError } from '../services/ApiError';
+import type { AxiosError } from 'axios';
+import type { ZodError } from 'zod';
+import { useAppStore } from '../store';
+import { useEffect } from 'react';
 import {
-  getDictionaryEntryWithExamplesByTextResponseTypeSchema,
+  getDictionaryEntryWithExamplesByTextResponseSchema,
   type GetDictionaryEntryWithExamplesByTextResponseType,
-} from "../schemas/get-dictionary-entry-with-examples-by-text.response.schema";
+} from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export function useWordHistory(): {
   historyData: GetDictionaryEntryWithExamplesByTextResponseType | null;
@@ -21,12 +21,12 @@ export function useWordHistory(): {
     GetDictionaryEntryWithExamplesByTextResponseType | null,
     AxiosError | ZodError
   >({
-    queryKey: ["wordHistory", normalizedText, viewMode],
+    queryKey: ['wordHistory', normalizedText, viewMode],
     queryFn: async () => {
       const res = await deepReadAPI.get(`/dictionary/${normalizedText}`);
       if (res.data) {
-        return getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse(
-          res.data,
+        return getDictionaryEntryWithExamplesByTextResponseSchema.parse(
+          res.data
         );
       }
       return null;
@@ -40,7 +40,7 @@ export function useWordHistory(): {
     if (query.error) {
       ApiError.fromUnknown(
         query.error,
-        "Failed to fetch word history.",
+        'Failed to fetch word history.'
       ).notify();
     }
   }, [query.error]);

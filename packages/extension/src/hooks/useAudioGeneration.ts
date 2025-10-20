@@ -1,27 +1,27 @@
-import { useQuery } from "@tanstack/react-query";
-import { deepReadAPI } from "../services/api";
-import type { ZodError } from "zod";
-import type { AxiosError } from "axios";
-import { ApiError } from "../services/ApiError";
-import { toast } from "sonner";
-import { useEffect } from "react";
+import { useQuery } from '@tanstack/react-query';
+import { deepReadAPI } from '../services/api';
+import type { ZodError } from 'zod';
+import type { AxiosError } from 'axios';
+import { ApiError } from '../services/ApiError';
+import { toast } from 'sonner';
+import { useEffect } from 'react';
 import {
   generateAudioResponseSchema,
   type GenerateAudioResponse,
-} from "../schemas/generate-audio.response.schema";
+} from '@deep-read/types/lib/deep-read/tts';
 
 export function useAudioGeneration(text: string | undefined): {
   audioUrl: string | undefined;
   isLoadingAudio: boolean;
 } {
   const query = useQuery<GenerateAudioResponse, AxiosError | ZodError>({
-    queryKey: ["audio", text],
+    queryKey: ['audio', text],
     queryFn: async () => {
       const res = await deepReadAPI.post<GenerateAudioResponse>(
-        "/tts/generate-audio",
+        '/tts/generate-audio',
         {
           text,
-        },
+        }
       );
       return generateAudioResponseSchema.parse(res.data);
     },

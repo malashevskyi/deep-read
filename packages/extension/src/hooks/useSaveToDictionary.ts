@@ -1,26 +1,24 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { useEffect } from "react";
-import { toast } from "sonner";
-import type { ZodError } from "zod";
-import {
-  createDictionaryEntryWithExampleResponseSchema,
-  type CreateDictionaryEntryWithExampleResponse,
-} from "../schemas/create-dictionary-entry-with-example.response.schema";
-import { deepReadAPI } from "../services/api";
-import { ApiError } from "../services/ApiError";
-import { useAppStore } from "../store";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import type { ZodError } from 'zod';
+import { deepReadAPI } from '../services/api';
+import { ApiError } from '../services/ApiError';
+import { useAppStore } from '../store';
 import {
   createDictionaryEntryWithExampleBodySchema,
-  type CreateDictionaryEntryWithExampleBody,
-} from "../schemas/create-dictionary-entry-with-example.body.schema";
+  createDictionaryEntryWithExampleResponseSchema,
+  type CreateDictionaryEntryWithExampleBodyType,
+  type CreateEntryWithExampleResponseType,
+} from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export function useSaveToDictionary() {
   const queryClient = useQueryClient();
   const showHistory = useAppStore((state) => state.showHistory);
 
   const mutation = useMutation<
-    CreateDictionaryEntryWithExampleResponse,
+    CreateEntryWithExampleResponseType,
     AxiosError | ZodError,
     { endpoint: string; body: unknown }
   >({
@@ -28,10 +26,12 @@ export function useSaveToDictionary() {
       const res = await deepReadAPI.post(endpoint, body);
       return createDictionaryEntryWithExampleResponseSchema.parse(res.data);
     },
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       toast.success(`"${res.text}" has been saved.`);
 
-      queryClient.invalidateQueries({ queryKey: ["wordHistory", res.text] });
+      await queryClient.invalidateQueries({
+        queryKey: ['wordHistory', res.text],
+      });
       showHistory();
     },
   });
@@ -57,17 +57,17 @@ export function useSaveToDictionary() {
   // };
 
   const saveWordWithExample = (
-    args: CreateDictionaryEntryWithExampleBody,
+    args: CreateDictionaryEntryWithExampleBodyType
   ): void => {
     try {
       mutation.mutate({
-        endpoint: "/dictionary/with-example",
+        endpoint: '/dictionary/with-example',
         body: createDictionaryEntryWithExampleBodySchema.parse(args),
       });
     } catch (error) {
       ApiError.fromUnknown(
         error,
-        "Failed to save the word with example.",
+        'Failed to save the word with example.'
       ).notify();
     }
   };
