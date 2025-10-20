@@ -1,10 +1,16 @@
 import { ConfigService } from '@nestjs/config';
+import { DataSourceOptions } from 'typeorm';
 
 const getTypeOrmConfig = () => {
   return {
     inject: [ConfigService],
-    useFactory: async (configService: ConfigService) =>
-      configService.get('ormConfig'),
+    useFactory: (configService: ConfigService): DataSourceOptions => {
+      const config = configService.get<DataSourceOptions>('ormConfig');
+      if (!config) {
+        throw new Error('ORM configuration not found');
+      }
+      return config;
+    },
   };
 };
 
