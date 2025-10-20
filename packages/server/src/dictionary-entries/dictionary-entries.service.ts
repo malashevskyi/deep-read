@@ -10,8 +10,8 @@ import {
   type CreateEntryWithExampleResponseType,
   findOrCreateDictionaryEntryResponseSchema,
   type FindOrCreateDictionaryEntryResponseType,
-  getDictionaryEntryWithExamplesByTextResponseTypeSchema,
-  type GetEntryWithExamplesByTextResponseType,
+  getDictionaryEntryWithExamplesByTextResponseSchema,
+  type GetDictionaryEntryWithExamplesByTextResponseType,
 } from '@deep-read/types/lib/deep-read/dictionary-entries';
 import { ErrorService } from '../errors/errors.service';
 import { AudioRecord } from '../audio-records/entities/audio-record.entity';
@@ -131,13 +131,13 @@ export class DictionaryEntriesService {
   /**
    * Finds a single dictionary entry by its text and formats it for the client.
    * @param text - The text of the word or phrase to find.
-   * @returns {@link GetEntryWithExamplesByTextResponseType} The formatted dictionary entry with all relations.
+   * @returns {@link GetDictionaryEntryWithExamplesByTextResponseType} The formatted dictionary entry with all relations.
    */
 
   async getEntryWithExamplesByText(
     text: string,
-    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  ): Promise<GetEntryWithExamplesByTextResponseType | null> {
+     
+  ): Promise<GetDictionaryEntryWithExamplesByTextResponseType | null> {
     const entry = await this.dictionaryEntriesRepository.findOne({
       where: { text },
       relations: {
@@ -188,8 +188,8 @@ export class DictionaryEntriesService {
 
     const audioRecords: string[] = entry.audioRecords.map((ar) => ar.audioUrl);
 
-    const result: GetEntryWithExamplesByTextResponseType =
-      getDictionaryEntryWithExamplesByTextResponseTypeSchema.parse({
+    const result: GetDictionaryEntryWithExamplesByTextResponseType =
+      getDictionaryEntryWithExamplesByTextResponseSchema.parse({
         id: entry.id,
         text: entry.text,
         transcription: entry.transcription,

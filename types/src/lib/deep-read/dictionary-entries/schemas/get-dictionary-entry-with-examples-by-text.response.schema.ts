@@ -2,7 +2,7 @@ import z from 'zod';
 import { dictionaryEntryTypeSchema } from './dictionary-entry.schema.js';
 import { getDictionaryExampleResponseTypeSchema } from '../../dictionary-examples/index.js';
 
-export const getDictionaryEntryWithExamplesByTextResponseTypeSchema =
+export const getDictionaryEntryWithExamplesByTextResponseSchema =
   dictionaryEntryTypeSchema
     .pick({
       id: true,
@@ -17,6 +17,6 @@ export const getDictionaryEntryWithExamplesByTextResponseTypeSchema =
     })
     .strict();
 
-export type GetEntryWithExamplesByTextResponseType = z.infer<
-  typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema
+export type GetDictionaryEntryWithExamplesByTextResponseType = z.infer<
+  typeof getDictionaryEntryWithExamplesByTextResponseSchema
 >;

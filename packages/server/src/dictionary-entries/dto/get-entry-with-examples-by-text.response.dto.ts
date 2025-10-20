@@ -8,38 +8,38 @@ import {
   TranscriptionProperty,
   TranslationProperty,
 } from '../decorators/dictionary-entry-fields.decorators';
-import { getDictionaryEntryWithExamplesByTextResponseTypeSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { getDictionaryEntryWithExamplesByTextResponseSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export class GetEntryWithExamplesByTextResponseDto extends createZodDto(
-  getDictionaryEntryWithExamplesByTextResponseTypeSchema,
+  getDictionaryEntryWithExamplesByTextResponseSchema,
 ) {
   @TextProperty()
   override text: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.text
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.text
   >;
 
   @TranscriptionProperty()
   override transcription: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.transcription
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.transcription
   >;
 
   @PronounceVideoLinksProperty()
   override pronounceVideoLinks: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.pronounceVideoLinks
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.pronounceVideoLinks
   >;
 
   @ExamplesProperty()
   override examples: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.examples
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.examples
   >;
 
   @TranslationProperty()
   override translation: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.translation
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.translation
   >;
 
   @AudioRecordsProperty()
   override audioRecords: z.infer<
-    typeof getDictionaryEntryWithExamplesByTextResponseTypeSchema.shape.audioRecords
+    typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.audioRecords
   >;
 }

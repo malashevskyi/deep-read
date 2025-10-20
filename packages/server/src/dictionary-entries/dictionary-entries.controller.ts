@@ -10,7 +10,7 @@ import { GetDictionaryEntryDocs } from './decorators/get-dictionary-entry.docs.d
 import {
   CreateEntryWithExampleResponseType,
   FindOrCreateDictionaryEntryResponseType,
-  GetEntryWithExamplesByTextResponseType,
+  GetDictionaryEntryWithExamplesByTextResponseType,
 } from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 @ApiTags('Dictionary')
@@ -44,8 +44,8 @@ export class DictionaryEntriesController {
   @GetDictionaryEntryDocs()
   async getEntryWithExamples(
     @Param('text') text: string,
-    // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  ): Promise<GetEntryWithExamplesByTextResponseType | null> {
+     
+  ): Promise<GetDictionaryEntryWithExamplesByTextResponseType | null> {
     return this.dictionaryEntriesService.getEntryWithExamplesByText(text);
   }
 }
