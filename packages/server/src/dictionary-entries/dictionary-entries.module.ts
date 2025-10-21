@@ -1,9 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { DictionaryEntriesService } from './dictionary-entries.service';
-import { DictionaryEntriesController } from './dictionary-entries.controller';
-import { DictionaryEntry } from './entities/dictionary-entry.entity';
-import { TypeOrmModule } from '@nestjs/typeorm/dist';
-import { AudioRecordsModule } from '../audio-records/audio-records.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DictionaryEntriesService } from './dictionary-entries.service.js';
+import { DictionaryEntriesController } from './dictionary-entries.controller.js';
+import { DictionaryEntry } from './entities/dictionary-entry.entity.js';
+import { AudioRecordsModule } from '../audio-records/audio-records.module.js';
 
 @Module({
   imports: [

@@ -1,5 +1,5 @@
 import { Module, Global } from '@nestjs/common';
-import { ErrorService } from './errors.service';
+import { ErrorService } from './errors.service.js';
 
 @Global()
 @Module({

@@ -1,10 +1,10 @@
 import { TextToSpeechClient } from '@google-cloud/text-to-speech';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TextToSpeechPort } from '../ports/tts.port';
 import { googleServiceAccountSchema } from '@deep-read/types/lib/deep-read/tts';
-import { ErrorService } from '../../errors/errors.service';
-import { AppErrorCode } from '../../shared/exceptions/AppErrorCode';
+import { TextToSpeechPort } from '../ports/tts.port.js';
+import { ErrorService } from '../../errors/errors.service.js';
+import { AppErrorCode } from '../../shared/exceptions/AppErrorCode.js';
 
 const AUDIO_ENCODING = 'MP3' as const;
 

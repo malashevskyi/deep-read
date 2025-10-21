@@ -1,6 +1,6 @@
 import z from 'zod';
-import { createDictionaryExampleSchema } from '../../dictionary-examples/index.js';
-import { createDictionaryEntrySchema } from './create-dictionary-entry.schema.js';
+import { createDictionaryExampleSchema } from '../../dictionary-examples/index';
+import { createDictionaryEntrySchema } from './create-dictionary-entry.schema';
 
 export const exampleSchema = createDictionaryExampleSchema.pick({
   example: true,

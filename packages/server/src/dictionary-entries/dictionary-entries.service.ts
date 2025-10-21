@@ -2,9 +2,9 @@ import { Injectable, UsePipes } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { DataSource, Repository } from 'typeorm';
-import { AudioRecordsService } from '../audio-records/audio-records.service';
-import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
-import { DictionaryEntry } from './entities/dictionary-entry.entity';
+import { AudioRecordsService } from '../audio-records/audio-records.service.js';
+import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto.js';
+import { DictionaryEntry } from './entities/dictionary-entry.entity.js';
 import {
   createDictionaryEntryWithExampleResponseSchema,
   type CreateEntryWithExampleResponseType,
@@ -13,10 +13,10 @@ import {
   getDictionaryEntryWithExamplesByTextResponseSchema,
   type GetDictionaryEntryWithExamplesByTextResponseType,
 } from '@deep-read/types/lib/deep-read/dictionary-entries';
-import { ErrorService } from '../errors/errors.service';
-import { AudioRecord } from '../audio-records/entities/audio-record.entity';
-import { DictionaryExample } from '../dictionary-examples/entities/dictionary-example.entity';
-import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
+import { ErrorService } from '../errors/errors.service.js';
+import { AudioRecord } from '../audio-records/entities/audio-record.entity.js';
+import { DictionaryExample } from '../dictionary-examples/entities/dictionary-example.entity.js';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode.js';
 import { GetDictionaryExampleResponseType } from '@deep-read/types/lib/deep-read/dictionary-examples';
 
 @Injectable()
@@ -136,7 +136,6 @@ export class DictionaryEntriesService {
 
   async getEntryWithExamplesByText(
     text: string,
-     
   ): Promise<GetDictionaryEntryWithExamplesByTextResponseType | null> {
     const entry = await this.dictionaryEntriesRepository.findOne({
       where: { text },

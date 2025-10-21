@@ -1,11 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AudioRecord } from './entities/audio-record.entity';
-import { CreateAudioRecordDto } from './dto/create-audio-record.dto';
+import { AudioRecord } from './entities/audio-record.entity.js';
+import { CreateAudioRecordDto } from './dto/create-audio-record.dto.js';
 
-import { ErrorService } from '../errors/errors.service';
-import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
+import { ErrorService } from '../errors/errors.service.js';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode.js';
 import {
   createAudioRecordSchema,
   updateAudioRecordSchema,

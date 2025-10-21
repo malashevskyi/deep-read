@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { CreateDictionaryEntryDto } from '../dto/create-dictionary-entry.dto';
-import { FindOrCreateDictionaryEntryResponseDto } from '../dto/create-dictionary-entry.response.dto';
+import { CreateDictionaryEntryDto } from '../dto/create-dictionary-entry.dto.js';
+import { FindOrCreateDictionaryEntryResponseDto } from '../dto/create-dictionary-entry.response.dto.js';
 
 export const CreateDictionaryEntryDocs = () => {
   return applyDecorators(

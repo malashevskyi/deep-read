@@ -1,13 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { TtsService } from './tts.service';
-import { GoogleTtsAdapter } from './adapters/google-tts.adapter';
-import { TextToSpeechPort } from './ports/tts.port';
-import { AudioStoragePort } from './ports/audio-storage.port';
-import { FirebaseStorageAdapter } from './adapters/firebase-storage.adapter';
 import { ConfigModule } from '@nestjs/config';
-import { TtsController } from './tts.controller';
-import { AudioRecordsModule } from '../audio-records/audio-records.module';
-import { ErrorsModule } from '../errors/errors.module';
+import { TtsService } from './tts.service.js';
+import { GoogleTtsAdapter } from './adapters/google-tts.adapter.js';
+import { TextToSpeechPort } from './ports/tts.port.js';
+import { AudioStoragePort } from './ports/audio-storage.port.js';
+import { FirebaseStorageAdapter } from './adapters/firebase-storage.adapter.js';
+import { TtsController } from './tts.controller.js';
+import { AudioRecordsModule } from '../audio-records/audio-records.module.js';
+import { ErrorsModule } from '../errors/errors.module.js';
 
 @Module({
   imports: [forwardRef(() => ConfigModule), AudioRecordsModule, ErrorsModule],

@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { CreateDictionaryExampleDto } from '../dto/create-dictionary-example.dto';
-import { DictionaryExample } from '../entities/dictionary-example.entity';
+import { CreateDictionaryExampleDto } from '../dto/create-dictionary-example.dto.js';
+import { DictionaryExample } from '../entities/dictionary-example.entity.js';
 
 export const CreateDictionaryExampleDocs = () => {
   return applyDecorators(

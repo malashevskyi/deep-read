@@ -1,6 +1,6 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { AnalyzeTextDto } from '../dto/analyze-text.dto';
+import { AnalyzeTextDto } from '../dto/analyze-text.dto.js';
 
 export const AnalyzeTextDocs = () => {
   return applyDecorators(

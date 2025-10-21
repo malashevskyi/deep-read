@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AiService } from './ai.service';
-import { AnalyzeTextDto } from './dto/analyze-text.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AnalyzeTextDocs } from './decorators/analyze-text.docs.decorator';
+import { AiService } from './ai.service.js';
+import { AnalyzeTextDto } from './dto/analyze-text.dto.js';
+import { AnalyzeTextDocs } from './decorators/analyze-text.docs.decorator.js';
 
 @ApiTags('AI')
 @Controller('ai')

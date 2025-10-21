@@ -1,5 +1,5 @@
 import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AiAnalysisPort } from './ports/ai-analysis.port';
+import { AiAnalysisPort } from './ports/ai-analysis.port.js';
 import { AnalysisResponse } from '@deep-read/types/lib/deep-read/ai';
 
 @Injectable()

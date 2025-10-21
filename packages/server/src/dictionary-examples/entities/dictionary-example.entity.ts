@@ -20,9 +20,9 @@ import {
   IdProperty,
   TranslationProperty,
   UpdatedAtProperty,
-} from '../decorators/dictionary-example-fields.decorators';
+} from '../decorators/dictionary-example-fields.decorators.js';
 import type { DictionaryExampleType } from '@deep-read/types/lib/deep-read/dictionary-examples';
-import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity';
+import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity.js';
 
 @Entity('dictionary_examples')
 @Index(['example', 'accent'], { unique: true })

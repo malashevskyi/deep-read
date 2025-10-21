@@ -6,7 +6,7 @@ import {
   DictionaryEntryIdProperty,
   ExampleProperty,
   TranslationProperty,
-} from '../decorators/dictionary-example-fields.decorators';
+} from '../decorators/dictionary-example-fields.decorators.js';
 import { createDictionaryExampleSchema } from '@deep-read/types/lib/deep-read/dictionary-examples';
 import z from 'zod';
 

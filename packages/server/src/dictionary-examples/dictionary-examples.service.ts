@@ -1,10 +1,10 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DictionaryExample } from './entities/dictionary-example.entity';
-import { CreateDictionaryExampleDto } from './dto/create-dictionary-example.dto';
-import { ErrorService } from '../errors/errors.service';
-import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
+import { DictionaryExample } from './entities/dictionary-example.entity.js';
+import { CreateDictionaryExampleDto } from './dto/create-dictionary-example.dto.js';
+import { ErrorService } from '../errors/errors.service.js';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode.js';
 
 @Injectable()
 export class DictionaryExamplesService {

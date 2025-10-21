@@ -3,7 +3,7 @@ import { createZodDto } from 'nestjs-zod';
 import {
   TextProperty,
   TranscriptionProperty,
-} from '../decorators/dictionary-entry-fields.decorators';
+} from '../decorators/dictionary-entry-fields.decorators.js';
 import { createDictionaryEntrySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 
 export class CreateDictionaryEntryDto extends createZodDto(

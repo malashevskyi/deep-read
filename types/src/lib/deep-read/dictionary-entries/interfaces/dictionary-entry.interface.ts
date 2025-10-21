@@ -1,5 +1,5 @@
-import { AudioRecordType } from '../../audio-records/index.js';
-import { DictionaryExampleType } from '../../dictionary-examples/index.js';
+import { AudioRecordType } from '../../audio-records/index';
+import { DictionaryExampleType } from '../../dictionary-examples/index';
 
 export interface DictionaryEntryType {
   /**

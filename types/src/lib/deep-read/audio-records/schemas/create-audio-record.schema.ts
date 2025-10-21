@@ -1,5 +1,5 @@
 import z from 'zod';
-import { audioRecordTypeSchema } from './audio-record.schema.js';
+import { audioRecordTypeSchema } from './audio-record.schema';
 
 export const createAudioRecordSchema = audioRecordTypeSchema
   .pick({

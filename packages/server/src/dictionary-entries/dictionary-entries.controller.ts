@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { CreateDictionaryEntryDocs } from './decorators/create-dictionary-entry.docs.decorator';
-import { CreateWithExampleDocs } from './decorators/create-with-example.docs.decorator';
-import { DictionaryEntriesService } from './dictionary-entries.service';
-import { CreateDictionaryEntryDto } from './dto/create-dictionary-entry.dto';
-import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto';
-import { GetDictionaryEntryDocs } from './decorators/get-dictionary-entry.docs.decorator';
+import { CreateDictionaryEntryDocs } from './decorators/create-dictionary-entry.docs.decorator.js';
+import { CreateWithExampleDocs } from './decorators/create-with-example.docs.decorator.js';
+import { DictionaryEntriesService } from './dictionary-entries.service.js';
+import { CreateDictionaryEntryDto } from './dto/create-dictionary-entry.dto.js';
+import { CreateEntryWithExampleDto } from './dto/create-entry-with-example.dto.js';
+import { GetDictionaryEntryDocs } from './decorators/get-dictionary-entry.docs.decorator.js';
 import {
   CreateEntryWithExampleResponseType,
   FindOrCreateDictionaryEntryResponseType,
@@ -44,7 +44,6 @@ export class DictionaryEntriesController {
   @GetDictionaryEntryDocs()
   async getEntryWithExamples(
     @Param('text') text: string,
-     
   ): Promise<GetDictionaryEntryWithExamplesByTextResponseType | null> {
     return this.dictionaryEntriesService.getEntryWithExamplesByText(text);
   }

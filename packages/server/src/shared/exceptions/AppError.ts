@@ -1,4 +1,4 @@
-import { AppErrorCode } from './AppErrorCode';
+import { AppErrorCode } from './AppErrorCode.js';
 
 /**
  * The base class for all custom application errors.

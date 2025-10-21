@@ -4,7 +4,7 @@ import {
   PronounceVideoLinksProperty,
   TextProperty,
   TranscriptionProperty,
-} from '../decorators/dictionary-entry-fields.decorators';
+} from '../decorators/dictionary-entry-fields.decorators.js';
 import z from 'zod';
 import { findOrCreateDictionaryEntryResponseSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 

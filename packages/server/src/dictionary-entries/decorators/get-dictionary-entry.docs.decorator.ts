@@ -1,6 +1,6 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { GetEntryWithExamplesByTextResponseDto } from '../dto/get-entry-with-examples-by-text.response.dto';
+import { GetEntryWithExamplesByTextResponseDto } from '../dto/get-entry-with-examples-by-text.response.dto.js';
 
 export const GetDictionaryEntryDocs = () => {
   return applyDecorators(

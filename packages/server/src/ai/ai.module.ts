@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AiController } from './ai.controller';
-import { AiService } from './ai.service';
-import { AiAnalysisPort } from './ports/ai-analysis.port';
-import { OpenAiAdapter } from './adapters/openai.adapter';
+import { AiController } from './ai.controller.js';
+import { AiService } from './ai.service.js';
+import { AiAnalysisPort } from './ports/ai-analysis.port.js';
+import { OpenAiAdapter } from './adapters/openai.adapter.js';
 
 @Module({
   imports: [],

@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AiModule } from './ai/ai.module';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import { AiModule } from './ai/ai.module.js';
 import { ConfigModule } from '@nestjs/config';
-import { TtsModule } from './tts/tts.module';
-import { ErrorsModule } from './errors/errors.module';
-import { validationSchema } from './config/validation.schema';
-import getTypeOrmConfig from './shared/configs/typeorm.config';
+import { TtsModule } from './tts/tts.module.js';
+import { ErrorsModule } from './errors/errors.module.js';
+import { validationSchema } from './config/validation.schema.js';
+import getTypeOrmConfig from './shared/configs/typeorm.config.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AudioRecordsModule } from './audio-records/audio-records.module';
-import { DictionaryEntriesModule } from './dictionary-entries/dictionary-entries.module';
-import { DictionaryExamplesModule } from './dictionary-examples/dictionary-examples.module';
-import ormConfig from './shared/configs/orm.config';
+import { AudioRecordsModule } from './audio-records/audio-records.module.js';
+import { DictionaryEntriesModule } from './dictionary-entries/dictionary-entries.module.js';
+import { DictionaryExamplesModule } from './dictionary-examples/dictionary-examples.module.js';
+import ormConfig from './shared/configs/orm.config.js';
 
 @Module({
   imports: [

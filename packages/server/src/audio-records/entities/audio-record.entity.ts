@@ -9,7 +9,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity';
+import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity.js';
 
 @Entity('audio_records')
 export class AudioRecord implements AudioRecordType {

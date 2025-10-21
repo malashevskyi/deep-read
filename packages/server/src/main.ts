@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { LogLevel } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { AppModule } from './app.module.js';
 import * as Sentry from '@sentry/node';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter';
+import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter.js';
 
 async function bootstrap() {
   const logLevels: LogLevel[] =

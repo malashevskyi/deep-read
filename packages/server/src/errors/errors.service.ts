@@ -1,6 +1,6 @@
 import { Injectable, Logger, HttpStatus } from '@nestjs/common';
-import { AppErrorCode } from '../shared/exceptions/AppErrorCode';
-import { AppError } from '../shared/exceptions/AppError';
+import { AppErrorCode } from '../shared/exceptions/AppErrorCode.js';
+import { AppError } from '../shared/exceptions/AppError.js';
 
 @Injectable()
 export class ErrorService {

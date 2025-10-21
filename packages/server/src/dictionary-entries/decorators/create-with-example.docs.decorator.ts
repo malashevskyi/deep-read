@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateEntryWithExampleDto } from '../dto/create-entry-with-example.dto';
-import { CreateEntryWithExampleResponseDto } from '../dto/create-entry-with-example.response.dto';
+import { CreateEntryWithExampleDto } from '../dto/create-entry-with-example.dto.js';
+import { CreateEntryWithExampleResponseDto } from '../dto/create-entry-with-example.response.dto.js';
 
 export const CreateWithExampleDocs = () => {
   return applyDecorators(

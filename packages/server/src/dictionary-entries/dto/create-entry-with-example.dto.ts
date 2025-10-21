@@ -3,7 +3,7 @@ import {
   ExampleProperty,
   TextProperty,
   TranscriptionProperty,
-} from '../decorators/dictionary-entry-fields.decorators';
+} from '../decorators/dictionary-entry-fields.decorators.js';
 import { createDictionaryEntryWithExampleBodySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
 import z from 'zod';
 

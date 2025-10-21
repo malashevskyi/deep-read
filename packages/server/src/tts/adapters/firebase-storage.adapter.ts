@@ -3,14 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import { getStorage, Storage } from 'firebase-admin/storage';
-import { AudioStoragePort } from '../ports/audio-storage.port';
 import {
   googleServiceAccountSchema,
   type UploadAudioResponse,
   type GoogleCredentials,
 } from '@deep-read/types/lib/deep-read/tts';
-import { ErrorService } from '../../errors/errors.service';
-import { AppErrorCode } from '../../shared/exceptions/AppErrorCode';
+import { AudioStoragePort } from '../ports/audio-storage.port.js';
+import { ErrorService } from '../../errors/errors.service.js';
+import { AppErrorCode } from '../../shared/exceptions/AppErrorCode.js';
 
 const BUCKET_DIRECTORY = 'audio';
 

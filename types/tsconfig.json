@@ -2,14 +2,14 @@
   "extends": "../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "rootDir": "src",
     "outDir": "dist",
     "composite": true,
     "declaration": true
   },
-  "include": [],
+  "include": ["src/**/*"],
   "references": [
     {
       "path": "./tsconfig.lib.json"

@@ -1,5 +1,5 @@
 import z from 'zod';
-import { dictionaryEntryTypeSchema } from './dictionary-entry.schema.js';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
 
 export const createDictionaryEntryWithExampleResponseSchema =
   dictionaryEntryTypeSchema.pick({ text: true });

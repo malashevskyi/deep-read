@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateDictionaryExampleDto } from '../../dictionary-examples/dto/create-dictionary-example.dto';
+import { CreateDictionaryExampleDto } from '../../dictionary-examples/dto/create-dictionary-example.dto.js';
 
 export function TextProperty() {
   return applyDecorators(

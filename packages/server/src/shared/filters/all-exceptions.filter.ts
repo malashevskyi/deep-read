@@ -9,8 +9,8 @@ import {
 import { Request, Response } from 'express';
 import * as Sentry from '@sentry/node';
 import { ZodError } from 'zod';
-import { AppErrorCode } from '../exceptions/AppErrorCode';
-import { AppError } from '../exceptions/AppError';
+import { AppErrorCode } from '../exceptions/AppErrorCode.js';
+import { AppError } from '../exceptions/AppError.js';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

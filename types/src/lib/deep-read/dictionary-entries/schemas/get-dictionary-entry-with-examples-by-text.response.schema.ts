@@ -1,6 +1,6 @@
 import z from 'zod';
-import { dictionaryEntryTypeSchema } from './dictionary-entry.schema.js';
-import { getDictionaryExampleResponseTypeSchema } from '../../dictionary-examples/index.js';
+import { dictionaryEntryTypeSchema } from './dictionary-entry.schema';
+import { getDictionaryExampleResponseTypeSchema } from '../../dictionary-examples/index';
 
 export const getDictionaryEntryWithExamplesByTextResponseSchema =
   dictionaryEntryTypeSchema
