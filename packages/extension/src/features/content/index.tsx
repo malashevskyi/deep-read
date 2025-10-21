@@ -1,30 +1,29 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import hostPageStyles from "./hostPageStyles.css?inline";
-import tailwindStylesUrl from "./index.css?url";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import hostPageStyles from './hostPageStyles.css?inline';
+import tailwindStyles from './index.css?inline';
 import {
   injectHostStyles,
   injectShadowRootInlineStyles,
-  injectShadowRootLinkedStyles,
-} from "../../utils/styles";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ContentScriptRoot from "./ContentScriptRoot";
-import { ErrorBoundary } from "../../components/system/ErrorBoundary";
-import sonnerStyles from "sonner/dist/styles.css?inline";
-import { Toaster } from "sonner";
+} from '../../utils/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import ContentScriptRoot from './ContentScriptRoot';
+import { ErrorBoundary } from '../../components/system/ErrorBoundary';
+import sonnerStyles from 'sonner/dist/styles.css?inline';
+import { Toaster } from 'sonner';
 
-console.log("[DeepRead] Content script loaded!");
+console.log('[DeepRead] Content script loaded!');
 
-injectHostStyles(hostPageStyles, "deepread-host-styles");
+injectHostStyles(hostPageStyles, 'deepread-host-styles');
 
-const rootElement = document.createElement("div");
-rootElement.id = "deepread-root";
+const rootElement = document.createElement('div');
+rootElement.id = 'deepread-root';
 document.body.appendChild(rootElement);
 
-const shadowRoot = rootElement.attachShadow({ mode: "open" });
+const shadowRoot = rootElement.attachShadow({ mode: 'open' });
 
-injectShadowRootInlineStyles(shadowRoot, sonnerStyles, "sonner-styles");
-injectShadowRootLinkedStyles(shadowRoot, tailwindStylesUrl, "tailwind-styles");
+injectShadowRootInlineStyles(shadowRoot, sonnerStyles, 'sonner-styles');
+injectShadowRootInlineStyles(shadowRoot, tailwindStyles, 'tailwind-styles');
 
 const queryClient = new QueryClient();
 
@@ -38,5 +37,5 @@ reactRoot.render(
         <ContentScriptRoot />
       </ErrorBoundary>
     </QueryClientProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
