@@ -11,7 +11,7 @@ import {
   createDictionaryEntryWithExampleResponseSchema,
   type CreateDictionaryEntryWithExampleBodyType,
   type CreateEntryWithExampleResponseType,
-} from '@deep-read/types/lib/deep-read/dictionary-entries';
+} from '@deep-read/types/deep-read/dictionary-entries';
 
 export function useSaveToDictionary() {
   const queryClient = useQueryClient();

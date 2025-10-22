@@ -1,29 +1,29 @@
-import React, { useEffect } from "react";
-import { Sidebar } from "../../../components/Layout/Sidebar";
-import { useAppStore } from "../../../store";
-import { getWordOrPhraseContextForSelection } from "./utils/getWordOrPhraseContextForSelection";
-import { expandSelectionToFullWords } from "./utils/expandSelectionToFullWords";
-import { captureError } from "../../../utils/sentry";
+import React, { useEffect } from 'react';
+import { Sidebar } from '../../../components/Layout/Sidebar';
+import { useAppStore } from '../../../store';
+import { getWordOrPhraseContextForSelection } from './utils/getWordOrPhraseContextForSelection';
+import { expandSelectionToFullWords } from './utils/expandSelectionToFullWords';
+import { captureError } from '../../../utils/sentry';
 
-const SIDEBAR_OPEN_BODY_CLASS = "deepread-sidebar-open";
+const SIDEBAR_OPEN_BODY_CLASS = 'deepread-sidebar-open';
 
-window.addEventListener("error", (event) => {
+window.addEventListener('error', (event) => {
   captureError(event.error, {
-    type: "window.error",
+    type: 'window.error',
     message: event.message,
   });
 });
 
-window.addEventListener("unhandledrejection", (event) => {
+window.addEventListener('unhandledrejection', (event) => {
   captureError(event.reason, {
-    type: "unhandledRejection",
+    type: 'unhandledRejection',
   });
 });
 
 const highlightApiSupported = CSS.highlights !== undefined;
 
 if (highlightApiSupported) {
-  CSS.highlights.set("deepread-highlight", new Highlight());
+  CSS.highlights.set('deepread-highlight', new Highlight());
 }
 
 const ContentScriptRoot: React.FC = () => {
@@ -31,7 +31,7 @@ const ContentScriptRoot: React.FC = () => {
   const openSidebar = useAppStore((state) => state.openSidebar);
 
   const selectedTextFromStore = useAppStore(
-    (state) => state.sidebar.selectedText,
+    (state) => state.sidebar.selectedText
   );
   const [currentRange, setCurrentRange] = React.useState<Range | null>(null);
 
@@ -47,7 +47,7 @@ const ContentScriptRoot: React.FC = () => {
     event.preventDefault();
     if (!event.altKey) return;
     if (event.target instanceof HTMLElement === false) return;
-    if (event.target.closest("#deepread-root")) return;
+    if (event.target.closest('#deepread-root')) return;
 
     let selection = window.getSelection();
 
@@ -69,17 +69,17 @@ const ContentScriptRoot: React.FC = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [handleMouseUp]);
 
   useEffect(() => {
     if (!highlightApiSupported) return;
 
-    const highlight = CSS.highlights.get("deepread-highlight");
+    const highlight = CSS.highlights.get('deepread-highlight');
 
     if (!highlight) return;
 

@@ -1,6 +1,6 @@
-import { useAudioGeneration } from "../../../hooks/useAudioGeneration";
-import type { AnalysisResponse } from "../../../types/schemas";
-import { AudioPlayer } from "../../ui/AudioPlayer";
+import type { AnalysisResponse } from '@deep-read/types/deep-read/ai';
+import { useAudioGeneration } from '../../../hooks/useAudioGeneration';
+import { AudioPlayer } from '../../ui/AudioPlayer';
 
 interface AudioProps {
   analysisData: AnalysisResponse | null;
@@ -8,7 +8,7 @@ interface AudioProps {
 
 const Audio: React.FC<AudioProps> = ({ analysisData }) => {
   const { audioUrl, isLoadingAudio } = useAudioGeneration(
-    analysisData?.word.text,
+    analysisData?.word.text
   );
 
   return <AudioPlayer url={audioUrl} isLoading={isLoadingAudio} />;

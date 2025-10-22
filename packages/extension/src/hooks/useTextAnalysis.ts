@@ -7,7 +7,7 @@ import { useAppStore } from '../store';
 import {
   analysisResponseSchema,
   type AnalysisResponse,
-} from '@deep-read/types/lib/deep-read/ai';
+} from '@deep-read/types/deep-read/ai';
 
 export function useTextAnalysis(): {
   analysisData: AnalysisResponse | null;
@@ -25,6 +25,7 @@ export function useTextAnalysis(): {
         text,
         context,
       });
+
       setNormalizedText(res.data.word.text);
       return analysisResponseSchema.parse(res.data);
     },
