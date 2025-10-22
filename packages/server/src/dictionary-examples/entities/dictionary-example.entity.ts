@@ -21,7 +21,7 @@ import {
   TranslationProperty,
   UpdatedAtProperty,
 } from '../decorators/dictionary-example-fields.decorators.js';
-import type { DictionaryExampleType } from '@deep-read/types/lib/deep-read/dictionary-examples';
+import type { DictionaryExampleType } from '@deep-read/types/deep-read/dictionary-examples/index.js';
 import { DictionaryEntry } from '../../dictionary-entries/entities/dictionary-entry.entity.js';
 
 @Entity('dictionary_examples')
@@ -61,6 +61,9 @@ export class DictionaryExample implements DictionaryExampleType {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'dictionary_entry_id' })
+  // TODO: figure out circular dependency issue with DictionaryEntry
+  // the problem occurred only after migration to esm modules
+  // dictionaryEntry: any; // DictionaryEntry
   dictionaryEntry: DictionaryEntry;
 
   @CreatedAtProperty()

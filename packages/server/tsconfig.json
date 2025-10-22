@@ -1,20 +1,25 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolvePackageJsonExports": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "noImplicitOverride": true,
+    "target": "es2022",
+    "lib": ["ES2022", "dom"],
     "strict": true,
     "incremental": true,
+    "skipLibCheck": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@deep-read/types/*": ["../../types/dist/*"],
+      "@deep-read/types": ["../../types/dist/index"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"],

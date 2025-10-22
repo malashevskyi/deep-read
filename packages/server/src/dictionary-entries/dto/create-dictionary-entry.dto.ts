@@ -4,16 +4,16 @@ import {
   TextProperty,
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators.js';
-import { createDictionaryEntrySchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { createDictionaryEntrySchema } from '@deep-read/types/deep-read/dictionary-entries/index.js';
 
 export class CreateDictionaryEntryDto extends createZodDto(
   createDictionaryEntrySchema,
 ) {
   @TextProperty()
-  override text: z.infer<typeof createDictionaryEntrySchema.shape.text>;
+  text: z.infer<typeof createDictionaryEntrySchema.shape.text>;
 
   @TranscriptionProperty()
-  override transcription: z.infer<
+  transcription: z.infer<
     typeof createDictionaryEntrySchema.shape.transcription
   >;
 }

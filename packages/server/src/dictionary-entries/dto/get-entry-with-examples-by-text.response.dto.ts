@@ -8,38 +8,38 @@ import {
   TranscriptionProperty,
   TranslationProperty,
 } from '../decorators/dictionary-entry-fields.decorators.js';
-import { getDictionaryEntryWithExamplesByTextResponseSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { getDictionaryEntryWithExamplesByTextResponseSchema } from '@deep-read/types/deep-read/dictionary-entries/index.js';
 
 export class GetEntryWithExamplesByTextResponseDto extends createZodDto(
   getDictionaryEntryWithExamplesByTextResponseSchema,
 ) {
   @TextProperty()
-  override text: z.infer<
+  text: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.text
   >;
 
   @TranscriptionProperty()
-  override transcription: z.infer<
+  transcription: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.transcription
   >;
 
   @PronounceVideoLinksProperty()
-  override pronounceVideoLinks: z.infer<
+  pronounceVideoLinks: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.pronounceVideoLinks
   >;
 
   @ExamplesProperty()
-  override examples: z.infer<
+  examples: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.examples
   >;
 
   @TranslationProperty()
-  override translation: z.infer<
+  translation: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.translation
   >;
 
   @AudioRecordsProperty()
-  override audioRecords: z.infer<
+  audioRecords: z.infer<
     typeof getDictionaryEntryWithExamplesByTextResponseSchema.shape.audioRecords
   >;
 }

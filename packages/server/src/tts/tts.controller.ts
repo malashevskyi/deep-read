@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UsePipes } from '@nestjs/common';
 import { ZodValidationPipe } from 'nestjs-zod';
-import type { GenerateAudioResponse } from '@deep-read/types/lib/deep-read/tts';
+import type { GenerateAudioResponse } from '@deep-read/types/deep-read/tts/index.js';
 import { TtsService } from './tts.service.js';
 import { GenerateAudioDto } from './dto/generate-audio.dto.js';
 

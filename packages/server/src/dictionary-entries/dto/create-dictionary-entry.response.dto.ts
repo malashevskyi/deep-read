@@ -6,28 +6,26 @@ import {
   TranscriptionProperty,
 } from '../decorators/dictionary-entry-fields.decorators.js';
 import z from 'zod';
-import { findOrCreateDictionaryEntryResponseSchema } from '@deep-read/types/lib/deep-read/dictionary-entries';
+import { findOrCreateDictionaryEntryResponseSchema } from '@deep-read/types/deep-read/dictionary-entries/index.js';
 
 export class FindOrCreateDictionaryEntryResponseDto extends createZodDto(
   findOrCreateDictionaryEntryResponseSchema,
 ) {
   @TextProperty()
-  override text: z.infer<
-    typeof findOrCreateDictionaryEntryResponseSchema.shape.text
-  >;
+  text: z.infer<typeof findOrCreateDictionaryEntryResponseSchema.shape.text>;
 
   @TranscriptionProperty()
-  override transcription: z.infer<
+  transcription: z.infer<
     typeof findOrCreateDictionaryEntryResponseSchema.shape.transcription
   >;
 
   @AudioRecordsProperty()
-  override audioRecords: z.infer<
+  audioRecords: z.infer<
     typeof findOrCreateDictionaryEntryResponseSchema.shape.audioRecords
   >;
 
   @PronounceVideoLinksProperty()
-  override pronounceVideoLinks: z.infer<
+  pronounceVideoLinks: z.infer<
     typeof findOrCreateDictionaryEntryResponseSchema.shape.pronounceVideoLinks
   >;
 }

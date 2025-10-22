@@ -7,7 +7,7 @@ import {
   googleServiceAccountSchema,
   type UploadAudioResponse,
   type GoogleCredentials,
-} from '@deep-read/types/lib/deep-read/tts';
+} from '@deep-read/types/deep-read/tts/index.js';
 import { AudioStoragePort } from '../ports/audio-storage.port.js';
 import { ErrorService } from '../../errors/errors.service.js';
 import { AppErrorCode } from '../../shared/exceptions/AppErrorCode.js';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { generateAudioResponseSchema } from '@deep-read/types/lib/deep-read/tts';
-import type { GenerateAudioResponse } from '@deep-read/types/lib/deep-read/tts';
+import { generateAudioResponseSchema } from '@deep-read/types/deep-read/tts/index.js';
+import type { GenerateAudioResponse } from '@deep-read/types/deep-read/tts/index.js';
 import { TextToSpeechPort } from './ports/tts.port.js';
 import { AudioStoragePort } from './ports/audio-storage.port.js';
 import { AudioRecordsService } from '../audio-records/audio-records.service.js';
