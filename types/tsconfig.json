@@ -2,8 +2,10 @@
   "extends": "../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "verbatimModuleSyntax": true,
+    "strict": true,
     "rootDir": "src",
     "outDir": "dist",
     "composite": true,

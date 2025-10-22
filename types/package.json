@@ -4,41 +4,46 @@
   "private": true,
   "main": "./dist/index.js",
   "type": "module",
-  "moduleResolution": "nodenext",
   "types": "./dist/index.d.ts",
+  "scripts": {
+    "generate:zod": "ts-to-zod --all"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
-    "./lib/deep-read/tts": {
-      "types": "./dist/lib/deep-read/tts/index.d.ts",
-      "require": "./dist/lib/deep-read/tts/index.cjs",
-      "import": "./dist/lib/deep-read/tts/index.js"
+    "./deep-read/tts/index.js": {
+      "types": "./dist/deep-read/tts/index.d.ts",
+      "require": "./dist/deep-read/tts/index.cjs",
+      "import": "./dist/deep-read/tts/index.js"
     },
-    "./lib/deep-read/dictionary-examples": {
-      "types": "./dist/lib/deep-read/dictionary-examples/index.d.ts",
-      "require": "./dist/lib/deep-read/dictionary-examples/index.cjs",
-      "import": "./dist/lib/deep-read/dictionary-examples/index.js"
+    "./deep-read/dictionary-examples/index.js": {
+      "types": "./dist/deep-read/dictionary-examples/index.d.ts",
+      "require": "./dist/deep-read/dictionary-examples/index.cjs",
+      "import": "./dist/deep-read/dictionary-examples/index.js"
     },
-    "./lib/deep-read/dictionary-entries": {
-      "types": "./dist/lib/deep-read/dictionary-entries/index.d.ts",
-      "require": "./dist/lib/deep-read/dictionary-entries/index.cjs",
-      "import": "./dist/lib/deep-read/dictionary-entries/index.js"
+    "./deep-read/dictionary-entries/index.js": {
+      "types": "./dist/deep-read/dictionary-entries/index.d.ts",
+      "require": "./dist/deep-read/dictionary-entries/index.cjs",
+      "import": "./dist/deep-read/dictionary-entries/index.js"
     },
-    "./lib/deep-read/ai": {
-      "types": "./dist/lib/deep-read/ai/index.d.ts",
-      "require": "./dist/lib/deep-read/ai/index.cjs",
-      "import": "./dist/lib/deep-read/ai/index.js"
+    "./deep-read/ai/index.js": {
+      "types": "./dist/deep-read/ai/index.d.ts",
+      "require": "./dist/deep-read/ai/index.cjs",
+      "import": "./dist/deep-read/ai/index.js"
     },
-    "./lib/deep-read/audio-records": {
-      "types": "./dist/lib/deep-read/audio-records/index.d.ts",
-      "require": "./dist/lib/deep-read/audio-records/index.cjs",
-      "import": "./dist/lib/deep-read/audio-records/index.js"
+    "./deep-read/audio-records/index.js/index.js": {
+      "types": "./dist/deep-read/audio-records/index.d.ts",
+      "require": "./dist/deep-read/audio-records/index.cjs",
+      "import": "./dist/deep-read/audio-records/index.js"
     }
   },
   "dependencies": {
     "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "ts-to-zod": "^5.0.1"
   }
 }

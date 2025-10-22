@@ -1,1 +1,1 @@
-export * from './lib/index';
+export * from './deep-read/index.js';
