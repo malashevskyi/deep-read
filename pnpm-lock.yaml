@@ -157,7 +157,7 @@ importers:
       '@crxjs/vite-plugin':
         specifier: ^2.2.0
         version: 2.2.0
-      '@deep-read/types':
+      '@malashevsky/types':
         specifier: workspace:*
         version: link:../../types
       '@tailwindcss/vite':
@@ -309,7 +309,7 @@ importers:
         specifier: ^4.1.11
         version: 4.1.12
     devDependencies:
-      '@deep-read/types':
+      '@malashevsky/types':
         specifier: workspace:*
         version: link:../../types
       '@nestjs/cli':

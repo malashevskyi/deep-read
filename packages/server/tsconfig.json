@@ -17,8 +17,8 @@
     "noFallthroughCasesInSwitch": false,
     "strictPropertyInitialization": false,
     "paths": {
-      "@deep-read/types/*": ["../../types/dist/*"],
-      "@deep-read/types": ["../../types/dist/index"]
+      "@malashevsky/types/*": ["../../types/dist/*"],
+      "@malashevsky/types": ["../../types/dist/index"]
     }
   },
   "include": ["src/**/*"],

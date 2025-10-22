@@ -1,4 +1,4 @@
-import type { DictionaryEntryType } from '@deep-read/types/deep-read/dictionary-entries/index.js';
+import type { DictionaryEntryType } from '@malashevsky/types/deep-read/dictionary-entries/index.js';
 import {
   Entity,
   PrimaryGeneratedColumn,
