@@ -1,21 +1,22 @@
 #!/bin/bash
 
-# Define the root directory for interface file searching (e.g., packages/server/src)
+# Define the root directory for interface file searching (changed to types/ in monorepo root)
 # Assuming this script is run from the monorepo root.
-SEARCH_ROOT="packages/server/src"
+SEARCH_ROOT="types"
 
-# Define the output directory for the config file (e.g., packages/server)
-CONFIG_OUTPUT_DIR="packages/server"
+# Define the output directory for the config file (now using types directory)
+CONFIG_OUTPUT_DIR="types"
 
 # Define the config file name and its full path
-CONFIG_FILE="$CONFIG_OUTPUT_DIR/ts-to-zod.config.js"
+CONFIG_FILE="$CONFIG_OUTPUT_DIR/ts-to-zod.config.mjs"
 
-# Define the prefix to remove from paths to make them relative to packages/server/
-PREFIX_TO_REMOVE="packages/server/"
+# Define the prefix to remove from paths to make them relative to types/
+PREFIX_TO_REMOVE="types/"
 
 # ---
 # 1. Configuration Array Generation
 # ---
+
 # Find all interface files and use awk to format them into JavaScript objects.
 CONFIG_ARRAY=$(find "$SEARCH_ROOT" -type f -path '*/interfaces/*.interface.ts' | awk -v prefix="$PREFIX_TO_REMOVE" '
 BEGIN {
@@ -23,11 +24,11 @@ BEGIN {
     print "[";
 }
 {
-    # 1. Get the full input path (e.g., packages/server/src/...)
+    # 1. Get the full input path (e.g., types/src/lib/deep-read/...)
     input_path = $0;
 
-    # Remove the defined prefix to make paths relative to the config file (e.g., src/...)
-    # This is crucial for running the generator from within the package directory.
+    # Remove the defined prefix to make paths relative to the config file (e.g., src/lib/...)
+    # This is crucial for running the generator from within the types directory.
     gsub(prefix, "", input_path); 
 
     # 2. Get the base file name (e.g., dictionary-entry.interface)
@@ -79,7 +80,7 @@ echo " */" >> "$CONFIG_FILE"
 FINAL_ARRAY=$(echo "$CONFIG_ARRAY" | sed -E '$s/,$//')
 
 # Write the final array to the config file
-echo "module.exports = $FINAL_ARRAY;" >> "$CONFIG_FILE"
+echo "export default $FINAL_ARRAY;" >> "$CONFIG_FILE"
 
 echo "✅ Config file $CONFIG_FILE successfully generated!"
-echo "Next step: pnpm --filter server run generate:zod"
+echo "Next step: pnpm --filter types run generate:zod"
