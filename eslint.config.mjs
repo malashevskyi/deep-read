@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import nodeImport from 'eslint-plugin-node-import';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -32,8 +33,54 @@ export default tseslint.config(
         tsconfigRootDir: __dirname,
       },
     },
+    rules: {
+      // External API data is untyped
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      // Turn off as we use React compiler
+      'eslintreact-hooks/exhaustive-deps': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      // ESLint parser bug: monorepo types detected as `any`
+      '@typescript-eslint/no-redundant-type-constituents': 'off',
+    },
   },
 
+  {
+    files: ['types/**/*.ts'],
+    plugins: { 'node-import': nodeImport },
+    extends: [
+      ...tseslint.configs.recommendedTypeChecked,
+      eslintPluginPrettierRecommended,
+    ],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: { ...globals.node },
+      sourceType: 'module',
+      parserOptions: {
+        project: ['./types/tsconfig.eslint.json'],
+        tsconfigRootDir: __dirname,
+      },
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './types/tsconfig.json',
+        },
+        node: {
+          extensions: ['.js', '.ts'],
+        },
+      },
+    },
+    rules: {
+      'import/extensions': ['error', 'always', { js: 'always', ts: 'never' }],
+      'import/no-unresolved': 'error',
+      'node-import/require-file-extension': ['error', { '.js': 'always' }],
+    },
+  },
   {
     files: ['packages/server/**/*.ts'],
     extends: [
